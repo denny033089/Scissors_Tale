@@ -7,15 +7,16 @@ public static class Utils
     //참고용
     public const int TileSize = 1;  // 타일의 실제 크기
     // 체스판의 크기
-    public const int FieldWidth = 8;
-    public const int FieldHeight = 8;
+    public const int FieldWidth = 5;
+    public const int FieldHeight = 5;
 
-    // (int, int)의 좌표를 실제 좌표(Vector2)로 변환
-    public static Vector2 ToRealPos((int, int) targetPos)
+    // (int, int)의 좌표를 실제 좌표(Vector3)로 변환
+    public static Vector3 ToRealPos((int, int) targetPos)
     {
-        return TileSize * (new Vector2(
+        return TileSize * (new Vector3(
             targetPos.Item1 - (FieldWidth - 1) / 2f, 
-            targetPos.Item2 - (FieldHeight - 1) / 2f
+            targetPos.Item2 - (FieldHeight - 1) / 2f,
+            0f
         ));
     }
 

@@ -15,4 +15,8 @@ public class AttackManager : Singleton<AttackManager>
     {
         
     }
+
+    public void Attack() {
+        
+    }
 }
