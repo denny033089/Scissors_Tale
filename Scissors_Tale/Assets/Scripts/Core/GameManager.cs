@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// 게임의 전체 상태(로비, 인게임, 일시정지) 관리
@@ -152,10 +153,19 @@ public class GameManager : Singleton<GameManager>
         p1Instance = PlacePiece(0,startpos1);
         p2Instance = PlacePiece(1,startpos2);
         //monster 배치
-        for(int x = 0;x<monster_num;x++) {
-            PlacePiece(2,monster_pos);
-        }
+        //Edited By 구본환, 1/13
+        for (int x = 0; x < monster_num; x++)
+        {
+            // 기물 생성
+            Piece p = PlacePiece(2, monster_pos);
 
+            // 몬스터인지 확인
+            if (p is Monster)
+            {
+                // N개의 경로 생성
+                ((Monster)p).InitializePath();
+            }
+        }
 
     }
 
@@ -189,9 +199,21 @@ public class GameManager : Singleton<GameManager>
     public void MovePlayer(Piece piece, (int,int) targetPos) {
         //boardpos을 받아서 isinboard인지 확인, moveinfo확인, 플레이어 이동
         //이동 가능한 구역인지 확인
-        if (!IsValidMove(piece, targetPos)) return;
+        //Edited By 구본환, 1/13
+        if (!(piece is Monster))
+        {
+            if (!IsValidMove(piece, targetPos)) return;
+        }
         // Piece를 이동시킴
+        // 배열에서 원래 자리 비우기
+        (int oldX, int oldY) = piece.MyPos;
+        Pieces[oldX, oldY] = null;
+
+        // 오브젝트 이동 
         piece.MoveTo(targetPos);
+
+        // 배열에 새 자리 채우기
+        Pieces[targetPos.Item1, targetPos.Item2] = piece;
     }
 
     public void Attack() {
@@ -199,7 +221,33 @@ public class GameManager : Singleton<GameManager>
     }
 
     public void MonsterMove() {
+        //몬스터 배열 새로 생성
+        List<Monster> allMonsters = new List<Monster>();
 
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Piece p = Pieces[x, y];
+
+                //p가 몬스터인지 확인
+                if (p != null && p is Monster)
+                {
+                    allMonsters.Add((Monster)p);
+                }
+            }
+        }
+
+
+        // 몬스터 이동
+        foreach (Monster m in allMonsters)
+        {
+            // 몬스터 살아있는지 확인
+            if (m != null)
+            {
+                m.PerformTurn();
+            }
+        }
     }
 
 
@@ -212,13 +260,27 @@ public class GameManager : Singleton<GameManager>
     public void HandleTag() {
         ChangeTurnState(Enums.TurnState.PlayerTag);
     }
-
-    public void HandleEnd() {
+    //Edited By 구본환 1/13
+    public void HandleEnd()
+    {
+        StartCoroutine(ProcessTurnSequence());
+    }
+    IEnumerator ProcessTurnSequence()
+    {
+        // 1. 플레이어 공격 페이즈
         ChangeTurnState(Enums.TurnState.PlayerAttack);
-        ChangeTurnState(Enums.TurnState.MonsterMove);
-        ChangeTurnState(Enums.TurnState.End);
-        ChangeTurnState(Enums.TurnState.Ready);
+        yield return new WaitForSeconds(0.5f); // 공격 모션 대기
 
+        // 2. 몬스터 이동 페이즈
+        ChangeTurnState(Enums.TurnState.MonsterMove);
+        yield return new WaitForSeconds(1.0f);
+
+        // 3. 턴 종료
+        ChangeTurnState(Enums.TurnState.End);
+        yield return new WaitForSeconds(0.5f);
+
+        // 4. 다시 플레이어 대기
+        ChangeTurnState(Enums.TurnState.Ready);
     }
 
 
