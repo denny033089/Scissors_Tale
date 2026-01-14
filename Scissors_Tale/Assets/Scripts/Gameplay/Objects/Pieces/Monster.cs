@@ -5,7 +5,7 @@ using UnityEngine;
 public class Monster : Piece
 {
     [Header("AI Settings")]
-    public int PlanLength = 2; //¹Ì·¡ °æ·ÎÀÇ ¼ö
+    public int PlanLength = 2; //ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
     [Header("Visualization")]
     public GameObject ArrowPrefab; 
@@ -14,13 +14,13 @@ public class Monster : Piece
     // FIFO Å¥: [Step1, Step2]
     private List<(int, int)> moveQueue = new List<(int, int)>();
 
-    // ¸ó½ºÅÍ°¡ (GameManager¿¡¼­)»ý¼ºµÈ ÀÌÈÄ¿¡ ½ºÆù 
+    // ï¿½ï¿½ï¿½Í°ï¿½ (GameManagerï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     public void InitializePath()
     {
-        // ±âÁ¸ N°³ÀÇ °æ·Î »ý¼º (Àç±Í)
+        // ï¿½ï¿½ï¿½ï¿½ Nï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½)
         moveQueue = MonsterDirection.InitPathRecursive(MyPos, PlanLength);
 
-        // °¤Èù »óÅÂ·Î ½ºÆùµÉ¶§, ±âÁ¸ Æ÷Áö¼ÇÀ¸·Î Å¥ Ã¤¿ì±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½É¶ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¥ Ã¤ï¿½ï¿½ï¿½
         while (moveQueue.Count < PlanLength)
         {
             (int x, int y) lastPos = (moveQueue.Count > 0) ? moveQueue[moveQueue.Count - 1] : MyPos;
@@ -31,47 +31,49 @@ public class Monster : Piece
         DrawPath();
     }
 
-    // MonsterMove ´Ü°è¿¡¼­ È£Ãâ
+    // MonsterMove ï¿½Ü°è¿¡ï¿½ï¿½ È£ï¿½ï¿½
     public void PerformTurn()
     {
         if (moveQueue.Count == 0) return;
 
-        // ´ÙÀ½ °æ·Î È®ÀÎ
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         (int targetX, int targetY) = moveQueue[0];
 
-        // ¸·ÇôÀÖÀ»¶§:
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:
         Piece obstacle = GameManager.Instance.Pieces[targetX, targetY];
 
         if (obstacle != null)
         {
             Debug.Log($"Monster blocked at ({targetX},{targetY}) by {obstacle.name}. Recalculating path...");
 
-            // ±âÁ¸ ¸·Èù °æ·Î »èÁ¦
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             moveQueue.Clear();
 
-            // ÇöÀç pos¿¡¼­ »õ·Î¿î °æ·Î »ý¼º
+            // ï¿½ï¿½ï¿½ï¿½ posï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             moveQueue = MonsterDirection.InitPathRecursive(MyPos, PlanLength);
 
-            // ´õÀÌ»ó ¸ø¿òÁ÷ÀÏ¶§
+            // ï¿½ï¿½ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
             if (moveQueue.Count == 0)
             {
                 Debug.Log("Monster is surrounded and cannot move.");
-                // ±âÁ¸ Æ÷Áö¼Ç ¹ÝÈ¯
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
                 for (int i = 0; i < PlanLength; i++) moveQueue.Add(MyPos);
                 DrawPath();
-                return; // ½ºÅµÇÏ±â
+                return; // ï¿½ï¿½Åµï¿½Ï±ï¿½
             }
-            // »õ °æ·Î·Î Å¸°Ù º¯°æ
+            // ï¿½ï¿½ ï¿½ï¿½Î·ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             (targetX, targetY) = moveQueue[0];
         }
 
-        // Å¥¿¡¼­ °æ·Î »èÁ¦
+        // Å¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         moveQueue.RemoveAt(0);
 
-        // ÀÌµ¿
-        GameManager.Instance.MovePlayer(this, (targetX, targetY));
+        // ï¿½Ìµï¿½
+        //GameManager.Instance.MovePlayer(this, (targetX, targetY));
+        this.MoveTo((targetX,targetY));
 
-        // Å¥¿¡ »õ °æ·Î Ãß°¡
+
+        // Å¥ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
         (int lastPlannedX, int lastPlannedY) = (moveQueue.Count > 0) ? moveQueue[moveQueue.Count - 1] : (targetX, targetY);
         (int newX, int newY) = MonsterDirection.GetOneFutureStep((lastPlannedX, lastPlannedY));
         moveQueue.Add((newX, newY));
@@ -81,7 +83,7 @@ public class Monster : Piece
 
     private void DrawPath()
     {
-        // ±âÁ¸ È­»ìÇ¥ »èÁ¦
+        // ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
         foreach (var arrow in _spawnedArrows)
         {
             if (arrow != null) Destroy(arrow);
@@ -107,13 +109,13 @@ public class Monster : Piece
 
             GameObject arrowObj = Instantiate(ArrowPrefab, spawnPos, Quaternion.identity);
 
-            // ¹æÇâ º¯°æ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             Vector3 dir = endPos - startPos;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             arrowObj.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            // ½ºÄÉÀÏ¿¡ ¸ÂÃç È­»ìÇ¥ Å©±â Á¶Á¤
-            // Á¦¹Ì³ªÀÌ°¡ ÃßÃµÇßÁö¸¸ ÇÊ¿ä ¾øÀ»°Í °°½À´Ï´Ù
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½Ç¥ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½Ì³ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
             float dist = Vector3.Distance(startPos, endPos);
             arrowObj.transform.localScale = new Vector3(dist, 1, 1);
 
