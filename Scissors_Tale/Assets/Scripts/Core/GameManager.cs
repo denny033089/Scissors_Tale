@@ -75,6 +75,8 @@ public class GameManager : Singleton<GameManager>
             break;
 
             case Enums.TurnState.End:
+            p1Instance.hasMoved = false; //턴이 끝나면 이동여부 초기화
+            p2Instance.hasMoved = false;
 
             break;
         }
@@ -222,6 +224,11 @@ public class GameManager : Singleton<GameManager>
     
 
     public void MovePlayer(Piece piece, (int,int) targetPos) {
+
+        if(piece.hasMoved == true) { //이미 이동했는지 여부 확인
+            Debug.Log("이미 이동했음");
+            return;
+        } 
         //boardpos을 받아서 isinboard인지 확인, moveinfo확인, 플레이어 이동
         //이동 가능한 구역인지 확인
         //Edited By 구본환, 1/13
@@ -236,6 +243,7 @@ public class GameManager : Singleton<GameManager>
 
         // 오브젝트 이동 
         piece.MoveTo(targetPos);
+        piece.hasMoved = true; //이동했음
 
         // 배열에 새 자리 채우기
         Pieces[targetPos.Item1, targetPos.Item2] = piece;
