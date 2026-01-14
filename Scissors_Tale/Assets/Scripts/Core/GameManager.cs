@@ -30,9 +30,14 @@ public class GameManager : Singleton<GameManager>
     private UIManager uiManager;
     public Tile[,] Tiles = new Tile[Utils.FieldWidth, Utils.FieldHeight];   // Tile.cs 담는 2차원 배열
     public Piece[,] Pieces = new Piece[Utils.FieldWidth, Utils.FieldHeight];    // Piece.cs들
-    public int monster_num;
+    public int monster_num = 1; // 초기 몬스터는 1명
+    public int MonsterHP = 10; // 초기 몬스터 HP는 10
 
     public int NextPlayer = 0; //0은 플레이어 1, 1은 플레이어2 맨처음엔 0
+
+    private Vector2Int startpos1; // 플레이어 및 몬스터 위치
+    private Vector2Int startpos2;
+    private Vector2Int monster_pos;
 
     public void ChangeState(Enums.GameState newState)
     {
@@ -179,6 +184,26 @@ public class GameManager : Singleton<GameManager>
         Pieces[pos.x,pos.y] = pieceObj.GetComponent<Piece>();
         Pieces[pos.x,pos.y].MoveTo(pos);
         return pieceObj.GetComponent<Piece>();
+    }
+
+    // 플레이어 및 몬스터 위치
+    public Vector2Int GetPlayer1Pos() => startpos1;
+    public Vector2Int GetPlayer2Pos() => startpos2;
+
+    public Vector2Int GetMonsterPos() => monster_pos;
+
+    // 몬스터 HP 계산
+    public void ApplyMonsterDamage(int damage)
+    {
+        if (damage <= 0) return;
+
+        MonsterHP -= damage;
+        if (MonsterHP < 0) MonsterHP = 0;
+
+        if (MonsterHP == 0)
+        {
+            // 승리 표시
+        }
     }
 
     public Piece GetActivatePlayer() {
