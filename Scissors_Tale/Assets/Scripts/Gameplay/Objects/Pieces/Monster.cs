@@ -5,7 +5,7 @@ using UnityEngine;
 public class Monster : Piece
 {
     [Header("AI Settings")]
-    public int PlanLength = 2; //�̷� ����� ��
+    public int PlanLength = 2; //미래 경로의 수
 
     [Header("Visualization")]
     public GameObject ArrowPrefab; 
@@ -14,13 +14,13 @@ public class Monster : Piece
     // FIFO ť: [Step1, Step2]
     private List<(int, int)> moveQueue = new List<(int, int)>();
 
-    // ���Ͱ� (GameManager����)������ ���Ŀ� ���� 
+    // 몬스터가 (GameManager에서) 생성된 이후에 스폰 
     public void InitializePath()
     {
-        // ���� N���� ��� ���� (���)
+        // 기존 N개의 경로 생성 (재귀)
         moveQueue = MonsterDirection.InitPathRecursive(MyPos, PlanLength);
 
-        // ���� ���·� �����ɶ�, ���� ���������� ť ä���
+        // 갇힌 상태로 스폰될때, 기존 포지션으로 큐 채우기
         while (moveQueue.Count < PlanLength)
         {
             (int x, int y) lastPos = (moveQueue.Count > 0) ? moveQueue[moveQueue.Count - 1] : MyPos;
@@ -31,49 +31,49 @@ public class Monster : Piece
         DrawPath();
     }
 
-    // MonsterMove �ܰ迡�� ȣ��
+    // MonsterMove 단계에서 호출
     public void PerformTurn()
     {
         if (moveQueue.Count == 0) return;
 
-        // ���� ��� Ȯ��
+        // 다음 경로 확인
         (int targetX, int targetY) = moveQueue[0];
 
-        // ����������:
+        // 막혀있을때:
         Piece obstacle = GameManager.Instance.Pieces[targetX, targetY];
 
         if (obstacle != null)
         {
             Debug.Log($"Monster blocked at ({targetX},{targetY}) by {obstacle.name}. Recalculating path...");
 
-            // ���� ���� ��� ����
+            // 기존 막힌 경로 삭제
             moveQueue.Clear();
 
-            // ���� pos���� ���ο� ��� ����
+            // 현재 pos에서 새로운 경로 생성
             moveQueue = MonsterDirection.InitPathRecursive(MyPos, PlanLength);
 
-            // ���̻� �������϶�
+            // 더이상 못움직일때
             if (moveQueue.Count == 0)
             {
                 Debug.Log("Monster is surrounded and cannot move.");
-                // ���� ������ ��ȯ
+                // 기존 포지션 반환
                 for (int i = 0; i < PlanLength; i++) moveQueue.Add(MyPos);
                 DrawPath();
-                return; // ��ŵ�ϱ�
+                return; // 스킵하기
             }
-            // �� ��η� Ÿ�� ����
+            // 새 경로로 타겟 변경
             (targetX, targetY) = moveQueue[0];
         }
 
-        // ť���� ��� ����
+        // 큐에서 경로 삭제
         moveQueue.RemoveAt(0);
 
-        // �̵�
+        // 이동
         //GameManager.Instance.MovePlayer(this, (targetX, targetY));
         this.MoveTo((targetX,targetY));
 
 
-        // ť�� �� ��� �߰�
+        // 큐에 새 경로 추가
         (int lastPlannedX, int lastPlannedY) = (moveQueue.Count > 0) ? moveQueue[moveQueue.Count - 1] : (targetX, targetY);
         (int newX, int newY) = MonsterDirection.GetOneFutureStep((lastPlannedX, lastPlannedY));
         moveQueue.Add((newX, newY));
@@ -83,7 +83,7 @@ public class Monster : Piece
 
     private void DrawPath()
     {
-        // ���� ȭ��ǥ ����
+        // 기존 화살표 삭제
         foreach (var arrow in _spawnedArrows)
         {
             if (arrow != null) Destroy(arrow);
@@ -109,13 +109,13 @@ public class Monster : Piece
 
             GameObject arrowObj = Instantiate(ArrowPrefab, spawnPos, Quaternion.identity);
 
-            // ���� ����
+            // 방향 변경
             Vector3 dir = endPos - startPos;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             arrowObj.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            // �����Ͽ� ���� ȭ��ǥ ũ�� ����
-            // ���̳��̰� ��õ������ �ʿ� ������ �����ϴ�
+            // 스케일에 맞춰 화살표 크기 조정
+            // 제미나이가 추천했지만 필요 없을것 같습니다
             float dist = Vector3.Distance(startPos, endPos);
             arrowObj.transform.localScale = new Vector3(dist, 1, 1);
 
