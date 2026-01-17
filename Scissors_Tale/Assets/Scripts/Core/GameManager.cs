@@ -11,7 +11,8 @@ using System.Collections.Generic;
 public class GameManager : Singleton<GameManager>
 {    
     
-    public  Enums.GameState CurrentState { get; private set; } = Enums.GameState.Main;
+    //01.17 정수민
+    public Enums.StageState CurrentStageState { get; private set; } = Enums.StageState.Playing;
     public Enums.TurnState CurrentTurnState { get; private set; } = Enums.TurnState.Ready;
 
     
@@ -35,29 +36,47 @@ public class GameManager : Singleton<GameManager>
 
     public int NextPlayer = 0; //0은 플레이어 1, 1은 플레이어2 맨처음엔 0
 
+    //01.17 정수민
+    public int totalTurn = 5; //스테이지 마다 정해진 총 턴 수
+    public int currentTurn = 0; //현재 턴수 
+
+
     private Vector2Int startpos1; // 플레이어 및 몬스터 위치
     private Vector2Int startpos2;
     private Vector2Int monster_pos;
 
-    public void ChangeState(Enums.GameState newState)
+    
+
+    //01.17 정수민 stagestate 변경
+    public void ChangeStageState(Enums.StageState newStageState)
     {
-        CurrentState = newState;
-
-        // 상태 변경에 따른 로직
-
-        Debug.Log($"Game State changed to: {CurrentState}");
+        CurrentStageState = newStageState;
+        Debug.Log($"Stage State changed to: {CurrentStageState}");
+        switch (CurrentStageState)
+        {
+            case Enums.StageState.Playing:
+            break;
+            case Enums.StageState.Pause:
+            break;
+            case Enums.StageState.Victory:
+            break;
+            case Enums.StageState.Gameover:
+            UIManager.Instance.ShowRetryPanel();
+            break;
+        }
     }
-
+    
     public void ChangeTurnState(Enums.TurnState newTurnState)
     {
         CurrentTurnState = newTurnState;
         // 상태 변경에 따른 로직
-        Debug.Log($"Game State changed to: {CurrentTurnState}");
+        Debug.Log($"Turn State changed to: {CurrentTurnState}");
         switch (CurrentTurnState)
         {
-            //01.17 정수민
+            //01.17 정수민, ready일 때 turn 계산
             case Enums.TurnState.Ready:
             UIManager.Instance.ShowMoveButton();
+            CalculateTurn();
             break;
             
             case Enums.TurnState.PlayerMove:
@@ -288,6 +307,18 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    //01.17 정수민
+    public void CalculateTurn() {
+        currentTurn = currentTurn + 1;
+        int remainTurn = totalTurn - currentTurn;
+        UIManager.Instance.ShowRemainTurn(remainTurn, totalTurn);
+        if(remainTurn == 0) {
+            ChangeStageState(Enums.StageState.Gameover);
+        }
+        
+    }
+    //현재 턴 1 증가
+    //uimanager에 남은 턴수 표시, 남은 턴수가 0이면 게임오버
 
 
     ///UIManager에서 받아오는 함수들
