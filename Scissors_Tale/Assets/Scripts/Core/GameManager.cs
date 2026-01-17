@@ -55,6 +55,11 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"Game State changed to: {CurrentTurnState}");
         switch (CurrentTurnState)
         {
+            //01.17 정수민
+            case Enums.TurnState.Ready:
+            UIManager.Instance.ShowMoveButton();
+            break;
+            
             case Enums.TurnState.PlayerMove:
             
             Piece piece = GetActivatePlayer();        

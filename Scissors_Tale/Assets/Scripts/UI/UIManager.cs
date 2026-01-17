@@ -7,11 +7,20 @@ using UnityEngine;
 /// </summary>
 public class UIManager : Singleton<UIManager>
 {
+    //01.17 정수민
+    public GameObject moveButton;
+    public GameObject turnEndButton;
+    
+    
     public void OnMoveButtonClicked()
     {
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready) {        
             Debug.Log("무브 버튼 클릭");
             GameManager.Instance.HandleMove();
+            
+            //01.17 정수민 무브버튼 클릭 시 무브버튼 비활성화
+            moveButton.SetActive(false);
+            turnEndButton.SetActive(true);
         }
         
     }
@@ -31,6 +40,13 @@ public class UIManager : Singleton<UIManager>
             // GameManager에게 턴 종료 요청
             GameManager.Instance.HandleEnd();
         }
+    }
+
+    //01.17 정수민: 이동버튼 복구
+    public void ShowMoveButton()
+    {
+        moveButton.SetActive(true);
+        turnEndButton.SetActive(false);
     }
 }
 
