@@ -104,3 +104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0aa9a5482a5f64dad26341b29cc516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player2
+  hasMoved: 0
+  spriteUp: {fileID: 0}
+  spriteDown: {fileID: 0}
+  spriteLeft: {fileID: 0}
+  spriteRight: {fileID: 0}

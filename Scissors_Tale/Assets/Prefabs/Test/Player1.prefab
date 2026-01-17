@@ -104,3 +104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013b3f753e1e50744a035336afd4c732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player1
+  hasMoved: 0
+  spriteUp: {fileID: 7482667652216324306, guid: bc527bb77367a7f40a37879d226a6594, type: 3}
+  spriteDown: {fileID: 7482667652216324306, guid: bc527bb77367a7f40a37879d226a6594, type: 3}
+  spriteLeft: {fileID: 7482667652216324306, guid: bc527bb77367a7f40a37879d226a6594, type: 3}
+  spriteRight: {fileID: 7482667652216324306, guid: bc527bb77367a7f40a37879d226a6594, type: 3}

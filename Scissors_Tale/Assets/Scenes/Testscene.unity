@@ -316,6 +316,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Piece
   hasMoved: 0
+  spriteUp: {fileID: 0}
+  spriteDown: {fileID: 0}
+  spriteLeft: {fileID: 0}
+  spriteRight: {fileID: 0}
 --- !u!1 &172278279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,7 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070e6188779e0ca44b20bfd7fb742202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  TilePrefab: {fileID: 4532155943935372394, guid: 2b6f26282e3da8245afb800f87d30363, type: 3}
+  TilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
   PiecePrefabs:
   - {fileID: 5249102997458711911, guid: 8bb92b6498b99e04eb8865291520472d, type: 3}
   - {fileID: 8357774654964675909, guid: 72188c12e1d97fc4ea574f80817d59e1, type: 3}
