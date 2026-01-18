@@ -41,7 +41,7 @@ public class synopsis : MonoBehaviour, IPointerDownHandler
         if (dialogue_count == 10)
         {
             Debug.Log("대화 종료");
-            SceneManager.LoadScene("Testscene");
+            SceneManager.LoadScene("Tutorial");
             dialogue_count = 0;
         }
 
