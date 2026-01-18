@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 5294844828858646776}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.42912, y: -0.21635, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &2809289422557131614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,5 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd1da17596c682244aa4cbc64f6802dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
+  hasMoved: 0
+  spriteUp: {fileID: 0}
+  spriteDown: {fileID: 0}
+  spriteLeft: {fileID: 0}
+  spriteRight: {fileID: 0}
   PlanLength: 2
   ArrowPrefab: {fileID: 2599406223229457744, guid: 869276e5408303847a24a53808851ba9, type: 3}

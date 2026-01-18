@@ -1073,6 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070e6188779e0ca44b20bfd7fb742202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  isTutorialMode: 0
   TilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
   PiecePrefabs:
   - {fileID: 5249102997458711911, guid: 8bb92b6498b99e04eb8865291520472d, type: 3}
@@ -1084,6 +1085,9 @@ MonoBehaviour:
   NextPlayer: 0
   totalTurn: 5
   currentTurn: 0
+  startpos1: {x: 1, y: 1}
+  startpos2: {x: 3, y: 1}
+  monster_pos: {x: 2, y: 3}
 --- !u!4 &527618538
 Transform:
   m_ObjectHideFlags: 0
