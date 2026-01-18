@@ -1,3 +1,4 @@
+//using System.Drawing;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -30,5 +31,17 @@ public class Tile : MonoBehaviour
         }
         
         // ------
+    }
+
+    // 1/18 서진현
+    // 타일 색깔 지정(UpdateAttackAreaTiles 단계에서 호출)
+    public void SetColor(Color color)
+    {
+        MySpriteRenderer.color = color;
+    }
+
+    public void ResetColor()
+    {
+        MySpriteRenderer.color = Color.white;
     }
 }
