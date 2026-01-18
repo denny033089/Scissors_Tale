@@ -46,8 +46,10 @@ public class ClickHandler : MonoBehaviour
                 Debug.Log($"BoardPos = {BoardPos}");
                 if(GameManager.Instance.IsValidMove(selectedPiece,BoardPos)) { 
                     GameManager.Instance.MovePlayer(selectedPiece,BoardPos);
+                    //01.19 정수민: move일때 엉뚱한 곳을 클릭해도 이펙트가 사라지지 않음
+                    GameManager.Instance.ClearEffects();
                 }
-                GameManager.Instance.ClearEffects();
+                
             }
         }
     }    

@@ -16,7 +16,7 @@ public class TutorialManager : Singleton<TutorialManager>
     // 유니티 인스펙터에서 정해줄 좌표 리스트 (예: (1,2), (2,2), (2,3)...)
     public List<Vector2Int> playerFixedPath = new List<Vector2Int>();
 
-    public int currentStep = 0;
+    public int currentStep = 0; //currentStep = 0 이면 turn은 1임
     private (int x,int y) requiredPos;
     
 
@@ -85,7 +85,7 @@ public class TutorialManager : Singleton<TutorialManager>
         }
 
         // 다음 목표 지점이 바뀌었으니 이펙트(화살표 등)를 다시 그려줍니다.
-        ShowTutorialMoves(null); 
+
     }
 
 

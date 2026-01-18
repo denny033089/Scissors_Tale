@@ -846,6 +846,7 @@ MonoBehaviour:
   - {x: 2, y: 2}
   - {x: 2, y: 1}
   - {x: 3, y: 2}
+  - {x: 3, y: 1}
   currentStep: 0
 --- !u!4 &895664825
 Transform:
@@ -1381,13 +1382,17 @@ MonoBehaviour:
   - {fileID: 524731917048748400, guid: b651c38e42ae1f042bd0dd4c7d512412, type: 3}
   EffectPrefab: {fileID: 9091587442089639357, guid: 095d220f822daa04d8c74afb19b7af92, type: 3}
   monster_num: 1
-  MonsterHP: 10
+  MonsterHP: 7
   NextPlayer: 0
+  CurrentPlayer: 0
   totalTurn: 10
   currentTurn: 0
   startpos1: {x: 1, y: 3}
   startpos2: {x: 1, y: 2}
   monster_pos: {x: 4, y: 2}
+  player1Color: {r: 1, g: 0, b: 0, a: 1}
+  player2Color: {r: 0, g: 0, b: 1, a: 1}
+  overlapColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &1217814658
 Transform:
   m_ObjectHideFlags: 0

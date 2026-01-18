@@ -80,7 +80,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6554636783525165726, guid: 56e680e9efd03144590681c4f5fe5de3, type: 3}
   m_Color: {r: 0.90943396, g: 0.10810248, b: 0.10810248, a: 1}
@@ -109,6 +109,9 @@ MonoBehaviour:
   spriteDown: {fileID: 0}
   spriteLeft: {fileID: 0}
   spriteRight: {fileID: 0}
+  HPText: {fileID: 0}
+  CurrentHP: 7
+  MaxHP: 7
   PlanLength: 2
   ArrowPrefab: {fileID: 2599406223229457744, guid: 869276e5408303847a24a53808851ba9, type: 3}
   fixedPath:
@@ -116,4 +119,4 @@ MonoBehaviour:
   - {x: 4, y: 0}
   - {x: 3, y: 0}
   - {x: 3, y: 1}
-  - {x: 3, y: 2}
+  - {x: 4, y: 1}

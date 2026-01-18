@@ -38,6 +38,7 @@ public class GameManager : Singleton<GameManager>
     public int MonsterHP = 10; // 초기 몬스터 HP는 10
 
     public int NextPlayer = 0; //0은 플레이어 1, 1은 플레이어2 맨처음엔 0
+    public int CurrentPlayer = 0; //01.19 턴 종료 하기전에 조종하고 있는 플레이어
 
     // 1/14 서진현
     //01.17 정수민
@@ -113,6 +114,11 @@ public class GameManager : Singleton<GameManager>
             case Enums.TurnState.End:
             p1Instance.hasMoved = false; //턴이 끝나면 이동여부 초기화
             p2Instance.hasMoved = false;
+
+            //01.18 정수민 tutorialmanager
+            if (isTutorialMode) {
+                TutorialManager.Instance.NextStep();
+            }
 
             break;
         }
@@ -205,7 +211,7 @@ public class GameManager : Singleton<GameManager>
         //Edited By 구본환, 1/18
         List<Vector2Int> monsterSpawns = new List<Vector2Int>
     {
-        new Vector2Int(2, 3)
+        new Vector2Int(4, 2)
         // 이후에 몬스터 추가할 때 이 리스트 사용
     };
 
@@ -298,20 +304,23 @@ public class GameManager : Singleton<GameManager>
         //플레이어 바꾸기
         if(CurrentTurnState == Enums.TurnState.PlayerTag) { //tag를 누른 상태라면
             if(NextPlayer == 0) {
+                CurrentPlayer = 0; //01.19 정수민
                 NextPlayer = 1; //next는 player2(tag상태일 때만 바꾸기 가능)
             } else {
+                CurrentPlayer = 1; //01.19 정수민
                 NextPlayer = 0; //next는 player1(tag상태일 때만 바꾸기 가능)
             }
+        } else { //01.19 정수민 : tag를 누르지 않은 상태라면 그대로감
+            CurrentPlayer = NextPlayer;
         }
 
         return (NextPlayer == 0) ? p1Instance : p2Instance;
     }
 
-    //01.18 정수민: 현재의 플레이어 받아오기
+    //01.19 정수민: 튜토리얼에서 쓸거임
     public Piece GetCurrentPlayer() {
-        return (NextPlayer == 0) ? p1Instance : p2Instance;
+        return (CurrentPlayer == 0) ? p1Instance : p2Instance;
     }
-
     
 
     public void MovePlayer(Piece piece, (int,int) targetPos) {
@@ -339,10 +348,6 @@ public class GameManager : Singleton<GameManager>
         // 배열에 새 자리 채우기
         Pieces[targetPos.Item1, targetPos.Item2] = piece;
 
-        //01.18 정수민 tutorialmanager
-        if (isTutorialMode) {
-            TutorialManager.Instance.NextStep();
-        }
 
         UpdateAttackAreaTiles();
     }
@@ -456,9 +461,16 @@ public class GameManager : Singleton<GameManager>
 
     public void HandleTag() {
 
-        //01.18 정수민: tutorialmanager currentstep이 1 또는 3이면 tag 못함
+        
         if(isTutorialMode) {
-            if(TutorialManager.Instance.currentStep is 1 or 3) {
+            //01.19 정수민: tutorial 무조건 이동하고 태그 누르기 가능
+            Piece piece = GetCurrentPlayer();
+            if(!piece.hasMoved) {
+                Debug.Log("이동하구 눌러야지");
+                return;
+            }
+            //01.18 정수민: tutorialmanager currentstep이 0 또는 2이면 tag 못함
+            if(TutorialManager.Instance.currentStep is 0 or 2) {
                 Debug.Log("tag버튼 아직 누르지 마셈");
                 ChangeTurnState(Enums.TurnState.PlayerMove);
                 return;
@@ -469,13 +481,20 @@ public class GameManager : Singleton<GameManager>
     //Edited By 구본환 1/13
     public void HandleEnd()
     {
-        //01.18정수민 tutorialmanager tutorial일 때 hasmoved가 true여야 턴 종료가능
+        //01.18정수민 tutorialmanager tutorial일 때 이동을 하고 나서야 턴 종료가능
         if(isTutorialMode) {
-            // Piece piece = GetCurrentPlayer();
-            // if(!piece.hasMoved) {
-            //     Debug.Log("이동하고 종료하쇼");
-            //     return;
-            // }
+            Piece piece = GetCurrentPlayer();
+            if(!piece.hasMoved) {
+                Debug.Log("이동하고 종료하쇼");
+                return;
+            }
+            if(TutorialManager.Instance.currentStep is 1 or 3 or 4) {
+                if(CurrentTurnState is Enums.TurnState.PlayerMove) {
+                    Debug.Log("tag버튼 누르라니깐");
+                    return;
+                }
+            }
+
         }
         
         StartCoroutine(ProcessTurnSequence());
