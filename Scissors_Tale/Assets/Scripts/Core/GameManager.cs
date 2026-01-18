@@ -10,6 +10,8 @@ using System.Collections.Generic;
 /// </summary>
 public class GameManager : Singleton<GameManager>
 {    
+    //01.18 정수민, 튜토리얼 체크
+    public bool isTutorialMode=false;
     
     //01.17 정수민
     public Enums.StageState CurrentStageState { get; private set; } = Enums.StageState.Playing;
@@ -41,9 +43,11 @@ public class GameManager : Singleton<GameManager>
     public int currentTurn = 0; //현재 턴수 
 
 
-    private Vector2Int startpos1; // 플레이어 및 몬스터 위치
-    private Vector2Int startpos2;
-    private Vector2Int monster_pos;
+    //01.18 정수민: serialize화
+    [Header("StartPos")]
+    [SerializeField] private Vector2Int startpos1= new Vector2Int(1,1); // 플레이어 및 몬스터 위치
+    [SerializeField] private Vector2Int startpos2= new Vector2Int(3,1);
+    [SerializeField] private Vector2Int monster_pos=new Vector2Int(2,3);
 
     
 
@@ -114,7 +118,12 @@ public class GameManager : Singleton<GameManager>
         PieceParent = GameObject.Find("PieceParent").transform;
         EffectParent = GameObject.Find("EffectParent").transform;
 
-        MovementManager.Instance.Initialize(EffectPrefab, EffectParent);        
+        MovementManager.Instance.Initialize(EffectPrefab, EffectParent);
+
+        //01.18 정수민 tutorialmanager 추가
+        if(isTutorialMode) {
+            TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
+        }        
         InitializeBoard();
     }
     /// ---Ready---
@@ -173,22 +182,23 @@ public class GameManager : Singleton<GameManager>
         ///   0 1 2 3 4
         /// 
         // --- TODO ---
+        //01.18 정수민: 벡터2형식의 변수들 튜플 형식의 변수와 구분(startpos1_tuple로 변환)
         
-        (int,int) startpos1 = (1,1);
-        (int,int) startpos2 = (3,1);
-        (int,int) monster_pos = (2,3);
+        (int,int) startpos1_tuple = (startpos1.x,startpos1.y);  //벡터의 튜플화
+        (int,int) startpos2_tuple = (startpos2.x,startpos2.y);
+        (int,int) monster_pos_tuple = (monster_pos.x,monster_pos.y);
 
         int [] setup = {}; //piece의 종류를 담는 배열
         
 
-        p1Instance = PlacePiece(0,startpos1);
-        p2Instance = PlacePiece(1,startpos2);
+        p1Instance = PlacePiece(0,startpos1_tuple);
+        p2Instance = PlacePiece(1,startpos2_tuple);
         //monster 배치
         //Edited By 구본환, 1/13
         for (int x = 0; x < monster_num; x++)
         {
             // 기물 생성
-            Piece p = PlacePiece(2, monster_pos);
+            Piece p = PlacePiece(2, monster_pos_tuple);
 
             // 몬스터인지 확인
             if (p is Monster)
@@ -245,6 +255,11 @@ public class GameManager : Singleton<GameManager>
         return (NextPlayer == 0) ? p1Instance : p2Instance;
     }
 
+    //01.18 정수민: 현재의 플레이어 받아오기
+    public Piece GetCurrentPlayer() {
+        return (NextPlayer == 0) ? p1Instance : p2Instance;
+    }
+
     
 
     public void MovePlayer(Piece piece, (int,int) targetPos) {
@@ -271,6 +286,11 @@ public class GameManager : Singleton<GameManager>
 
         // 배열에 새 자리 채우기
         Pieces[targetPos.Item1, targetPos.Item2] = piece;
+
+        //01.18 정수민 tutorialmanager
+        if (isTutorialMode) {
+            TutorialManager.Instance.NextStep();
+        }
     }
 
     public void Attack() {
@@ -327,11 +347,29 @@ public class GameManager : Singleton<GameManager>
     }
 
     public void HandleTag() {
+
+        //01.18 정수민: tutorialmanager currentstep이 1 또는 3이면 tag 못함
+        if(isTutorialMode) {
+            if(TutorialManager.Instance.currentStep is 1 or 3) {
+                Debug.Log("tag버튼 아직 누르지 마셈");
+                ChangeTurnState(Enums.TurnState.PlayerMove);
+                return;
+            }
+        }
         ChangeTurnState(Enums.TurnState.PlayerTag);
     }
     //Edited By 구본환 1/13
     public void HandleEnd()
     {
+        //01.18정수민 tutorialmanager tutorial일 때 hasmoved가 true여야 턴 종료가능
+        if(isTutorialMode) {
+            // Piece piece = GetCurrentPlayer();
+            // if(!piece.hasMoved) {
+            //     Debug.Log("이동하고 종료하쇼");
+            //     return;
+            // }
+        }
+        
         StartCoroutine(ProcessTurnSequence());
     }
     IEnumerator ProcessTurnSequence()
@@ -356,16 +394,26 @@ public class GameManager : Singleton<GameManager>
     ///MovementManager 호출하는 함수들
     public bool IsValidMove(Piece piece, (int, int) targetPos)
     {
+        //01.18 정수민 tutorialmanager 추가
+        if(isTutorialMode) {
+            return TutorialManager.Instance.IsValidTutorialMove(piece,targetPos);
+        } else
         return MovementManager.Instance.IsValidMove(piece, targetPos);
     }
 
     public void ShowPossibleMoves(Piece piece)
     {
+        //01.18 정수민 tutorialmanager 추가
+        if(isTutorialMode) {
+            TutorialManager.Instance.ShowTutorialMoves(piece);
+        } else
         MovementManager.Instance.ShowPossibleMoves(piece);
     }
 
     public void ClearEffects()
     {
+        //01.18 정수민 tutorialmanager 추가
+        TutorialManager.Instance.ClearEffects();
         MovementManager.Instance.ClearEffects();
     }
 

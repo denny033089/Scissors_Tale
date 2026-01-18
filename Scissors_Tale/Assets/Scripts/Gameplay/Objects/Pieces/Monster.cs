@@ -12,10 +12,10 @@ public class Monster : Piece
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
     // FIFO ť: [Step1, Step2]
-    private List<(int, int)> moveQueue = new List<(int, int)>();
+    public List<(int, int)> moveQueue = new List<(int, int)>();
 
     // 몬스터가 (GameManager에서) 생성된 이후에 스폰 
-    public void InitializePath()
+    public virtual void InitializePath()
     {
         // 기존 N개의 경로 생성 (재귀)
         moveQueue = MonsterDirection.InitPathRecursive(MyPos, PlanLength);
@@ -32,7 +32,7 @@ public class Monster : Piece
     }
 
     // MonsterMove 단계에서 호출
-    public void PerformTurn()
+    public virtual void PerformTurn()
     {
         if (moveQueue.Count == 0) return;
 
@@ -81,7 +81,7 @@ public class Monster : Piece
         DrawPath();
     }
 
-    private void DrawPath()
+    public void DrawPath()
     {
         // 기존 화살표 삭제
         foreach (var arrow in _spawnedArrows)

@@ -26,10 +26,12 @@ public class UIManager : Singleton<UIManager>
             moveButton.SetActive(false);
             turnEndButton.SetActive(true);
         }
+
         
     }
     public void OnTagButtonClicked()
     {
+
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove) {
 
             Debug.Log("태그 버튼 클릭!");

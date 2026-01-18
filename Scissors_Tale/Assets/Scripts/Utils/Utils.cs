@@ -26,4 +26,9 @@ public static class Utils
         (int x, int y) = targetPos;
         return x >= 0 && x < FieldWidth && y >= 0 && y < FieldHeight;
     }
+
+    public static (int x, int y) ToTuple(this Vector2Int v)
+    {
+        return (v.x, v.y);
+    }
 }
