@@ -352,7 +352,7 @@ public class GameManager : Singleton<GameManager>
         for (int x = 0; x < Utils.FieldWidth; x++)
         {
             for (int y = 0; y < Utils.FieldHeight; y++)
-            {
+            {                
                 Tiles[x, y].ResetColor();
             }
         } 
