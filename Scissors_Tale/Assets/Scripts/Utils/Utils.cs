@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Utils
 {
     //참고용
-    public const int TileSize = 1;  // 타일의 실제 크기
+    public const float TileSize = 1f;  // 타일의 실제 크기
     // 체스판의 크기
     public const int FieldWidth = 5;
     public const int FieldHeight = 5;
@@ -25,5 +25,10 @@ public static class Utils
     {
         (int x, int y) = targetPos;
         return x >= 0 && x < FieldWidth && y >= 0 && y < FieldHeight;
+    }
+
+    public static (int x, int y) ToTuple(this Vector2Int v)
+    {
+        return (v.x, v.y);
     }
 }

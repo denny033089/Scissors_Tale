@@ -9,43 +9,43 @@ public static class MonsterDirection
         (0, 1), (0, -1), (-1, 0), (1, 0)
     };
 
-    // 1.½ÃÀÛ
-    // ¸ó½ºÅÍ°¡ ½ºÆùÇÒ¶§ ÃÊ±â °æ·Î°è»ê
+    // 1.ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ ï¿½Ê±ï¿½ ï¿½ï¿½Î°ï¿½ï¿½
     public static List<(int, int)> InitPathRecursive((int x, int y) startPos, int steps)
     {
         if (steps <= 0) return new List<(int, int)>();
 
         List<(int, int)> validNeighbors = GetValidNeighbors(startPos);
-        if (validNeighbors.Count == 0) return new List<(int, int)>(); //¸·ÇôÀÖÀ»¶§
+        if (validNeighbors.Count == 0) return new List<(int, int)>(); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        // ·£´ýÀ¸·Î ÇÏ³ª ¼±ÅÃ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½
         (int, int) nextStep = validNeighbors[Random.Range(0, validNeighbors.Count)];
 
         List<(int, int)> path = new List<(int, int)>();
         path.Add(nextStep);
 
-        // ³ª¸ÓÁö´Â Àç±Í·Î Ãß°¡
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Í·ï¿½ ï¿½ß°ï¿½
         path.AddRange(InitPathRecursive(nextStep, steps - 1));
 
         return path;
     }
 
-    // 2. º¸Ãæ
-    // ¸ÅÅÏ¸¶´Ù Ãß°¡
+    // 2. ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
     public static (int, int) GetOneFutureStep((int x, int y) lastPlannedPos)
     {
         List<(int, int)> validNeighbors = GetValidNeighbors(lastPlannedPos);
 
         if (validNeighbors.Count == 0)
         {
-            // ¹Ì·¡ °æ·Î°¡ µ¥µå ¿£µåÀÏ¶§ Á¦ÀÚ¸®¿¡ ÀÖ±â
+            // ï¿½Ì·ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
             return lastPlannedPos;
         }
 
         return validNeighbors[Random.Range(0, validNeighbors.Count)];
     }
 
-    // ´ÙÀ½ °æ·Î »ý¼º
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private static List<(int, int)> GetValidNeighbors((int x, int y) fromPos)
     {
         List<(int, int)> neighbors = new List<(int, int)>();
@@ -54,7 +54,7 @@ public static class MonsterDirection
         {
             (int nextX, int nextY) = (fromPos.x + dir.Item1, fromPos.y + dir.Item2);
 
-            // Bounds È®ÀÎ
+            // Bounds È®ï¿½ï¿½
             if (!Utils.IsInBoard((nextX, nextY))) continue;
 
             if (GameManager.Instance.Pieces[nextX, nextY] != null) continue;

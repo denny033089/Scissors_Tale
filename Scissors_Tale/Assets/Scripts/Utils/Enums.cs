@@ -10,8 +10,7 @@ public static class Enums
     {
         Main, 
         WorldSelection, 
-        LevelSelection, 
-        Level, 
+        InGame, 
         Story
     }
 
@@ -23,6 +22,14 @@ public static class Enums
         PlayerAttack,
         MonsterMove,
         End
+    }
+
+    public enum StageState
+    {
+        Playing,
+        Pause,
+        Victory,
+        Gameover
     }
 }
 

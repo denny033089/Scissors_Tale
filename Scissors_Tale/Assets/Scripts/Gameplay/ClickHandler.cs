@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class ClickHandler : MonoBehaviour
 {
+        
     ///movestate에서 player1을 클릭하면 이동 effect가 나오고, (공격범위도 나오나) 이동가능
     /// 
     /// tagstate에서 player2를 클릭하면 이동 effect가 나오고, 이동가능 
