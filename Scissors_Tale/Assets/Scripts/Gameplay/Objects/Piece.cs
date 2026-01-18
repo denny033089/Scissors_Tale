@@ -3,6 +3,7 @@ using UnityEngine;
 public class Piece : MonoBehaviour
 {
     public (int, int) MyPos;    // 자신의 좌표
+    public bool hasMoved = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

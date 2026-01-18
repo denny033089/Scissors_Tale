@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 
 /// <summary>
 /// 게임의 전체 상태(로비, 인게임, 일시정지) 관리
@@ -29,9 +31,20 @@ public class GameManager : Singleton<GameManager>
     private UIManager uiManager;
     public Tile[,] Tiles = new Tile[Utils.FieldWidth, Utils.FieldHeight];   // Tile.cs 담는 2차원 배열
     public Piece[,] Pieces = new Piece[Utils.FieldWidth, Utils.FieldHeight];    // Piece.cs들
-    public int monster_num;
+    public int monster_num = 1; // 초기 몬스터는 1명
+    public int MonsterHP = 10; // 초기 몬스터 HP는 10
 
     public int NextPlayer = 0; //0은 플레이어 1, 1은 플레이어2 맨처음엔 0
+
+    // 1/14 서진현
+    private Vector2Int startpos1; // 플레이어 및 몬스터 위치
+    private Vector2Int startpos2;
+    private Vector2Int monster_pos;
+
+    // 장판 색깔
+    public Color player1Color = Color.red;
+    public Color player2Color = Color.blue;
+    public Color overlapColor = Color.magenta;
 
     public void ChangeState(Enums.GameState newState)
     {
@@ -69,6 +82,8 @@ public class GameManager : Singleton<GameManager>
             break;
 
             case Enums.TurnState.End:
+            p1Instance.hasMoved = false; //턴이 끝나면 이동여부 초기화
+            p2Instance.hasMoved = false;
 
             break;
         }
@@ -152,10 +167,19 @@ public class GameManager : Singleton<GameManager>
         p1Instance = PlacePiece(0,startpos1);
         p2Instance = PlacePiece(1,startpos2);
         //monster 배치
-        for(int x = 0;x<monster_num;x++) {
-            PlacePiece(2,monster_pos);
-        }
+        //Edited By 구본환, 1/13
+        for (int x = 0; x < monster_num; x++)
+        {
+            // 기물 생성
+            Piece p = PlacePiece(2, monster_pos);
 
+            // 몬스터인지 확인
+            if (p is Monster)
+            {
+                // N개의 경로 생성
+                ((Monster)p).InitializePath();
+            }
+        }
 
     }
 
@@ -169,6 +193,49 @@ public class GameManager : Singleton<GameManager>
         Pieces[pos.x,pos.y] = pieceObj.GetComponent<Piece>();
         Pieces[pos.x,pos.y].MoveTo(pos);
         return pieceObj.GetComponent<Piece>();
+    }
+
+    // 플레이어 및 몬스터 위치
+    public Vector2Int GetPlayer1Pos()
+    {
+        return new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
+    }
+
+    public Vector2Int GetPlayer2Pos()
+    {
+        return new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
+    }
+
+    public Vector2Int GetMonsterPos()
+    {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                if (Pieces[x, y] is Monster)
+                {
+                    return new Vector2Int(x, y);
+                }
+            }
+        }
+
+        return new Vector2Int(-1, -1);
+    }
+
+    // 몬스터 HP 계산
+    public void ApplyMonsterDamage(int damage)
+    {
+        if (damage <= 0) return;
+
+        MonsterHP -= damage;
+        Debug.Log("HP: " + MonsterHP);
+        if (MonsterHP < 0) MonsterHP = 0;
+
+        if (MonsterHP == 0)
+        {
+            Debug.Log("승리");
+            return;
+        }
     }
 
     public Piece GetActivatePlayer() {
@@ -187,11 +254,85 @@ public class GameManager : Singleton<GameManager>
     
 
     public void MovePlayer(Piece piece, (int,int) targetPos) {
+
+        if(piece.hasMoved == true) { //이미 이동했는지 여부 확인
+            Debug.Log("이미 이동했음");
+            return;
+        } 
         //boardpos을 받아서 isinboard인지 확인, moveinfo확인, 플레이어 이동
         //이동 가능한 구역인지 확인
-        if (!IsValidMove(piece, targetPos)) return;
+        //Edited By 구본환, 1/13
+        if (!(piece is Monster))
+        {
+            if (!IsValidMove(piece, targetPos)) return;
+        }
         // Piece를 이동시킴
+        // 배열에서 원래 자리 비우기
+        (int oldX, int oldY) = piece.MyPos;
+        Pieces[oldX, oldY] = null;
+
+        // 오브젝트 이동 
         piece.MoveTo(targetPos);
+        piece.hasMoved = true; //이동했음
+
+        // 배열에 새 자리 채우기
+        Pieces[targetPos.Item1, targetPos.Item2] = piece;
+
+        UpdateAttackAreaTiles();
+    }
+
+    // 플레이어 장판
+    HashSet<Vector2Int> Get3x3Area(Vector2Int center)
+    {
+        HashSet<Vector2Int> area = new HashSet<Vector2Int>();
+
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                int x = center.x + dx;
+                int y = center.y + dy;
+
+                if(x >= 0 && x < Utils.FieldWidth && y >= 0 && y < Utils.FieldHeight)
+                {
+                    area.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+
+        return area;
+    }
+
+    public void UpdateAttackAreaTiles()
+    {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Tiles[x, y].ResetColor();
+            }
+        } 
+
+        Vector2Int p1Pos = new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
+        Vector2Int p2Pos = new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
+        
+        var area1 = Get3x3Area(p1Pos);
+        var area2 = Get3x3Area(p2Pos);
+
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+
+                bool inP1 = area1.Contains(pos);
+                bool inP2 = area2.Contains(pos);
+
+                if (inP1 && inP2) Tiles[x, y].SetColor(overlapColor);
+                else if (inP1) Tiles[x, y].SetColor(player1Color);
+                else if (inP2) Tiles[x, y].SetColor(player2Color); 
+            }
+        }
     }
 
     public void Attack() {
@@ -199,7 +340,33 @@ public class GameManager : Singleton<GameManager>
     }
 
     public void MonsterMove() {
+        //몬스터 배열 새로 생성
+        List<Monster> allMonsters = new List<Monster>();
 
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Piece p = Pieces[x, y];
+
+                //p가 몬스터인지 확인
+                if (p != null && p is Monster)
+                {
+                    allMonsters.Add((Monster)p);
+                }
+            }
+        }
+
+
+        // 몬스터 이동
+        foreach (Monster m in allMonsters)
+        {
+            // 몬스터 살아있는지 확인
+            if (m != null)
+            {
+                m.PerformTurn();
+            }
+        }
     }
 
 
@@ -212,13 +379,27 @@ public class GameManager : Singleton<GameManager>
     public void HandleTag() {
         ChangeTurnState(Enums.TurnState.PlayerTag);
     }
-
-    public void HandleEnd() {
+    //Edited By 구본환 1/13
+    public void HandleEnd()
+    {
+        StartCoroutine(ProcessTurnSequence());
+    }
+    IEnumerator ProcessTurnSequence()
+    {
+        // 1. 플레이어 공격 페이즈
         ChangeTurnState(Enums.TurnState.PlayerAttack);
-        ChangeTurnState(Enums.TurnState.MonsterMove);
-        ChangeTurnState(Enums.TurnState.End);
-        ChangeTurnState(Enums.TurnState.Ready);
+        yield return new WaitForSeconds(0.5f); // 공격 모션 대기
 
+        // 2. 몬스터 이동 페이즈
+        ChangeTurnState(Enums.TurnState.MonsterMove);
+        yield return new WaitForSeconds(1.0f);
+
+        // 3. 턴 종료
+        ChangeTurnState(Enums.TurnState.End);
+        yield return new WaitForSeconds(0.5f);
+
+        // 4. 다시 플레이어 대기
+        ChangeTurnState(Enums.TurnState.Ready);
     }
 
 
