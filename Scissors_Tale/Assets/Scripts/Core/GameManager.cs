@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 /// <summary>
 /// 게임의 전체 상태(로비, 인게임, 일시정지) 관리
@@ -35,9 +36,15 @@ public class GameManager : Singleton<GameManager>
 
     public int NextPlayer = 0; //0은 플레이어 1, 1은 플레이어2 맨처음엔 0
 
+    // 1/14 서진현
     private Vector2Int startpos1; // 플레이어 및 몬스터 위치
     private Vector2Int startpos2;
     private Vector2Int monster_pos;
+
+    // 장판 색깔
+    public Color player1Color = Color.red;
+    public Color player2Color = Color.blue;
+    public Color overlapColor = Color.magenta;
 
     public void ChangeState(Enums.GameState newState)
     {
@@ -189,10 +196,31 @@ public class GameManager : Singleton<GameManager>
     }
 
     // 플레이어 및 몬스터 위치
-    public Vector2Int GetPlayer1Pos() => startpos1;
-    public Vector2Int GetPlayer2Pos() => startpos2;
+    public Vector2Int GetPlayer1Pos()
+    {
+        return new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
+    }
 
-    public Vector2Int GetMonsterPos() => monster_pos;
+    public Vector2Int GetPlayer2Pos()
+    {
+        return new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
+    }
+
+    public Vector2Int GetMonsterPos()
+    {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                if (Pieces[x, y] is Monster)
+                {
+                    return new Vector2Int(x, y);
+                }
+            }
+        }
+
+        return new Vector2Int(-1, -1);
+    }
 
     // 몬스터 HP 계산
     public void ApplyMonsterDamage(int damage)
@@ -200,11 +228,13 @@ public class GameManager : Singleton<GameManager>
         if (damage <= 0) return;
 
         MonsterHP -= damage;
+        Debug.Log("HP: " + MonsterHP);
         if (MonsterHP < 0) MonsterHP = 0;
 
         if (MonsterHP == 0)
         {
-            // 승리 표시
+            Debug.Log("승리");
+            return;
         }
     }
 
@@ -247,6 +277,62 @@ public class GameManager : Singleton<GameManager>
 
         // 배열에 새 자리 채우기
         Pieces[targetPos.Item1, targetPos.Item2] = piece;
+
+        UpdateAttackAreaTiles();
+    }
+
+    // 플레이어 장판
+    HashSet<Vector2Int> Get3x3Area(Vector2Int center)
+    {
+        HashSet<Vector2Int> area = new HashSet<Vector2Int>();
+
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                int x = center.x + dx;
+                int y = center.y + dy;
+
+                if(x >= 0 && x < Utils.FieldWidth && y >= 0 && y < Utils.FieldHeight)
+                {
+                    area.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+
+        return area;
+    }
+
+    public void UpdateAttackAreaTiles()
+    {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Tiles[x, y].ResetColor();
+            }
+        } 
+
+        Vector2Int p1Pos = new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
+        Vector2Int p2Pos = new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
+        
+        var area1 = Get3x3Area(p1Pos);
+        var area2 = Get3x3Area(p2Pos);
+
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+
+                bool inP1 = area1.Contains(pos);
+                bool inP2 = area2.Contains(pos);
+
+                if (inP1 && inP2) Tiles[x, y].SetColor(overlapColor);
+                else if (inP1) Tiles[x, y].SetColor(player1Color);
+                else if (inP2) Tiles[x, y].SetColor(player2Color); 
+            }
+        }
     }
 
     public void Attack() {
