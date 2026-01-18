@@ -10,7 +10,6 @@ public class synopsis : MonoBehaviour, IPointerDownHandler
     public GameObject Player1;
     public GameObject Player2;
 
-
     public Text ScriptText_dialogue;
     public string[] dialogue = { "평화롭던 숲속에 나타난, 정체불명의 검은 조각들.",
     "몸에 달라붙은 검은 조각들 때문에 괴로워하는 숲속 친구들의 목소리를 들은 A와 B는, 숲속 친구들을 구하기 위해 숲으로 향하게 되는데...",
@@ -25,8 +24,17 @@ public class synopsis : MonoBehaviour, IPointerDownHandler
 
     public int dialogue_count = 0;
 
+    void Start()
+    {
+        Player1.SetActive(false);
+        Player2.SetActive(false);
+    }
+
     public void OnPointerDown(PointerEventData data)
     {
+        Player1.SetActive(false);
+        Player2.SetActive(false);
+        
         dialogue_count++;
         Debug.Log(dialogue_count);
 
@@ -38,6 +46,8 @@ public class synopsis : MonoBehaviour, IPointerDownHandler
         }
 
         ScriptText_dialogue.text = dialogue[dialogue_count];
+
+    
 
         if (dialogue_count > 1 && dialogue_count % 2 == 0)
         {
