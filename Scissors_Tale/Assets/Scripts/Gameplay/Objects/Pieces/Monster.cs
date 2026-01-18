@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Monster : Piece
 {
+    [Header("UI Settings")]
+    public TMP_Text HPText;
+
+    [Header("Stats")]
+    public int CurrentHP = 10;
+    public int MaxHP = 10;
+
     [Header("AI Settings")]
     public int PlanLength = 2; //미래 경로의 수
 
@@ -13,6 +21,52 @@ public class Monster : Piece
 
     // FIFO ť: [Step1, Step2]
     private List<(int, int)> moveQueue = new List<(int, int)>();
+
+    // 스폰시 호출
+    public void InitializeStats(int hp)
+    {
+        MaxHP = hp;
+        CurrentHP = hp;
+        UpdateHPText();
+        InitializePath();
+    }
+
+    // 데미지 받을때
+    public void TakeDamage(int damage)
+    {
+        CurrentHP -= damage;
+        if (CurrentHP < 0) CurrentHP = 0;
+
+        UpdateHPText();
+
+        if (CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void UpdateHPText()
+    {
+        if (HPText != null)
+        {
+            HPText.text = $"{CurrentHP}/{MaxHP}";
+        }
+    }
+
+    private void Die()
+    {
+        Debug.Log("몬스터 사망");
+        // 보드에서 지우기
+        GameManager.Instance.Pieces[MyPos.Item1, MyPos.Item2] = null;
+
+        // 화살표 삭제
+        foreach (var arrow in _spawnedArrows) if (arrow != null) Destroy(arrow);
+
+        // 오브젝트 삭제
+        Destroy(gameObject);
+
+    }
+
 
     // 몬스터가 (GameManager에서) 생성된 이후에 스폰 
     public void InitializePath()

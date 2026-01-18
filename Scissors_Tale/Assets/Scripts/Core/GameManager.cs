@@ -45,7 +45,8 @@ public class GameManager : Singleton<GameManager>
     private Vector2Int startpos2;
     private Vector2Int monster_pos;
 
-    
+    //Edited By 구본환 1/18
+    private LevelData currentLevelData;
 
     //01.17 정수민 stagestate 변경
     public void ChangeStageState(Enums.StageState newStageState)
@@ -184,17 +185,21 @@ public class GameManager : Singleton<GameManager>
         p1Instance = PlacePiece(0,startpos1);
         p2Instance = PlacePiece(1,startpos2);
         //monster 배치
-        //Edited By 구본환, 1/13
-        for (int x = 0; x < monster_num; x++)
-        {
-            // 기물 생성
-            Piece p = PlacePiece(2, monster_pos);
+        //Edited By 구본환, 1/18
+        List<Vector2Int> monsterSpawns = new List<Vector2Int>
+    {
+        new Vector2Int(2, 3)
+        // 이후에 몬스터 추가할 때 이 리스트 사용
+    };
 
-            // 몬스터인지 확인
-            if (p is Monster)
+        foreach (Vector2Int pos in monsterSpawns)
+        {
+            Piece p = PlacePiece(2, (pos.x, pos.y));
+
+            if (p is Monster monster)
             {
-                // N개의 경로 생성
-                ((Monster)p).InitializePath();
+                monster.InitializeStats(10);
+                monster.InitializePath();
             }
         }
 
@@ -213,16 +218,54 @@ public class GameManager : Singleton<GameManager>
     }
 
     // 플레이어 및 몬스터 위치
-    public Vector2Int GetPlayer1Pos() => startpos1;
-    public Vector2Int GetPlayer2Pos() => startpos2;
+    //Edit By 구본환 1/18
+    public Vector2Int GetPlayer1Pos()
+    {
+        if (p1Instance != null)
+            return new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
+        return startpos1;
+    }
+    public Vector2Int GetPlayer2Pos()
+    {
+        if (p2Instance != null)
+            return new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
+        return startpos2;
+    }
 
-    public Vector2Int GetMonsterPos() => monster_pos;
+    public Vector2Int GetMonsterPos()
+    {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                if (Pieces[x, y] is Monster)
+                {
+                    return new Vector2Int(x, y);
+                }
+            }
+        }
+        return monster_pos;
+    }
 
-    // 몬스터 HP 계산
+    // 몬스터 HP 계산(pos.x, pos.y)
     public void ApplyMonsterDamage(int damage)
     {
         if (damage <= 0) return;
 
+        Vector2Int targetPos = GetMonsterPos();
+        Piece targetPiece = Pieces[targetPos.x, targetPos.y];
+
+        if (targetPiece != null && targetPiece is Monster monster)
+        {
+            monster.TakeDamage(damage);
+            Debug.Log($"Applied {damage} damage to Monster at {targetPos}. Remaining HP: {monster.CurrentHP}");
+        }
+        else
+        {
+            Debug.LogWarning("ApplyMonsterDamage 호출되었지만, 몬스터 못찾음");
+        }
+
+        //로컬 변수 업데이트
         MonsterHP -= damage;
         if (MonsterHP < 0) MonsterHP = 0;
 
