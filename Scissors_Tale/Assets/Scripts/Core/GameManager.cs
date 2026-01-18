@@ -196,10 +196,31 @@ public class GameManager : Singleton<GameManager>
     }
 
     // 플레이어 및 몬스터 위치
-    public Vector2Int GetPlayer1Pos() => startpos1;
-    public Vector2Int GetPlayer2Pos() => startpos2;
+    public Vector2Int GetPlayer1Pos()
+    {
+        return new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
+    }
 
-    public Vector2Int GetMonsterPos() => monster_pos;
+    public Vector2Int GetPlayer2Pos()
+    {
+        return new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
+    }
+
+    public Vector2Int GetMonsterPos()
+    {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                if (Pieces[x, y] is Monster)
+                {
+                    return new Vector2Int(x, y);
+                }
+            }
+        }
+
+        return new Vector2Int(-1, -1);
+    }
 
     // 몬스터 HP 계산
     public void ApplyMonsterDamage(int damage)
