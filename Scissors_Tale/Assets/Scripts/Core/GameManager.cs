@@ -472,7 +472,9 @@ public class GameManager : Singleton<GameManager>
 
     ///UIManager에서 받아오는 함수들
     public void HandleMove() {
+
         ChangeTurnState(Enums.TurnState.PlayerMove);
+        TutorialManager.Instance.stepcount ++;  //01.19 정수민
     }
 
     public void HandleTag() {
@@ -494,6 +496,7 @@ public class GameManager : Singleton<GameManager>
             }
         }
         ChangeTurnState(Enums.TurnState.PlayerTag);
+        TutorialManager.Instance.stepcount ++;  //01.19 정수민
     }
     //Edited By 구본환 1/13
     public void HandleEnd()
@@ -515,6 +518,7 @@ public class GameManager : Singleton<GameManager>
         }
         
         StartCoroutine(ProcessTurnSequence());
+        TutorialManager.Instance.stepcount ++; //01.19 정수민
     }
     IEnumerator ProcessTurnSequence()
     {

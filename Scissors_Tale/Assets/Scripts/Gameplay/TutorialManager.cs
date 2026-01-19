@@ -17,6 +17,8 @@ public class TutorialManager : Singleton<TutorialManager>
     public List<Vector2Int> playerFixedPath = new List<Vector2Int>();
 
     public int currentStep = 0; //currentStep = 0 이면 turn은 1임
+
+    public int stepcount = 0;
     private (int x,int y) requiredPos;
     
 
