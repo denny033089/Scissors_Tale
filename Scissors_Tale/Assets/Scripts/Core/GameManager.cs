@@ -148,6 +148,7 @@ public class GameManager : Singleton<GameManager>
     {
         
         //01.19 정수민
+
         playeruistatus = FindFirstObjectByType<PlayerUIStatus>();
         
         TileParent = GameObject.Find("TileParent").transform;
@@ -159,7 +160,14 @@ public class GameManager : Singleton<GameManager>
         //01.18 정수민 tutorialmanager 추가
         if(isTutorialMode) {
             TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
-        }        
+        }
+
+        //01.20 정수민 totalturn 초기화
+        if (currentMapData != null) 
+        {
+            totalTurn = currentMapData.totalTurnLimit;
+        }
+                
         
     }
     //1/19 구본환
