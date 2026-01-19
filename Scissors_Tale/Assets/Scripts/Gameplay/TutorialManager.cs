@@ -73,6 +73,17 @@ public class TutorialManager : Singleton<TutorialManager>
         currentEffects.Clear();
     }
 
+    public void ShowDialogue() {
+        TutorialDialogue.Instance.ShowDialogueBox();
+    }
+
+    public void Dialogue() {
+        TutorialDialogue.Instance.AdvanceDialogue();
+    }
+
+    public void HideDialogue() {
+        TutorialDialogue.Instance.HideDialogueBox();
+    }
 
     public void NextStep() {
         currentStep++;
@@ -87,10 +98,6 @@ public class TutorialManager : Singleton<TutorialManager>
 
         // 다음 목표 지점이 바뀌었으니 이펙트(화살표 등)를 다시 그려줍니다.
 
-    }
-
-    public void Dialogue() {
-        TutorialDialogue.Instance.AdvanceDialogue();
     }
 
 }
