@@ -57,8 +57,7 @@ public class GameManager : Singleton<GameManager>
     public Color player2Color = Color.blue;
     public Color overlapColor = Color.magenta;
 
-    //Edited By 구본환 1/18
-    private LevelData currentLevelData;
+
 
     //01.17 정수민 stagestate 변경
     public void ChangeStageState(Enums.StageState newStageState)
