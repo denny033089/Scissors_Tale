@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
+//01.19 정수민 로직 전부 하위 monster에서 받을 수 있도록 virtual로 수정
 public class Monster : Piece
 {
     [Header("UI")]
@@ -24,7 +26,7 @@ public class Monster : Piece
     public List<(int, int)> moveQueue = new List<(int, int)>();
 
     // 스폰시 호출
-    public void InitializeStats(int hp)
+    public virtual void InitializeStats(int hp)
     {
         MaxHP = hp;
         CurrentHP = hp;
@@ -32,7 +34,7 @@ public class Monster : Piece
         InitializePath();
     }
 
-    public void SpawnDamageEffect(Sprite sprite)
+    public virtual void SpawnDamageEffect(Sprite sprite)
     {
         if (DamagePopupPrefab == null || sprite == null) return;
 
@@ -49,7 +51,7 @@ public class Monster : Piece
     }
 
     // 데미지 받을때
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         CurrentHP -= damage;
         if (CurrentHP < 0) CurrentHP = 0;
@@ -62,7 +64,7 @@ public class Monster : Piece
         }
     }
 
-    private void UpdateHPText()
+    public virtual void UpdateHPText()  //01.19 정수민: public virtual로 수정
     {
         if (HPText != null)
         {
@@ -70,7 +72,7 @@ public class Monster : Piece
         }
     }
 
-    private void Die()
+    public virtual void Die() //01.19 정수민: public virtual로 수정
     {
         Debug.Log("몬스터 사망");
         // 보드에서 지우기
@@ -152,7 +154,7 @@ public class Monster : Piece
         DrawPath();
     }
 
-    public void DrawPath()
+    public virtual void DrawPath()
     {
         // 기존 화살표 삭제
         foreach (var arrow in _spawnedArrows)

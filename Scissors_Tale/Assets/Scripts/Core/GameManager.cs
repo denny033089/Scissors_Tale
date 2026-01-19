@@ -522,6 +522,8 @@ public class GameManager : Singleton<GameManager>
             }
 
         }
+
+        ClearEffects(); //01.19 정수민 코드 안움직이더라도 이펙트 사라지도록
         
         StartCoroutine(ProcessTurnSequence());
         TutorialManager.Instance.stepcount ++; //01.19 정수민
