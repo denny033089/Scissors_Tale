@@ -5,13 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
+
+
 public class TutorialDialogue : MonoBehaviour, IPointerDownHandler
 {
     public static TutorialDialogue Instance { get; private set; }
 
-
-    public GameObject Player1;
-    public GameObject Player2;
 
     public Text ScriptText_dialogue;
 
@@ -80,8 +79,18 @@ public class TutorialDialogue : MonoBehaviour, IPointerDownHandler
 
     void Start()
     {
-        Player1.SetActive(false);
-        Player2.SetActive(false);
+        gameObject.SetActive(true);
+    }
+
+
+    public void ShowDialogueBox()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void HideDialogueBox()
+    {
+        gameObject.SetActive(false);
     }
 
     public void OnPointerDown(PointerEventData data)
@@ -95,93 +104,61 @@ public class TutorialDialogue : MonoBehaviour, IPointerDownHandler
 
         int currentStep = tm.currentStep;
 
-        Player1.SetActive(true);
-        Player2.SetActive(true);
+        gameObject.SetActive(true);
         
-        if (currentStep == 0)
+        if (currentStep == 0 && dialogue_count < 15)
         {
-            while (dialogue_count < 15)
-            {
-                if (dialogue_count == 4 || dialogue_count == 9 || dialogue_count == 12)
-                {
-                Player1.SetActive(false);
-                Player2.SetActive(false);
-                }
-
-                else
-                {
-                Player1.SetActive(true);
-                Player2.SetActive(true);
-                }
 
                 ScriptText_dialogue.text = dialogue[dialogue_count];
                 dialogue_count++;
                 Debug.Log(dialogue_count);
-            }
         }
 
-        else if (currentStep == 1)
-        {
-            while (dialogue_count < 18)
+        else if (currentStep == 1 && dialogue_count < 18)
             {
                 ScriptText_dialogue.text = dialogue[dialogue_count];
                 dialogue_count++;
                 Debug.Log(dialogue_count);
-            }
+
         }
 
-        else if (currentStep == 2)
-        {
-            while (dialogue_count < 24)
+        else if (currentStep == 2 && dialogue_count < 24)
+            {
+                ScriptText_dialogue.text = dialogue[dialogue_count];
+                dialogue_count++;
+                Debug.Log(dialogue_count);
+        }
+
+        else if (currentStep == 3 && dialogue_count < 29)
+            {
+                ScriptText_dialogue.text = dialogue[dialogue_count];
+                dialogue_count++;
+                Debug.Log(dialogue_count);
+        
+        }
+
+        else if (currentStep == 4 && dialogue_count < 33)
             {
                 ScriptText_dialogue.text = dialogue[dialogue_count];
                 dialogue_count++;
                 Debug.Log(dialogue_count);
             }
-        }
 
-        else if (currentStep == 3)
-        {
-            while (dialogue_count < 29)
+        else if (currentStep == 5 && dialogue_count < 42)
             {
                 ScriptText_dialogue.text = dialogue[dialogue_count];
                 dialogue_count++;
                 Debug.Log(dialogue_count);
-            }
+
         }
 
-        else if (currentStep == 4)
-        {
-            while (dialogue_count < 33)
+        else if (currentStep == 6 && dialogue_count < 46)
             {
                 ScriptText_dialogue.text = dialogue[dialogue_count];
                 dialogue_count++;
                 Debug.Log(dialogue_count);
-            }
-        }
 
-        else if (currentStep == 5)
-        {
-            while (dialogue_count < 42)
-            {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-            }
         }
-
-        else
-        {
-            while (dialogue_count < 46)
-            {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-            }
-        }
-
-        Player1.SetActive(false);
-        Player2.SetActive(false);
 
 
     }
