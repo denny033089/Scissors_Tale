@@ -1083,6 +1083,7 @@ MonoBehaviour:
   monster_num: 1
   MonsterHP: 10
   NextPlayer: 0
+  CurrentPlayer: 0
   totalTurn: 5
   currentTurn: 0
   startpos1: {x: 1, y: 1}
@@ -1358,6 +1359,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 739040298}
   m_CullTransparentMesh: 1
+--- !u!1 &894417585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 894417587}
+  - component: {fileID: 894417586}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &894417586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894417585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a813af975c6c9f45b89133791aa5535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  BGM_Source: {fileID: 0}
+  SFX_Source: {fileID: 0}
+  BGM_Library:
+  - soundName: Stage_BGM
+    clip: {fileID: 8300000, guid: ea182fdea04f2c84ca75546df69f69e6, type: 3}
+  - soundName: Menu_BGM
+    clip: {fileID: 8300000, guid: cd84d1bce7456424fa4f5ad856d0b752, type: 3}
+  SFX_Library:
+  - soundName: MonsterHurt
+    clip: {fileID: 8300000, guid: 0a77a941d72d78841bf58e4fbdbfe506, type: 3}
+  - soundName: Walk
+    clip: {fileID: 8300000, guid: b9c2813b59d61864b86dca6f1d75b17a, type: 3}
+  - soundName: Attack
+    clip: {fileID: 8300000, guid: 0ab45bec8f84dc24c8e55c61a5f04ad4, type: 3}
+  - soundName: Click
+    clip: {fileID: 8300000, guid: 8fa3331a98de2ba4b98793b6343cc101, type: 3}
+  - soundName: Tag
+    clip: {fileID: 8300000, guid: f4ef5585d32f59b46806b9262c7d8dd6, type: 3}
+--- !u!4 &894417587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894417585}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00542, y: -0.01073, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &951299737
 GameObject:
   m_ObjectHideFlags: 0
@@ -2296,3 +2359,4 @@ SceneRoots:
   - {fileID: 213877314}
   - {fileID: 1419299625}
   - {fileID: 1197977815}
+  - {fileID: 894417587}
