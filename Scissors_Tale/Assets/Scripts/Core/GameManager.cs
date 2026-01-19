@@ -57,7 +57,9 @@ public class GameManager : Singleton<GameManager>
     public Color player2Color = Color.blue;
     public Color overlapColor = Color.magenta;
 
-
+    //1/19 구본환
+    public bool IsTagTurn = false;
+    
 
     //01.17 정수민 stagestate 변경
     public void ChangeStageState(Enums.StageState newStageState)
@@ -441,6 +443,8 @@ public class GameManager : Singleton<GameManager>
 
     //01.17 정수민
     public void CalculateTurn() {
+        //1/19 구본환
+        IsTagTurn = false;
         currentTurn = currentTurn + 1;
         int remainTurn = totalTurn - currentTurn;
         UIManager.Instance.ShowRemainTurn(remainTurn, totalTurn);
@@ -475,6 +479,9 @@ public class GameManager : Singleton<GameManager>
                 return;
             }
         }
+        //1/19 구본환
+        IsTagTurn = true;
+
         ChangeTurnState(Enums.TurnState.PlayerTag);
     }
     //Edited By 구본환 1/13

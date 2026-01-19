@@ -116,6 +116,8 @@ MonoBehaviour:
   spriteLeft: {fileID: 0}
   spriteRight: {fileID: 0}
   HPText: {fileID: 9151571416642333200}
+  DamagePopupPrefab: {fileID: 8848335735341659432, guid: 1b7635724c3813a4da491e597c9fe50b, type: 3}
+  PopupSpawnPoint: {fileID: 0}
   CurrentHP: 10
   MaxHP: 10
   PlanLength: 2
