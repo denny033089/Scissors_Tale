@@ -22,7 +22,7 @@ public class AttackManager : Singleton<AttackManager>
         
     }
 
-    private const int FIELD_SIZE = 5;
+    //01.20 정수민: FIELD_SIZE 삭제
 
     public void Attack()
     {
@@ -37,62 +37,77 @@ public class AttackManager : Singleton<AttackManager>
         GameManager gm = GameManager.Instance;
         Vector2Int p1Pos = gm.GetPlayer1Pos();
         Vector2Int p2Pos = gm.GetPlayer2Pos();
-        Vector2Int monsterPos = gm.GetMonsterPos();
+
+
+        HashSet<Vector2Int> allMonsterPos = gm.GetAllMonsterPositions();
+        
 
         HashSet<Vector2Int> area1 = GetAttackArea(p1Pos);
         HashSet<Vector2Int> area2 = GetAttackArea(p2Pos);
 
-        bool inArea1 = area1.Contains(monsterPos);
-        bool inArea2 = area2.Contains(monsterPos);
+        foreach (Vector2Int mPos in allMonsterPos)
+        {
+            bool inArea1 = area1.Contains(mPos);
+            bool inArea2 = area2.Contains(mPos);
+
+            int activePlayerIndex = gm.CurrentPlayer;
+
+            // 스프라이트 확인
+            Sprite p1Sprite = Player1AttackSprite;
+            Sprite p2Sprite = Player2AttackSprite;
+
+            
+            if (inArea1 && inArea2)  // 장판 중첩 영역에 존재하면 데미지 3
+            {
+
+                Sprite firstSprite = (activePlayerIndex == 0) ? p2Sprite : p1Sprite; 
+                Sprite secondSprite = (activePlayerIndex == 0) ? p1Sprite : p2Sprite; 
+                Sprite bonusSprite = secondSprite; //일단 두번째 스프라이트로 설정
+
+                // 태그받은 플레이어 히트
+                SoundManager.Instance.PlaySFX("Attack");
+                ApplyDamageWithVisual(1, firstSprite,mPos);
+                yield return new WaitForSeconds(0.1f);
+
+                // 태그하는 플레이어 히트
+                SoundManager.Instance.PlaySFX("Attack");
+                ApplyDamageWithVisual(1, secondSprite,mPos);
+                yield return new WaitForSeconds(0.1f);
+
+                // 태그 보너스 히트
+                if (gm.IsTagTurn)
+                {   
+
+                    yield return new WaitForSeconds(0.1f);
+                    SoundManager.Instance.PlaySFX("Attack");
+                    ApplyDamageWithVisual(1, bonusSprite,mPos);
+                }
+            }
+            // 영역 안겹칠때
+            else if (inArea1)
+            {
+                SoundManager.Instance.PlaySFX("Attack");
+                ApplyDamageWithVisual(1, p1Sprite,mPos);
+            }
+            else if (inArea2)
+            {
+                SoundManager.Instance.PlaySFX("Attack");
+                ApplyDamageWithVisual(1, p2Sprite,mPos);
+            }
+            
+        }
+
+
 
         // 플레이어 확인
 
-        int activePlayerIndex = gm.CurrentPlayer;
-
-        // 스프라이트 확인
-        Sprite p1Sprite = Player1AttackSprite;
-        Sprite p2Sprite = Player2AttackSprite;
-
         
-        if (inArea1 && inArea2)  // 장판 중첩 영역에 존재하면 데미지 3
-        {
 
-            Sprite firstSprite = (activePlayerIndex == 0) ? p2Sprite : p1Sprite; 
-            Sprite secondSprite = (activePlayerIndex == 0) ? p1Sprite : p2Sprite; 
-            Sprite bonusSprite = secondSprite; //일단 두번째 스프라이트로 설정
 
-            // 태그받은 플레이어 히트
-            SoundManager.Instance.PlaySFX("Attack");
-            ApplyDamageWithVisual(1, firstSprite);
-            yield return new WaitForSeconds(0.1f);
 
-            // 태그하는 플레이어 히트
-            SoundManager.Instance.PlaySFX("Attack");
-            ApplyDamageWithVisual(1, secondSprite);
-            yield return new WaitForSeconds(0.1f);
-
-            // 태그 보너스 히트
-            if (gm.IsTagTurn)
-            {   
-
-                yield return new WaitForSeconds(0.1f);
-                SoundManager.Instance.PlaySFX("Attack");
-                ApplyDamageWithVisual(1, bonusSprite);
-            }
-        }
-        // 영역 안겹칠때
-        else if (inArea1)
-        {
-            SoundManager.Instance.PlaySFX("Attack");
-            ApplyDamageWithVisual(1, p1Sprite);
-        }
-        else if (inArea2)
-        {
-            SoundManager.Instance.PlaySFX("Attack");
-            ApplyDamageWithVisual(1, p2Sprite);
-        }
     }
-    private void ApplyDamageWithVisual(int damage, Sprite sprite)
+    //01.20 정수민: mPos 인자 추가
+    private void ApplyDamageWithVisual(int damage, Sprite sprite,Vector2Int mPos)
     {
         GameManager gm = GameManager.Instance;
 
@@ -100,15 +115,14 @@ public class AttackManager : Singleton<AttackManager>
         
 
         // 몬스터에 반영
-        Vector2Int monsterPos = gm.GetMonsterPos();
-        Piece piece = gm.Pieces[monsterPos.x, monsterPos.y];
+        Piece piece = gm.Pieces[mPos.x, mPos.y];
 
         if (piece is Monster monster)
         {
             monster.SpawnDamageEffect(sprite);
         }
         
-        gm.ApplyMonsterDamage(damage);
+        gm.ApplyMonsterDamage(damage,mPos);
     }
 
     private HashSet<Vector2Int> GetAttackArea(Vector2Int center)    // 장판 안에 존재하는지
@@ -122,7 +136,7 @@ public class AttackManager : Singleton<AttackManager>
                 int x = center.x + dx;
                 int y = center.y + dy;
 
-                if (x >= 0 && x < FIELD_SIZE && y >= 0 && y < FIELD_SIZE)
+                if (x >= 0 && x < Utils.FieldWidth && y >= 0 && y < Utils.FieldHeight) //01.20 정수민 Utils로 수정
                 {
                     result.Add(new Vector2Int(x, y));
                 }

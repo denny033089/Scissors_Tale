@@ -5,10 +5,10 @@ using UnityEngine;
 public static class Utils
 {
     //참고용
-    public const float TileSize = 1.33f;  // 타일의 실제 크기
+    public static float TileSize = 1.33f;  // 타일의 실제 크기
     // 체스판의 크기
-    public const int FieldWidth = 5;
-    public const int FieldHeight = 5;
+    public static int FieldWidth = 5;  //01.20 const가 아니기 때문에 수정이 가능함
+    public static int FieldHeight = 5;
 
     // (int, int)의 좌표를 실제 좌표(Vector3)로 변환
     public static Vector3 ToRealPos((int, int) targetPos)

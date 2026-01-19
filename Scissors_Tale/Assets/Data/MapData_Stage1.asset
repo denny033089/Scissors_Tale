@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff8d821b415f6949a7c7272d0de3a71, type: 3}
+  m_Name: MapData_Stage1
+  m_EditorClassIdentifier: Assembly-CSharp::MapData
+  stageId: 1
+  width: 5
+  height: 5
+  stageName: Stage1
+  totalTurnLimit: 10
+  monsterSpawns:
+  - monsterName: Monster
+    spawnPos: {x: 3, y: 2}
+  tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
