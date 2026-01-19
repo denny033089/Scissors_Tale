@@ -88,6 +88,8 @@ public class TutorialManager : Singleton<TutorialManager>
 
     }
 
-
+    public void Dialogue() {
+        TutorialDialogue.Instance.AdvanceDialogue();
+    }
 
 }
