@@ -31,6 +31,27 @@ public class Monster : Piece
         MaxHP = hp;
         CurrentHP = hp;
         UpdateHPText();
+
+        if (HPText != null)
+        {
+            
+            Canvas canvas = HPText.GetComponentInParent<Canvas>();
+            if (canvas != null)
+            {
+                
+                canvas.overrideSorting = true;
+                canvas.sortingOrder = 30; 
+            }
+            else
+            {
+                Renderer textRenderer = HPText.GetComponent<Renderer>();
+                if (textRenderer != null)
+                {
+                    textRenderer.sortingOrder = 30;
+                }
+            }
+        }
+
         InitializePath();
     }
 
@@ -38,7 +59,7 @@ public class Monster : Piece
     {
         if (DamagePopupPrefab == null || sprite == null) return;
 
-        // Spawn slightly above the monster
+        // 몬스터 위에서 스폰
         Vector3 spawnPos = (PopupSpawnPoint != null) ? PopupSpawnPoint.position : transform.position + Vector3.up * 1.0f;
 
         GameObject popupObj = Instantiate(DamagePopupPrefab, spawnPos, Quaternion.identity);
@@ -55,6 +76,8 @@ public class Monster : Piece
     {
         CurrentHP -= damage;
         if (CurrentHP < 0) CurrentHP = 0;
+
+        SoundManager.Instance.PlaySFX("MonsterHurt");
 
         UpdateHPText();
 

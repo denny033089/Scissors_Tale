@@ -153,6 +153,12 @@ public class GameManager : Singleton<GameManager>
         if(isTutorialMode) {
             TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
         }        
+        
+    }
+    //1/19 구본환
+    private void Start()
+    {
+        //SoundManager 문제로 InitializeBoard를 Start로 옮김
         InitializeBoard();
 
     }
@@ -194,6 +200,8 @@ public class GameManager : Singleton<GameManager>
                 Tiles[x,y] = tileObj.GetComponent<Tile>(); //Tile.cs를 2차원 배열에 담아두기
             }
         }
+        // 1/19 구본환
+        SoundManager.Instance.PlayBGM("Stage_BGM");
 
         PlacePieces();
         
@@ -353,6 +361,9 @@ public class GameManager : Singleton<GameManager>
         {
             if (!IsValidMove(piece, targetPos)) return;
         }
+
+        SoundManager.Instance.PlaySFX("Walk");
+
         // Piece를 이동시킴
         // 배열에서 원래 자리 비우기
         (int oldX, int oldY) = piece.MyPos;
