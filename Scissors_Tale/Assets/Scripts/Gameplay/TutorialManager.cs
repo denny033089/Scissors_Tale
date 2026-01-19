@@ -65,6 +65,7 @@ public class TutorialManager : Singleton<TutorialManager>
 
     public void ClearEffects()  //이전 예상 경로 지우기
     {
+        Debug.Log("이펙트삭제");
         foreach (var effect in currentEffects)
         {
             if (effect != null) Destroy(effect);

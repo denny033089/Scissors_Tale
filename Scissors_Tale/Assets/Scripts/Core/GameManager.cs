@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
+
 /// <summary>
 /// 게임의 전체 상태(로비, 인게임, 일시정지) 관리
 /// 
@@ -17,6 +18,10 @@ public class GameManager : Singleton<GameManager>
     //01.17 정수민
     public Enums.StageState CurrentStageState { get; private set; } = Enums.StageState.Playing;
     public Enums.TurnState CurrentTurnState { get; private set; } = Enums.TurnState.Ready;
+
+    //01.19 정수민
+    private PlayerUIStatus playeruistatus;
+    
 
     
 
@@ -90,6 +95,11 @@ public class GameManager : Singleton<GameManager>
             case Enums.TurnState.Ready:
             UIManager.Instance.ShowMoveButton();
             CalculateTurn();
+            //01.19 정수민 초상화 업데이트
+            GetActivatePlayer();
+            playeruistatus.UpdatePlayerPortrait();
+
+
             break;
             
             case Enums.TurnState.PlayerMove:
@@ -128,6 +138,10 @@ public class GameManager : Singleton<GameManager>
 
     protected override void Awake()
     {
+        
+        //01.19 정수민
+        playeruistatus = FindFirstObjectByType<PlayerUIStatus>();
+        
         TileParent = GameObject.Find("TileParent").transform;
         PieceParent = GameObject.Find("PieceParent").transform;
         EffectParent = GameObject.Find("EffectParent").transform;
@@ -139,6 +153,7 @@ public class GameManager : Singleton<GameManager>
             TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
         }        
         InitializeBoard();
+
     }
     /// ---Ready---
     /// [Move] 버튼을 누르면 HandleMove, PlayerMove 상태로 바뀜
@@ -180,6 +195,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         PlacePieces();
+        
     }
 
     ///piece의 종류는 player1 player2 monster1, monster2, monster3,.....
@@ -462,18 +478,19 @@ public class GameManager : Singleton<GameManager>
     public void HandleTag() {
 
         
+        //01.19 정수민
         if(isTutorialMode) {
-            //01.19 정수민: tutorial 무조건 이동하고 태그 누르기 가능
-            Piece piece = GetCurrentPlayer();
+        Piece piece = GetCurrentPlayer();
+
             if(!piece.hasMoved) {
-                Debug.Log("이동하구 눌러야지");
-                return;
+                Debug.Log("이동하고 눌러야지");
+                return; 
             }
-            //01.18 정수민: tutorialmanager currentstep이 0 또는 2이면 tag 못함
+            
+            // 2. 특정 단계(0, 2번 스텝)에서는 태그 금지
             if(TutorialManager.Instance.currentStep is 0 or 2) {
-                Debug.Log("tag버튼 아직 누르지 마셈");
-                ChangeTurnState(Enums.TurnState.PlayerMove);
-                return;
+                Debug.Log("지금은 태그할 단계가 아닙니다.");
+                return; 
             }
         }
         ChangeTurnState(Enums.TurnState.PlayerTag);

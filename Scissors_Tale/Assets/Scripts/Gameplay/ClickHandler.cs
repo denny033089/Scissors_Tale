@@ -19,7 +19,7 @@ public class ClickHandler : MonoBehaviour
     private (int, int) GetBoardPosition(Vector3 WorldPosition)
     {
         float x = WorldPosition.x + (Utils.TileSize * Utils.FieldWidth) / 2f;
-        float y = WorldPosition.y + (Utils.TileSize * Utils.FieldHeight) / 2f;
+        float y = WorldPosition.y + (Utils.TileSize * Utils.FieldHeight) / 2f - 0.5f;  //01.19정수민
         
         int boardX = Mathf.FloorToInt(x / Utils.TileSize);
         int boardY = Mathf.FloorToInt(y / Utils.TileSize);

@@ -58,7 +58,7 @@ public class UIManager : Singleton<UIManager>
     //01.17 정수민: 남은 턴 수 보여주기
     public void ShowRemainTurn(int remainTurn, int totalTurn) {
         Debug.Log($"TURN : {remainTurn} / {totalTurn}");
-        turnText.text = $"TURN : {remainTurn} / {totalTurn}";
+        turnText.text = $"{remainTurn} / {totalTurn}";
     }
 
     public void ShowRetryPanel() {
