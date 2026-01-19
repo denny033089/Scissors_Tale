@@ -18,7 +18,8 @@ public class UIManager : Singleton<UIManager>
     
     public void OnMoveButtonClicked()
     {
-        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready) {        
+        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready) {
+            SoundManager.Instance.PlaySFX("Click");
             Debug.Log("무브 버튼 클릭");
             GameManager.Instance.HandleMove();
             
@@ -34,6 +35,7 @@ public class UIManager : Singleton<UIManager>
 
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove) {
 
+            SoundManager.Instance.PlaySFX("Click");
             Debug.Log("태그 버튼 클릭!");
             // MovementManager에게 태그 로직 실행 요청
             GameManager.Instance.HandleTag();
@@ -43,6 +45,7 @@ public class UIManager : Singleton<UIManager>
     public void OnEndTurnButtonClicked()
     {
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerTag) {
+            SoundManager.Instance.PlaySFX("Click");
             // GameManager에게 턴 종료 요청
             GameManager.Instance.HandleEnd();
         }

@@ -32,6 +32,9 @@ public class SoundManager : Singleton<SoundManager>
 
         BGM_Source.loop = true;
         SFX_Source.loop = false;
+
+        BGM_Source.volume = 0.4f; 
+        SFX_Source.volume = 1.0f; 
     }
     //BGM 재생과 정지
     public void PlayBGM(string name)
@@ -57,6 +60,15 @@ public class SoundManager : Singleton<SoundManager>
     //SFX 재생
     public void PlaySFX(string name)
     {
+
+        // 1. Check if the list is actually loaded
+        if (SFX_Library == null || SFX_Library.Count == 0)
+        {
+            Debug.LogError($"[SoundManager] SFX Library is EMPTY! Check if the SoundManager GameObject is in the scene.");
+            return;
+        }
+
+
         SoundData data = SFX_Library.Find(x => x.soundName == name);
         if (data != null && data.clip != null)
         {
@@ -65,6 +77,14 @@ public class SoundManager : Singleton<SoundManager>
         else
         {
             Debug.LogWarning($"SFX '{name}' 못찾음");
+            Debug.LogError($"[SoundManager] FAILED to find SFX: '{name}' (Length: {name.Length})");
+            Debug.Log("--- Available Sounds in Library ---");
+            foreach (var s in SFX_Library)
+            {
+                // Print name with quotes to see hidden spaces (e.g., 'Walk ' vs 'Walk')
+                Debug.Log($"Found: '{s.soundName}' (Length: {s.soundName.Length})");
+            }
+            Debug.Log("-----------------------------------");
         }
     }
 }

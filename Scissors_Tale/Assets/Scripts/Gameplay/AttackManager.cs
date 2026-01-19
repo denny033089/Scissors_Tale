@@ -62,27 +62,33 @@ public class AttackManager : Singleton<AttackManager>
             Sprite bonusSprite = secondSprite; //일단 두번째 스프라이트로 설정
 
             // 태그받은 플레이어 히트
+            SoundManager.Instance.PlaySFX("Attack");
             ApplyDamageWithVisual(1, firstSprite);
-            yield return new WaitForSeconds(0.1f); 
+            yield return new WaitForSeconds(0.1f);
 
             // 태그하는 플레이어 히트
+            SoundManager.Instance.PlaySFX("Attack");
             ApplyDamageWithVisual(1, secondSprite);
             yield return new WaitForSeconds(0.1f);
 
             // 태그 보너스 히트
             if (gm.IsTagTurn)
-            {
+            {   
+
                 yield return new WaitForSeconds(0.1f);
+                SoundManager.Instance.PlaySFX("Attack");
                 ApplyDamageWithVisual(1, bonusSprite);
             }
         }
         // 영역 안겹칠때
         else if (inArea1)
         {
+            SoundManager.Instance.PlaySFX("Attack");
             ApplyDamageWithVisual(1, p1Sprite);
         }
         else if (inArea2)
         {
+            SoundManager.Instance.PlaySFX("Attack");
             ApplyDamageWithVisual(1, p2Sprite);
         }
     }
