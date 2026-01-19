@@ -26,10 +26,10 @@ public class Monster : Piece
     public List<(int, int)> moveQueue = new List<(int, int)>();
 
     // 스폰시 호출
-    public virtual void InitializeStats(int hp)
+    //01.19 정수민: InitializeStats 인수 삭제
+    public virtual void InitializeStats()
     {
-        MaxHP = hp;
-        CurrentHP = hp;
+
         UpdateHPText();
 
         if (HPText != null)

@@ -246,7 +246,7 @@ public class GameManager : Singleton<GameManager>
 
             if (p is Monster monster)
             {
-                monster.InitializeStats(10);
+                monster.InitializeStats();
                 monster.InitializePath();
             }
         }
@@ -525,7 +525,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("이동하고 종료하쇼");
                 return;
             }
-            if(TutorialManager.Instance.currentStep is 1 or 3 or 4) {
+            if(TutorialManager.Instance.currentStep is 1 or 3 or 4 or 5) {
                 if(CurrentTurnState is Enums.TurnState.PlayerMove) {
                     Debug.Log("tag버튼 누르라니깐");
                     return;
