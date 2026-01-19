@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainView : Singleton<MainView>
+public class MainView : MonoBehaviour
 {
     private void Start()
     {
@@ -9,14 +9,15 @@ public class MainView : Singleton<MainView>
     }
     public void OnGameStartClicked() {
         SoundManager.Instance.PlaySFX("Click");
-        SceneManager.LoadScene("StageSelection");
+        GameSystemManager.Instance.ChangeGameState(Enums.GameState.StageSelection);
     }
 
     public void OnEndGameClicked() {
         SoundManager.Instance.PlaySFX("Click");
         UnityEditor.EditorApplication.isPlaying=false;  
         
-        Application.Quit();
+        GameSystemManager.Instance.ChangeGameState(Enums.GameState.Quit);
+        
 
     }
     

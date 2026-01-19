@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelSelectionView : Singleton<LevelSelectionView>
+public class StageSelectionView : MonoBehaviour
 {
     public void OnStageZeroButtonClicked() {
         SoundManager.Instance.PlaySFX("Click");
-        SceneManager.LoadScene("Synopsis");
+        GameSystemManager.Instance.ChangeGameState(Enums.GameState.Tutorial);
+        
     }
 
     public void OnStageOneButtonClicked() {
         SoundManager.Instance.PlaySFX("Click");
-        SceneManager.LoadScene("Testscene");
+        GameSystemManager.Instance.ChangeGameState(Enums.GameState.InGame);
+        
     }
     
 }
