@@ -11,6 +11,8 @@ public class UIManager : Singleton<UIManager>
     //01.17 정수민
     public GameObject moveButton;
     public GameObject turnEndButton;
+
+    public GameObject ResultPanel;
     
     [SerializeField]
     private TextMeshProUGUI turnText;
@@ -18,6 +20,12 @@ public class UIManager : Singleton<UIManager>
     
     public void OnMoveButtonClicked()
     {
+        //01.19 정수민
+        if(GameManager.Instance.CurrentStageState is Enums.StageState.Victory or Enums.StageState.Gameover) {
+            return;
+        }
+        
+        
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready) {
             SoundManager.Instance.PlaySFX("Click");
             Debug.Log("무브 버튼 클릭");
@@ -33,6 +41,11 @@ public class UIManager : Singleton<UIManager>
     public void OnTagButtonClicked()
     {
 
+        //01.19 정수민
+        if(GameManager.Instance.CurrentStageState is Enums.StageState.Victory or Enums.StageState.Gameover) {
+            return;
+        }
+
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove) {
 
             SoundManager.Instance.PlaySFX("Click");
@@ -44,6 +57,12 @@ public class UIManager : Singleton<UIManager>
 
     public void OnEndTurnButtonClicked()
     {
+        //01.19 정수민
+        if(GameManager.Instance.CurrentStageState is Enums.StageState.Victory or Enums.StageState.Gameover) {
+            return;
+        }
+        
+        
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerTag) {
             SoundManager.Instance.PlaySFX("Click");
             // GameManager에게 턴 종료 요청
@@ -66,6 +85,16 @@ public class UIManager : Singleton<UIManager>
 
     public void ShowRetryPanel() {
 
+    }
+
+    public void ShowResultPanel() {
+        ResultPanel.SetActive(true);
+    }
+
+    public void OnMoveToStageSelectionButton()
+    {
+        SoundManager.Instance.PlaySFX("Click");
+        GameSystemManager.Instance.ChangeGameState(Enums.GameState.StageSelection);
     }
 }
 

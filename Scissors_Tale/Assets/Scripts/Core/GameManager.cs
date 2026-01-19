@@ -78,6 +78,8 @@ public class GameManager : Singleton<GameManager>
             case Enums.StageState.Pause:
             break;
             case Enums.StageState.Victory:
+            UIManager.Instance.ShowResultPanel();
+
             break;
             case Enums.StageState.Gameover:
             UIManager.Instance.ShowRetryPanel();
@@ -321,6 +323,7 @@ public class GameManager : Singleton<GameManager>
         if (MonsterHP == 0)
         {
             Debug.Log("승리");
+            ChangeStageState(Enums.StageState.Victory); //01.20 정수민
             return;
         }
     }
