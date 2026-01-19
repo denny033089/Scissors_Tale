@@ -5,17 +5,18 @@ using TMPro;
 
 public class Monster : Piece
 {
-    [Header("UI Settings")]
+    [Header("UI")]
     public TMP_Text HPText;
 
-    [Header("Stats")]
+    public GameObject DamagePopupPrefab;
+    public Transform PopupSpawnPoint;
+
+    [Header("스탯")]
     public int CurrentHP = 10;
     public int MaxHP = 10;
 
-    [Header("AI Settings")]
+    [Header("경로")]
     public int PlanLength = 2; //미래 경로의 수
-
-    [Header("Visualization")]
     public GameObject ArrowPrefab; 
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
@@ -29,6 +30,22 @@ public class Monster : Piece
         CurrentHP = hp;
         UpdateHPText();
         InitializePath();
+    }
+
+    public void SpawnDamageEffect(Sprite sprite)
+    {
+        if (DamagePopupPrefab == null || sprite == null) return;
+
+        // Spawn slightly above the monster
+        Vector3 spawnPos = (PopupSpawnPoint != null) ? PopupSpawnPoint.position : transform.position + Vector3.up * 1.0f;
+
+        GameObject popupObj = Instantiate(DamagePopupPrefab, spawnPos, Quaternion.identity);
+        DamagePopup popupScript = popupObj.GetComponent<DamagePopup>();
+
+        if (popupScript != null)
+        {
+            popupScript.Setup(sprite);
+        }
     }
 
     // 데미지 받을때
