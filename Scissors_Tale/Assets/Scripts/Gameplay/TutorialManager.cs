@@ -25,6 +25,10 @@ public class TutorialManager : Singleton<TutorialManager>
 
     // 현재 튜토리얼 단계에서 가야 할 목표 좌표
     
+    private void Start()
+    {
+        TutorialDialogue.Instance.OpenDialogue(stepcount);
+    }
 
     void Update() 
     {
@@ -37,6 +41,7 @@ public class TutorialManager : Singleton<TutorialManager>
         this.effectParent = effectParent;
     }
     
+
     public bool IsValidTutorialMove(Piece piece,(int x, int y) clickedPos) {
 
         if (!Utils.IsInBoard(clickedPos) || clickedPos == piece.MyPos) return false;
@@ -75,16 +80,17 @@ public class TutorialManager : Singleton<TutorialManager>
         currentEffects.Clear();
     }
 
-    public void ShowDialogue() {
-        TutorialDialogue.Instance.ShowDialogueBox();
+    public void IncrementStep()
+    {
+        stepcount++;
+        if (stepcount != 4 && stepcount != 9 && stepcount != 12 && stepcount != 15) {
+            TutorialDialogue.Instance.OpenDialogue(stepcount);
+        }
     }
 
-    public void Dialogue() {
-        TutorialDialogue.Instance.AdvanceDialogue();
-    }
 
-    public void HideDialogue() {
-        TutorialDialogue.Instance.HideDialogueBox();
+    public void ReturnToGame()  {
+        Debug.Log("대화 끝, 게임하세요");
     }
 
     public void NextStep() {

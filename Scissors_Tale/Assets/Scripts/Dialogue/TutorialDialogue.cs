@@ -10,14 +10,12 @@ using UnityEngine.SceneManagement;
 public class TutorialDialogue : MonoBehaviour, IPointerDownHandler
 {
     public static TutorialDialogue Instance { get; private set; }
-
+    
+    [Header("UI")]
     public GameObject DialoguePanel;
+    public Text ScriptText_dialogue; 
 
-    public Text ScriptText_dialogue;
-
-    public int dialogue_count = 0;
-
-
+    [Header("Dialogue Data")]
     public string[] dialogue = {
     "A: 앗! 저기, 저길 봐! 검은 조각이 달라붙어 있어!",
     "B: ...5x5 영역에서 돌아다니는 걸로 알려진 두더지네.",
@@ -78,132 +76,183 @@ public class TutorialDialogue : MonoBehaviour, IPointerDownHandler
     "A: 앞으로도 지금처럼 우리를 이동하고, 태그시켜서, 남은 숲속 친구들도 모두 정화할 수 있도록 도와줄 거지?",
     "B: ...그럼, 이제 다음 구역으로 넘어가 볼까." };
 
-    void Start()
-    {
-        DialoguePanel.SetActive(true);
-    }
 
+    private int dialogue_count = 0;
+    private int stepcount = -1;
+    private bool isOpen = false;
 
-    public void ShowDialogueBox()
+    private void Awake()
     {
-        DialoguePanel.SetActive(true);
-    }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
 
-    public void HideDialogueBox()
-    {
         DialoguePanel.SetActive(false);
     }
 
-    public void OnPointerDown(PointerEventData data)
+    private void Start()
     {
+        
+    }
+
+    public void OpenDialogue(int step)
+    {
+        stepcount = step;
+        isOpen = true;
+
+        DialoguePanel.SetActive(true);
+
+        PrintCurrentLine();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (!isOpen) return;
+
         AdvanceDialogue();
     }
 
-    public void AdvanceDialogue()
+    private void AdvanceDialogue()
     {
-        TutorialManager tm = TutorialManager.Instance;
+        dialogue_count++;
 
-        int currentStep = tm.currentStep;
-        
-        if (currentStep == 0 && dialogue_count < 15 && TutorialManager.Instance.stepcount == 0)
+        if (stepcount == 0)
         {
-            ScriptText_dialogue.text = dialogue[dialogue_count];
-            dialogue_count++;
-            Debug.Log(dialogue_count);
-        }
-
-        else if (currentStep == 0 && dialogue_count < 17 && TutorialManager.Instance.stepcount == 1)
-        {
-            ScriptText_dialogue.text = dialogue[dialogue_count];
-            dialogue_count++;
-            Debug.Log(dialogue_count);
-        }
-
-        else if (currentStep == 1 && dialogue_count < 18 && TutorialManager.Instance.stepcount == 2)
-        {
-
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-        }
-
-        else if (currentStep == 1 && dialogue_count < 23 && TutorialManager.Instance.stepcount == 3)
-        {
-
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-        }
-
-        else if (currentStep == 2 && dialogue_count < 24 && TutorialManager.Instance.stepcount == 5)
+            if (dialogue_count <= 14)
             {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-        }
-
-        else if (currentStep == 2 && dialogue_count < 26 && TutorialManager.Instance.stepcount == 6)
-            {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-        
-        }
-
-        else if (currentStep == 3 && dialogue_count < 28 && TutorialManager.Instance.stepcount == 7)
-            {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
+                PrintCurrentLine();
             }
-
-        else if (currentStep == 3 && dialogue_count < 31 && TutorialManager.Instance.stepcount == 8)
+            else
             {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-
+                CloseDialogue();
+            }
         }
-
-        else if (currentStep == 4 && dialogue_count < 32 && TutorialManager.Instance.stepcount == 10)
+        else if (stepcount == 1)
+        {
+            if (dialogue_count <= 16)
             {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-
-        }
-
-        else if (currentStep == 4 && dialogue_count < 37 && TutorialManager.Instance.stepcount == 11)
+                PrintCurrentLine();
+            }
+            else
             {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-
+                CloseDialogue();
+            }
         }
-
-        else if (currentStep == 5 && dialogue_count < 41 && TutorialManager.Instance.stepcount == 13)
+        else if (stepcount == 2)
+        {
+            CloseDialogue();
+        }
+        else if (stepcount == 3)
+        {
+            if (dialogue_count <= 22)
             {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-
-        }
-
-        else if (currentStep == 5 && dialogue_count < 42 && TutorialManager.Instance.stepcount == 14)
+                PrintCurrentLine();
+            }
+            else
             {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-
+                CloseDialogue();
+            }
         }
-
-        else if (currentStep == 6 && dialogue_count < 46 && TutorialManager.Instance.stepcount == 16)
+        else if (stepcount == 5)
+        {
+            CloseDialogue();
+        }
+        else if (stepcount == 6)
+        {
+            if (dialogue_count <= 25)
             {
-                ScriptText_dialogue.text = dialogue[dialogue_count];
-                dialogue_count++;
-                Debug.Log(dialogue_count);
-
+                PrintCurrentLine();
+            }
+            else
+            {
+                CloseDialogue();
+            }
         }
-
+        else if (stepcount == 7)
+        {
+            if (dialogue_count <= 27)
+            {
+                PrintCurrentLine();
+            }
+            else
+            {
+                CloseDialogue();
+            }
+        }
+        else if (stepcount == 8)
+        {
+            if (dialogue_count <= 30)
+            {
+                PrintCurrentLine();
+            }
+            else
+            {
+                CloseDialogue();
+            }
+        }
+        else if (stepcount == 10)
+        {
+           CloseDialogue();
+        }
+        else if (stepcount == 11)
+        {
+            if (dialogue_count <= 36)
+            {
+                PrintCurrentLine();
+            }
+            else
+            {
+                CloseDialogue();
+            }
+        }
+        else if (stepcount == 13)
+        {
+            if (dialogue_count <= 40)
+            {
+                PrintCurrentLine();
+            }
+            else
+            {
+                CloseDialogue();
+            }
+        }
+        else if (stepcount == 14)
+        {
+            CloseDialogue();
+        }
+        else if (stepcount == 16)
+        {
+            if (dialogue_count <= 46)
+            {
+                PrintCurrentLine();
+            }
+            else
+            {
+                CloseDialogue();
+            }
+        }
     }
+
+    private void PrintCurrentLine()
+    {
+        if (dialogue_count < 0 || dialogue_count >= dialogue.Length)
+        {
+            CloseDialogue();
+            return;
+        }
+
+        ScriptText_dialogue.text = dialogue[dialogue_count];
+    }
+
+    private void CloseDialogue()
+    {
+        isOpen = false;
+        DialoguePanel.SetActive(false);
+
+        TutorialManager.Instance.ReturnToGame();
+    }
+
 }

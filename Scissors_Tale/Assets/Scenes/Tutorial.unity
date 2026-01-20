@@ -2499,9 +2499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b411f90859a16404b976376f1c96e019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDialogue
-  DialoguePanel: {fileID: 0}
+  DialoguePanel: {fileID: 614573270}
   ScriptText_dialogue: {fileID: 2021986938}
-  dialogue_count: 0
   dialogue:
   - "A: \uC557! \uC800\uAE30, \uC800\uAE38 \uBD10! \uAC80\uC740 \uC870\uAC01\uC774
     \uB2EC\uB77C\uBD99\uC5B4 \uC788\uC5B4!"
