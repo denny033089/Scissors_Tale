@@ -26,7 +26,7 @@ public class GameSystemManager : Singleton<GameSystemManager>
             break;
 
             case Enums.GameState.InGame:
-            SceneManager.LoadScene("Testscene");
+            SceneManager.LoadScene("Testscene20260119");
             break;
             case Enums.GameState.Story:
             break;

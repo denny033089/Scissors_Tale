@@ -119,6 +119,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &484589084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 484589086}
+  - component: {fileID: 484589085}
+  m_Layer: 0
+  m_Name: MapManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &484589085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484589084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be930101963e024f863a2279b294ab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapManager
+  currentMapData: {fileID: 11400000, guid: 0c8047608f8d3fe43abc58b4f2fddb0f, type: 2}
+  TilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
+  PiecePrefabs:
+  - {fileID: 5249102997458711911, guid: 8bb92b6498b99e04eb8865291520472d, type: 3}
+  - {fileID: 8357774654964675909, guid: 72188c12e1d97fc4ea574f80817d59e1, type: 3}
+  - {fileID: 7817758568917562379, guid: 8713482b425bb0b4ab2e7f268924ebc6, type: 3}
+  - {fileID: 524731917048748400, guid: b651c38e42ae1f042bd0dd4c7d512412, type: 3}
+--- !u!4 &484589086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484589084}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 831.76935, y: 497.58926, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &614573270
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,21 +1325,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   isTutorialMode: 1
-  TilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
-  PiecePrefabs:
-  - {fileID: 5249102997458711911, guid: 8bb92b6498b99e04eb8865291520472d, type: 3}
-  - {fileID: 8357774654964675909, guid: 72188c12e1d97fc4ea574f80817d59e1, type: 3}
-  - {fileID: 524731917048748400, guid: b651c38e42ae1f042bd0dd4c7d512412, type: 3}
+  currentMapData: {fileID: 11400000, guid: 0c8047608f8d3fe43abc58b4f2fddb0f, type: 2}
   EffectPrefab: {fileID: 9091587442089639357, guid: 095d220f822daa04d8c74afb19b7af92, type: 3}
-  monster_num: 1
-  MonsterHP: 7
+  p1Instance: {fileID: 0}
+  p2Instance: {fileID: 0}
   NextPlayer: 0
   CurrentPlayer: 0
   totalTurn: 10
   currentTurn: 0
-  startpos1: {x: 1, y: 3}
-  startpos2: {x: 1, y: 2}
-  monster_pos: {x: 4, y: 2}
   player1Color: {r: 0.8666667, g: 0.627451, b: 0.8666667, a: 1}
   player2Color: {r: 0.4980392, g: 1, b: 0.8313726, a: 1}
   overlapColor: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
@@ -2976,3 +3020,4 @@ SceneRoots:
   - {fileID: 895664825}
   - {fileID: 1841839613}
   - {fileID: 1148159471}
+  - {fileID: 484589086}

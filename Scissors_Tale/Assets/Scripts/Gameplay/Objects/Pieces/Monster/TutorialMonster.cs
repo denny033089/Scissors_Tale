@@ -38,7 +38,7 @@ public class TutorialMonster : Monster
         Vector2Int targetPos = fixedPath[_currentPathIndex];
 
         // 장애물 체크 (부모 로직 응용)
-        Piece obstacle = GameManager.Instance.Pieces[targetPos.x, targetPos.y];
+        Piece obstacle = MapManager.Instance.Pieces[targetPos.x, targetPos.y];
         if (obstacle != null)
         {
             Debug.Log($"Tutorial Monster blocked by {obstacle.name}. Waiting...");

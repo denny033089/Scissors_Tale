@@ -57,7 +57,7 @@ public static class MonsterDirection
             // Bounds Ȯ��
             if (!Utils.IsInBoard((nextX, nextY))) continue;
 
-            if (GameManager.Instance.Pieces[nextX, nextY] != null) continue;
+            if (MapManager.Instance.Pieces[nextX, nextY] != null) continue; //01.20정수민
 
             neighbors.Add((nextX, nextY));
         }

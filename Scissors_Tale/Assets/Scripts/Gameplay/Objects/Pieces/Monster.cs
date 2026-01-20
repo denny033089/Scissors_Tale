@@ -95,11 +95,11 @@ public class Monster : Piece
         }
     }
 
-    public virtual void Die() //01.19 정수민: public virtual로 수정
+    public virtual void Die() //01.19 정수민: public virtual로 수정 + MapManager 추가
     {
         Debug.Log("몬스터 사망");
         // 보드에서 지우기
-        GameManager.Instance.Pieces[MyPos.Item1, MyPos.Item2] = null;
+        MapManager.Instance.Pieces[MyPos.Item1, MyPos.Item2] = null;
 
         // 화살표 삭제
         foreach (var arrow in _spawnedArrows) if (arrow != null) Destroy(arrow);
@@ -136,7 +136,7 @@ public class Monster : Piece
         (int targetX, int targetY) = moveQueue[0];
 
         // 막혀있을때:
-        Piece obstacle = GameManager.Instance.Pieces[targetX, targetY];
+        Piece obstacle = MapManager.Instance.Pieces[targetX, targetY];
 
         if (obstacle != null)
         {

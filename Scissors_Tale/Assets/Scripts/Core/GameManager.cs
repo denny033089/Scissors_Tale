@@ -21,42 +21,36 @@ public class GameManager : Singleton<GameManager>
 
     //01.19 정수민
     private PlayerUIStatus playeruistatus;
-    public MapData currentMapData; //01.20 정수민  currentMapData를 인스펙터에서 할당
+    public MapData currentMapData; //01.20 정수민  currentMapData를 인스펙터에서 할당, totalturn을 받아옴
     
 
-    
 
-    public GameObject TilePrefab;  //인스펙터 창에 tileprefab 삽입
-    public GameObject[] PiecePrefabs;
     public GameObject EffectPrefab;
-    private Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
-    private Piece p2Instance;
+    public Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
+    public Piece p2Instance;
     
 
     // 오브젝트의 parent들
-    private Transform TileParent;
-    private Transform PieceParent;
+
+
     private Transform EffectParent;
     private UIManager uiManager;
-    public Tile[,] Tiles = new Tile[Utils.FieldWidth, Utils.FieldHeight];   // Tile.cs 담는 2차원 배열
-    public Piece[,] Pieces = new Piece[Utils.FieldWidth, Utils.FieldHeight];    // Piece.cs들
-    public int monster_num = 1; // 초기 몬스터는 1명
-    public int MonsterHP = 10; // 초기 몬스터 HP는 10
+
+    // Piece.cs들
+  
+
 
     public int NextPlayer = 0; //0은 플레이어 1, 1은 플레이어2 맨처음엔 0
     public int CurrentPlayer = 0; //01.19 턴 종료 하기전에 조종하고 있는 플레이어
 
     // 1/14 서진현
     //01.17 정수민
-    public int totalTurn = 5; //스테이지 마다 정해진 총 턴 수
+    public int totalTurn; //스테이지 마다 정해진 총 턴 수
     public int currentTurn = 0; //현재 턴수 
 
 
-    //01.18 정수민: serialize화
-    [Header("StartPos")]
-    [SerializeField] private Vector2Int startpos1= new Vector2Int(1,1); // 플레이어 및 몬스터 위치
-    [SerializeField] private Vector2Int startpos2= new Vector2Int(3,1);
-    [SerializeField] private Vector2Int monster_pos=new Vector2Int(2,3);
+    //01.20 정수민: startpos 정보 삭제
+    //01.20 정수민: pieces 삭제, tiles 삭제
 
     // 장판 색깔
     public Color player1Color = Color.red;
@@ -151,8 +145,7 @@ public class GameManager : Singleton<GameManager>
 
         playeruistatus = FindFirstObjectByType<PlayerUIStatus>();
         
-        TileParent = GameObject.Find("TileParent").transform;
-        PieceParent = GameObject.Find("PieceParent").transform;
+        
         EffectParent = GameObject.Find("EffectParent").transform;
 
         MovementManager.Instance.Initialize(EffectPrefab, EffectParent);
@@ -174,7 +167,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         //SoundManager 문제로 InitializeBoard를 Start로 옮김
-        InitializeBoard();
+        MapManager.Instance.InitializeBoard();
 
     }
     /// ---Ready---
@@ -200,103 +193,12 @@ public class GameManager : Singleton<GameManager>
 
     /// 버튼은 uimanager에서 받고 입력은 clickhandler에서 받기
 
-    void InitializeBoard()
-    {
-        //01.20 정수민
-        Utils.FieldWidth = currentMapData.width;
-        Utils.FieldHeight = currentMapData.height;
-
-        
-        // 변경된 크기를 바탕으로 Tiles 배열과 Pieces 배열 새로 생성
-        // 여기서 새로 할당함
-        Tiles = new Tile[Utils.FieldWidth, Utils.FieldHeight];
-        Pieces = new Piece[Utils.FieldWidth, Utils.FieldHeight];
-        
-        
-        // 타일 배치
-        // TilePrefab을 TileParent의 자식으로 생성하고, 배치함
-        // Tiles를 채움
-        for(int x=0; x<Utils.FieldWidth; x++) {
-
-            for(int y=0; y<Utils.FieldHeight; y++) {
-
-                GameObject tileObj = Instantiate(TilePrefab, Utils.ToRealPos((x,y)),Quaternion.identity,TileParent);
-                //TilePrefab을 가져온뒤, tileObj 안에 할당
-                //TilePrefab을 배치한 뒤, 부모는 TileParent로 상속되기
-                Tiles[x,y] = tileObj.GetComponent<Tile>(); //Tile.cs를 2차원 배열에 담아두기
-            }
-        }
-        // 1/19 구본환
-        SoundManager.Instance.PlayBGM("Stage_BGM");
-
-        PlacePieces();
-        
-    }
+    
 
     ///piece의 종류는 player1 player2 monster1, monster2, monster3,.....
     /// startpos를 정해두고 그곳에 배치할 수 있도록...
     /// 맵마다 startpos가 다르다고 생각됨 <---map1.cs map2.cs ....에 따라 다를듯
-    void PlacePieces()
-    {
-        // PlacePiece를 사용하여 Piece들을 적절한 모양으로 배치
-        /// 4
-        /// 3     *
-        /// 2
-        /// 1   *   *
-        /// 0
-        ///   0 1 2 3 4
-        /// 
-        // --- TODO ---
-        //01.18 정수민: 벡터2형식의 변수들 튜플 형식의 변수와 구분(startpos1_tuple로 변환)
-        
-        (int,int) startpos1_tuple = (startpos1.x,startpos1.y);  //벡터의 튜플화
-        (int,int) startpos2_tuple = (startpos2.x,startpos2.y);
-        (int,int) monster_pos_tuple = (monster_pos.x,monster_pos.y);
 
-        //01.20정수민
-        foreach (MonsterSpawnInfo info in currentMapData.monsterSpawns)
-        {
-            // 몬스터 이름(Key)을 통해 프리팹을 찾거나 타입을 결정 (Dictionary 활용 가능)
-            int typeIndex = GetMonsterTypeByName(info.monsterName); 
-            
-            Piece p = PlacePiece(typeIndex, (info.spawnPos.x, info.spawnPos.y));
-
-            if (p is Monster monster)
-            {
-                monster.InitializeStats();
-                monster.InitializePath();
-            }
-        }
-        
-        p1Instance = PlacePiece(0,startpos1_tuple);
-        p2Instance = PlacePiece(1,startpos2_tuple);
-        //monster 배치
-        //Edited By 구본환, 1/18
-       
-
-    }
-
-
-    int GetMonsterTypeByName(string name)
-    {
-        if (name == "monster") return 2;
-        if (name == "TutorialMonster") return 3;
-        return 2; // 기본값  나중에 dictionary로 대체
-    }
-
-
-
-    Piece PlacePiece(int pieceType, (int x, int y) pos)
-    {
-        /// Piece를 생성한 후, initialize(moveto를 이용한 배치)
-        ///setup[0] = player1, setup[1] = player2, setup[>1] = monster
-        /// 
-        /// 배치한 Piece를 리턴
-        GameObject pieceObj = Instantiate(PiecePrefabs[pieceType],new Vector3(0,0,0),Quaternion.identity,PieceParent);
-        Pieces[pos.x,pos.y] = pieceObj.GetComponent<Piece>();
-        Pieces[pos.x,pos.y].MoveTo(pos);
-        return pieceObj.GetComponent<Piece>();
-    }
 
     // 플레이어 및 몬스터 위치
     //Edit By 구본환 1/18
@@ -304,13 +206,13 @@ public class GameManager : Singleton<GameManager>
     {
         if (p1Instance != null)
             return new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
-        return startpos1;
+        return currentMapData.startpos1;
     }
     public Vector2Int GetPlayer2Pos()
     {
         if (p2Instance != null)
             return new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
-        return startpos2;
+        return currentMapData.startpos2;
     }
 
     //01.20 정수민
@@ -322,7 +224,7 @@ public class GameManager : Singleton<GameManager>
         {
             for (int y = 0; y < Utils.FieldHeight; y++)
             {
-                if (Pieces[x, y] != null && Pieces[x, y] is Monster)
+                if (MapManager.Instance.Pieces[x, y] != null && MapManager.Instance.Pieces[x, y] is Monster)  //01.20 정수민 수정
                 {
                     monsterPositions.Add(new Vector2Int(x, y));
                 }
@@ -337,29 +239,25 @@ public class GameManager : Singleton<GameManager>
     {
         if (damage <= 0) return;
 
-        Piece targetPiece = Pieces[mPos.x, mPos.y];
+        Piece targetPiece = MapManager.Instance.Pieces[mPos.x, mPos.y];
 
         if (targetPiece != null && targetPiece is Monster monster)
         {
             monster.TakeDamage(damage);
             Debug.Log($"Applied {damage} damage to Monster at {mPos}. Remaining HP: {monster.CurrentHP}");
+            if (monster.CurrentHP < 0) //01.20 정수민
+            {
+                Debug.Log("승리");
+                
+                return;
+            }
+            
         }
         else
         {
             Debug.LogWarning("ApplyMonsterDamage 호출되었지만, 몬스터 못찾음");
         }
-
-        //로컬 변수 업데이트
-        MonsterHP -= damage;
-        Debug.Log("HP: " + MonsterHP);
-        if (MonsterHP < 0) MonsterHP = 0;
-
-        if (MonsterHP == 0)
-        {
-            Debug.Log("승리");
-            
-            return;
-        }
+        
     }
 
     public Piece GetActivatePlayer() {
@@ -404,14 +302,14 @@ public class GameManager : Singleton<GameManager>
         // Piece를 이동시킴
         // 배열에서 원래 자리 비우기
         (int oldX, int oldY) = piece.MyPos;
-        Pieces[oldX, oldY] = null;
+        MapManager.Instance.Pieces[oldX, oldY] = null;
 
         // 오브젝트 이동 
         piece.MoveTo(targetPos);
         piece.hasMoved = true; //이동했음
 
         // 배열에 새 자리 채우기
-        Pieces[targetPos.Item1, targetPos.Item2] = piece;
+        MapManager.Instance.Pieces[targetPos.Item1, targetPos.Item2] = piece;
 
 
         UpdateAttackAreaTiles();
@@ -445,7 +343,7 @@ public class GameManager : Singleton<GameManager>
         {
             for (int y = 0; y < Utils.FieldHeight; y++)
             {                
-                Tiles[x, y].ResetColor();
+                MapManager.Instance.Tiles[x, y].ResetColor();  //01.20 정수민: Tiles를 MapManager의 것으로 쓰도록
             }
         } 
 
@@ -464,9 +362,9 @@ public class GameManager : Singleton<GameManager>
                 bool inP1 = area1.Contains(pos);
                 bool inP2 = area2.Contains(pos);
 
-                if (inP1 && inP2) Tiles[x, y].SetColor(overlapColor);
-                else if (inP1) Tiles[x, y].SetColor(player1Color);
-                else if (inP2) Tiles[x, y].SetColor(player2Color); 
+                if (inP1 && inP2) MapManager.Instance.Tiles[x, y].SetColor(overlapColor);  //01.20 정수민 수정
+                else if (inP1) MapManager.Instance.Tiles[x, y].SetColor(player1Color);
+                else if (inP2) MapManager.Instance.Tiles[x, y].SetColor(player2Color); 
             }
         }
     }
@@ -483,7 +381,7 @@ public class GameManager : Singleton<GameManager>
         {
             for (int y = 0; y < Utils.FieldHeight; y++)
             {
-                Piece p = Pieces[x, y];
+                Piece p = MapManager.Instance.Pieces[x, y];
 
                 //p가 몬스터인지 확인
                 if (p != null && p is Monster)
@@ -628,7 +526,7 @@ public class GameManager : Singleton<GameManager>
             for (int y = 0; y < Utils.FieldHeight; y++)
             {
                 //  해당 칸에 기물이 있고, 그 타입이 Monster인지 확인
-                if (Pieces[x, y] != null && Pieces[x, y] is Monster)
+                if (MapManager.Instance.Pieces[x, y] != null && MapManager.Instance.Pieces[x, y] is Monster)
                 {
                     // 몬스터를 하나라도 찾으면 즉시 true 반환 (알고리즘 효율성)
                     return true;

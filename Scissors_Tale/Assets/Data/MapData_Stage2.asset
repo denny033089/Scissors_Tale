@@ -17,6 +17,8 @@ MonoBehaviour:
   height: 5
   stageName: Stage2
   totalTurnLimit: 15
+  startpos1: {x: 1, y: 1}
+  startpos2: {x: 1, y: 3}
   monsterSpawns:
   - monsterName: Monster
     spawnPos: {x: 3, y: 2}

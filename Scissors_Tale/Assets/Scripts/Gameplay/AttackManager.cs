@@ -115,7 +115,7 @@ public class AttackManager : Singleton<AttackManager>
         
 
         // 몬스터에 반영
-        Piece piece = gm.Pieces[mPos.x, mPos.y];
+        Piece piece = MapManager.Instance.Pieces[mPos.x, mPos.y];  //01.20 정수민 수정
 
         if (piece is Monster monster)
         {

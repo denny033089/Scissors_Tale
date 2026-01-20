@@ -31,9 +31,9 @@ public class Piece : MonoBehaviour
         //UpdateDirectionSprite(targetPos);        
         // MyPos를 업데이트하고, targetPos로 이동(보드세계 이동 + 실제 이동)
         // GameManager.Pieces를 업데이트
-        GameManager.Instance.Pieces[MyPos.Item1,MyPos.Item2] = null; //기존의 보드세계 좌표에 null
+        MapManager.Instance.Pieces[MyPos.Item1,MyPos.Item2] = null; //기존의 보드세계 좌표에 null
         MyPos = targetPos;
-        GameManager.Instance.Pieces[targetPos.Item1,targetPos.Item2] = this; //보드세계의 목표좌표에 현재의 piece넣기
+        MapManager.Instance.Pieces[targetPos.Item1,targetPos.Item2] = this; //보드세계의 목표좌표에 현재의 piece넣기
         transform.DOMove((Utils.ToRealPos(targetPos)),0.3f).SetEase(Ease.OutQuad); //01.18 정수민: dotween으로 수정
     }
 

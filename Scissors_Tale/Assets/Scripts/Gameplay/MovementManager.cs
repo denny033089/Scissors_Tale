@@ -50,7 +50,8 @@ public class MovementManager : Singleton<MovementManager>
 
             if(!Utils.IsInBoard(currentPos)) break; //가려는 pos이 보드에 없으면 for구문 탈출, false 반환
 
-            Piece PieceAtPos = GameManager.Instance.Pieces[NextX,NextY]; //(NextX,NextY)에 있는 piece를 pieceAtpos에 넣고
+            Piece PieceAtPos = MapManager.Instance.Pieces[NextX,NextY]; //(NextX,NextY)에 있는 piece를 pieceAtpos에 넣고
+            //01.20 정수민 수정
            
             if(currentPos == targetPos) { //targetPos에 도착하는 경우의 조건
                 return (PieceAtPos == null); //경로에 아무것도 없으면 true                
