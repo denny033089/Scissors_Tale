@@ -14,5 +14,11 @@ public class StageSelectionView : MonoBehaviour
         GameSystemManager.Instance.ChangeGameState(Enums.GameState.InGame);
         
     }
+
+    public void OnBackToMainClicked() {
+        SoundManager.Instance.PlaySFX("Click");
+        GameSystemManager.Instance.ChangeGameState(Enums.GameState.Main);
+
+    }
     
 }

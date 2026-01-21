@@ -311,6 +311,8 @@ public class GameManager : Singleton<GameManager>
         // 배열에 새 자리 채우기
         MapManager.Instance.Pieces[targetPos.Item1, targetPos.Item2] = piece;
 
+        TutorialManager.Instance.IncrementStep(); //01.21 정수민
+
 
         UpdateAttackAreaTiles();
     }
