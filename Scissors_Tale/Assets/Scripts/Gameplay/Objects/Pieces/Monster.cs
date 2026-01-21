@@ -1,21 +1,117 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
+
+//01.19 정수민 로직 전부 하위 monster에서 받을 수 있도록 virtual로 수정
 public class Monster : Piece
 {
-    [Header("AI Settings")]
-    public int PlanLength = 2; //미래 경로의 수
+    [Header("UI")]
+    public TMP_Text HPText;
 
-    [Header("Visualization")]
+    public GameObject DamagePopupPrefab;
+    public Transform PopupSpawnPoint;
+
+    [Header("스탯")]
+    public int CurrentHP = 10;
+    public int MaxHP = 10;
+
+    [Header("경로")]
+    public int PlanLength = 2; //미래 경로의 수
     public GameObject ArrowPrefab; 
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
     // FIFO ť: [Step1, Step2]
-    private List<(int, int)> moveQueue = new List<(int, int)>();
+    public List<(int, int)> moveQueue = new List<(int, int)>();
+
+    // 스폰시 호출
+    //01.19 정수민: InitializeStats 인수 삭제
+    public virtual void InitializeStats()
+    {
+
+        UpdateHPText();
+
+        if (HPText != null)
+        {
+            
+            Canvas canvas = HPText.GetComponentInParent<Canvas>();
+            if (canvas != null)
+            {
+                
+                canvas.overrideSorting = true;
+                canvas.sortingOrder = 30; 
+            }
+            else
+            {
+                Renderer textRenderer = HPText.GetComponent<Renderer>();
+                if (textRenderer != null)
+                {
+                    textRenderer.sortingOrder = 30;
+                }
+            }
+        }
+
+        InitializePath();
+    }
+
+    public virtual void SpawnDamageEffect(Sprite sprite)
+    {
+        if (DamagePopupPrefab == null || sprite == null) return;
+
+        // 몬스터 위에서 스폰
+        Vector3 spawnPos = (PopupSpawnPoint != null) ? PopupSpawnPoint.position : transform.position + Vector3.up * 1.0f;
+
+        GameObject popupObj = Instantiate(DamagePopupPrefab, spawnPos, Quaternion.identity);
+        DamagePopup popupScript = popupObj.GetComponent<DamagePopup>();
+
+        if (popupScript != null)
+        {
+            popupScript.Setup(sprite);
+        }
+    }
+
+    // 데미지 받을때
+    public virtual void TakeDamage(int damage)
+    {
+        CurrentHP -= damage;
+        if (CurrentHP < 0) CurrentHP = 0;
+
+        SoundManager.Instance.PlaySFX("MonsterHurt");
+
+        UpdateHPText();
+
+        if (CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    public virtual void UpdateHPText()  //01.19 정수민: public virtual로 수정
+    {
+        if (HPText != null)
+        {
+            HPText.text = $"{CurrentHP}/{MaxHP}";
+        }
+    }
+
+    public virtual void Die() //01.19 정수민: public virtual로 수정 + MapManager 추가
+    {
+        Debug.Log("몬스터 사망");
+        // 보드에서 지우기
+        MapManager.Instance.Pieces[MyPos.Item1, MyPos.Item2] = null;
+
+        // 화살표 삭제
+        foreach (var arrow in _spawnedArrows) if (arrow != null) Destroy(arrow);
+
+        // 오브젝트 삭제
+        Destroy(gameObject);
+
+    }
+
 
     // 몬스터가 (GameManager에서) 생성된 이후에 스폰 
-    public void InitializePath()
+    public virtual void InitializePath()
     {
         // 기존 N개의 경로 생성 (재귀)
         moveQueue = MonsterDirection.InitPathRecursive(MyPos, PlanLength);
@@ -32,7 +128,7 @@ public class Monster : Piece
     }
 
     // MonsterMove 단계에서 호출
-    public void PerformTurn()
+    public virtual void PerformTurn()
     {
         if (moveQueue.Count == 0) return;
 
@@ -40,7 +136,7 @@ public class Monster : Piece
         (int targetX, int targetY) = moveQueue[0];
 
         // 막혀있을때:
-        Piece obstacle = GameManager.Instance.Pieces[targetX, targetY];
+        Piece obstacle = MapManager.Instance.Pieces[targetX, targetY];
 
         if (obstacle != null)
         {
@@ -81,7 +177,7 @@ public class Monster : Piece
         DrawPath();
     }
 
-    private void DrawPath()
+    public virtual void DrawPath()
     {
         // 기존 화살표 삭제
         foreach (var arrow in _spawnedArrows)

@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+
 
 /// <summary>
 /// 게임의 전체 상태(로비, 인게임, 일시정지) 관리
@@ -10,51 +12,94 @@ using System.Collections.Generic;
 /// </summary>
 public class GameManager : Singleton<GameManager>
 {    
+    //01.18 정수민, 튜토리얼 체크
+    public bool isTutorialMode=false;
     
-    public  Enums.GameState CurrentState { get; private set; } = Enums.GameState.Main;
+    //01.17 정수민
+    public Enums.StageState CurrentStageState { get; private set; } = Enums.StageState.Playing;
     public Enums.TurnState CurrentTurnState { get; private set; } = Enums.TurnState.Ready;
 
+    //01.19 정수민
+    private PlayerUIStatus playeruistatus;
+    public MapData currentMapData; //01.20 정수민  currentMapData를 인스펙터에서 할당, totalturn을 받아옴
     
 
-    public GameObject TilePrefab;  //인스펙터 창에 tileprefab 삽입
-    public GameObject[] PiecePrefabs;
+
     public GameObject EffectPrefab;
-    private Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
-    private Piece p2Instance;
+    public Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
+    public Piece p2Instance;
     
 
     // 오브젝트의 parent들
-    private Transform TileParent;
-    private Transform PieceParent;
+
+
     private Transform EffectParent;
     private UIManager uiManager;
-    public Tile[,] Tiles = new Tile[Utils.FieldWidth, Utils.FieldHeight];   // Tile.cs 담는 2차원 배열
-    public Piece[,] Pieces = new Piece[Utils.FieldWidth, Utils.FieldHeight];    // Piece.cs들
-    public int monster_num = 1; // 초기 몬스터는 1명
-    public int MonsterHP = 10; // 초기 몬스터 HP는 10
+
+    // Piece.cs들
+  
+
 
     public int NextPlayer = 0; //0은 플레이어 1, 1은 플레이어2 맨처음엔 0
+    public int CurrentPlayer = 0; //01.19 턴 종료 하기전에 조종하고 있는 플레이어
 
-    private Vector2Int startpos1; // 플레이어 및 몬스터 위치
-    private Vector2Int startpos2;
-    private Vector2Int monster_pos;
+    // 1/14 서진현
+    //01.17 정수민
+    public int totalTurn; //스테이지 마다 정해진 총 턴 수
+    public int currentTurn = 0; //현재 턴수 
 
-    public void ChangeState(Enums.GameState newState)
+
+    //01.20 정수민: startpos 정보 삭제
+    //01.20 정수민: pieces 삭제, tiles 삭제
+
+    // 장판 색깔
+    public Color player1Color = Color.red;
+    public Color player2Color = Color.blue;
+    public Color overlapColor = Color.magenta;
+
+    //1/19 구본환
+    public bool IsTagTurn = false;
+    
+
+    //01.17 정수민 stagestate 변경
+    public void ChangeStageState(Enums.StageState newStageState)
     {
-        CurrentState = newState;
+        CurrentStageState = newStageState;
+        Debug.Log($"Stage State changed to: {CurrentStageState}");
+        switch (CurrentStageState)
+        {
+            case Enums.StageState.Playing:
+            break;
+            case Enums.StageState.Pause:
+            break;
+            case Enums.StageState.Victory:
+            UIManager.Instance.ShowResultPanel();
 
-        // 상태 변경에 따른 로직
-
-        Debug.Log($"Game State changed to: {CurrentState}");
+            break;
+            case Enums.StageState.Gameover:
+            UIManager.Instance.ShowRetryPanel();
+            break;
+        }
     }
-
+    
     public void ChangeTurnState(Enums.TurnState newTurnState)
     {
         CurrentTurnState = newTurnState;
         // 상태 변경에 따른 로직
-        Debug.Log($"Game State changed to: {CurrentTurnState}");
+        Debug.Log($"Turn State changed to: {CurrentTurnState}");
         switch (CurrentTurnState)
         {
+            //01.17 정수민, ready일 때 turn 계산
+            case Enums.TurnState.Ready:
+            UIManager.Instance.ShowMoveButton();
+            CalculateTurn();
+            //01.19 정수민 초상화 업데이트
+            GetActivatePlayer();
+            playeruistatus.UpdatePlayerPortrait();
+
+
+            break;
+            
             case Enums.TurnState.PlayerMove:
             
             Piece piece = GetActivatePlayer();        
@@ -78,6 +123,15 @@ public class GameManager : Singleton<GameManager>
             p1Instance.hasMoved = false; //턴이 끝나면 이동여부 초기화
             p2Instance.hasMoved = false;
 
+            //01.18 정수민 tutorialmanager
+            if (isTutorialMode) {
+                TutorialManager.Instance.NextStep();
+            }
+
+            if(!IsRemainMonster()) {
+                ChangeStageState(Enums.StageState.Victory);
+            }
+
             break;
         }
     }
@@ -86,12 +140,35 @@ public class GameManager : Singleton<GameManager>
 
     protected override void Awake()
     {
-        TileParent = GameObject.Find("TileParent").transform;
-        PieceParent = GameObject.Find("PieceParent").transform;
+        
+        //01.19 정수민
+
+        playeruistatus = FindFirstObjectByType<PlayerUIStatus>();
+        
+        
         EffectParent = GameObject.Find("EffectParent").transform;
 
-        MovementManager.Instance.Initialize(EffectPrefab, EffectParent);        
-        InitializeBoard();
+        MovementManager.Instance.Initialize(EffectPrefab, EffectParent);
+
+        //01.18 정수민 tutorialmanager 추가
+        if(isTutorialMode) {
+            TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
+        }
+
+        //01.20 정수민 totalturn 초기화
+        if (currentMapData != null) 
+        {
+            totalTurn = currentMapData.totalTurnLimit;
+        }
+                
+        
+    }
+    //1/19 구본환
+    private void Start()
+    {
+        //SoundManager 문제로 InitializeBoard를 Start로 옮김
+        MapManager.Instance.InitializeBoard();
+
     }
     /// ---Ready---
     /// [Move] 버튼을 누르면 HandleMove, PlayerMove 상태로 바뀜
@@ -116,111 +193,94 @@ public class GameManager : Singleton<GameManager>
 
     /// 버튼은 uimanager에서 받고 입력은 clickhandler에서 받기
 
-    void InitializeBoard()
-    {
-        // 타일 배치
-        // TilePrefab을 TileParent의 자식으로 생성하고, 배치함
-        // Tiles를 채움
-        for(int x=0; x<Utils.FieldWidth; x++) {
-
-            for(int y=0; y<Utils.FieldHeight; y++) {
-
-                GameObject tileObj = Instantiate(TilePrefab, Utils.ToRealPos((x,y)),Quaternion.identity,TileParent);
-                //TilePrefab을 가져온뒤, tileObj 안에 할당
-                //TilePrefab을 배치한 뒤, 부모는 TileParent로 상속되기
-                Tiles[x,y] = tileObj.GetComponent<Tile>(); //Tile.cs를 2차원 배열에 담아두기
-            }
-        }
-
-        PlacePieces();
-    }
+    
 
     ///piece의 종류는 player1 player2 monster1, monster2, monster3,.....
     /// startpos를 정해두고 그곳에 배치할 수 있도록...
     /// 맵마다 startpos가 다르다고 생각됨 <---map1.cs map2.cs ....에 따라 다를듯
-    void PlacePieces()
-    {
-        // PlacePiece를 사용하여 Piece들을 적절한 모양으로 배치
-        /// 4
-        /// 3     *
-        /// 2
-        /// 1   *   *
-        /// 0
-        ///   0 1 2 3 4
-        /// 
-        // --- TODO ---
-        
-        (int,int) startpos1 = (1,1);
-        (int,int) startpos2 = (3,1);
-        (int,int) monster_pos = (2,3);
 
-        int [] setup = {}; //piece의 종류를 담는 배열
-        
-
-        p1Instance = PlacePiece(0,startpos1);
-        p2Instance = PlacePiece(1,startpos2);
-        //monster 배치
-        //Edited By 구본환, 1/13
-        for (int x = 0; x < monster_num; x++)
-        {
-            // 기물 생성
-            Piece p = PlacePiece(2, monster_pos);
-
-            // 몬스터인지 확인
-            if (p is Monster)
-            {
-                // N개의 경로 생성
-                ((Monster)p).InitializePath();
-            }
-        }
-
-    }
-
-    Piece PlacePiece(int pieceType, (int x, int y) pos)
-    {
-        /// Piece를 생성한 후, initialize(moveto를 이용한 배치)
-        ///setup[0] = player1, setup[1] = player2, setup[>1] = monster
-        /// 
-        /// 배치한 Piece를 리턴
-        GameObject pieceObj = Instantiate(PiecePrefabs[pieceType],new Vector3(0,0,0),Quaternion.identity,PieceParent);
-        Pieces[pos.x,pos.y] = pieceObj.GetComponent<Piece>();
-        Pieces[pos.x,pos.y].MoveTo(pos);
-        return pieceObj.GetComponent<Piece>();
-    }
 
     // 플레이어 및 몬스터 위치
-    public Vector2Int GetPlayer1Pos() => startpos1;
-    public Vector2Int GetPlayer2Pos() => startpos2;
+    //Edit By 구본환 1/18
+    public Vector2Int GetPlayer1Pos()
+    {
+        if (p1Instance != null)
+            return new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
+        return currentMapData.startpos1;
+    }
+    public Vector2Int GetPlayer2Pos()
+    {
+        if (p2Instance != null)
+            return new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
+        return currentMapData.startpos2;
+    }
 
-    public Vector2Int GetMonsterPos() => monster_pos;
+    //01.20 정수민
+    public HashSet<Vector2Int> GetAllMonsterPositions()
+    {
+        HashSet<Vector2Int> monsterPositions = new HashSet<Vector2Int>();
 
-    // 몬스터 HP 계산
-    public void ApplyMonsterDamage(int damage)
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                if (MapManager.Instance.Pieces[x, y] != null && MapManager.Instance.Pieces[x, y] is Monster)  //01.20 정수민 수정
+                {
+                    monsterPositions.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+        return monsterPositions;
+    }
+
+    // 몬스터 HP 계산(pos.x, pos.y)
+    //01.20 정수민: mPos 인자 추가
+    public void ApplyMonsterDamage(int damage,Vector2Int mPos)
     {
         if (damage <= 0) return;
 
-        MonsterHP -= damage;
-        if (MonsterHP < 0) MonsterHP = 0;
+        Piece targetPiece = MapManager.Instance.Pieces[mPos.x, mPos.y];
 
-        if (MonsterHP == 0)
+        if (targetPiece != null && targetPiece is Monster monster)
         {
-            // 승리 표시
+            monster.TakeDamage(damage);
+            Debug.Log($"Applied {damage} damage to Monster at {mPos}. Remaining HP: {monster.CurrentHP}");
+            if (monster.CurrentHP < 0) //01.20 정수민
+            {
+                Debug.Log("승리");
+                
+                return;
+            }
+            
         }
+        else
+        {
+            Debug.LogWarning("ApplyMonsterDamage 호출되었지만, 몬스터 못찾음");
+        }
+        
     }
 
     public Piece GetActivatePlayer() {
         //플레이어 바꾸기
         if(CurrentTurnState == Enums.TurnState.PlayerTag) { //tag를 누른 상태라면
             if(NextPlayer == 0) {
+                CurrentPlayer = 0; //01.19 정수민
                 NextPlayer = 1; //next는 player2(tag상태일 때만 바꾸기 가능)
             } else {
+                CurrentPlayer = 1; //01.19 정수민
                 NextPlayer = 0; //next는 player1(tag상태일 때만 바꾸기 가능)
             }
+        } else { //01.19 정수민 : tag를 누르지 않은 상태라면 그대로감
+            CurrentPlayer = NextPlayer;
         }
 
         return (NextPlayer == 0) ? p1Instance : p2Instance;
     }
 
+    //01.19 정수민: 튜토리얼에서 쓸거임
+    public Piece GetCurrentPlayer() {
+        return (CurrentPlayer == 0) ? p1Instance : p2Instance;
+    }
     
 
     public void MovePlayer(Piece piece, (int,int) targetPos) {
@@ -236,17 +296,79 @@ public class GameManager : Singleton<GameManager>
         {
             if (!IsValidMove(piece, targetPos)) return;
         }
+
+        SoundManager.Instance.PlaySFX("Walk");
+
         // Piece를 이동시킴
         // 배열에서 원래 자리 비우기
         (int oldX, int oldY) = piece.MyPos;
-        Pieces[oldX, oldY] = null;
+        MapManager.Instance.Pieces[oldX, oldY] = null;
 
         // 오브젝트 이동 
         piece.MoveTo(targetPos);
         piece.hasMoved = true; //이동했음
 
         // 배열에 새 자리 채우기
-        Pieces[targetPos.Item1, targetPos.Item2] = piece;
+        MapManager.Instance.Pieces[targetPos.Item1, targetPos.Item2] = piece;
+
+        TutorialManager.Instance.IncrementStep(); //01.21 정수민
+
+
+        UpdateAttackAreaTiles();
+    }
+
+    // 플레이어 장판
+    HashSet<Vector2Int> Get3x3Area(Vector2Int center)
+    {
+        HashSet<Vector2Int> area = new HashSet<Vector2Int>();
+
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                int x = center.x + dx;
+                int y = center.y + dy;
+
+                if(x >= 0 && x < Utils.FieldWidth && y >= 0 && y < Utils.FieldHeight)
+                {
+                    area.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+
+        return area;
+    }
+
+    public void UpdateAttackAreaTiles()
+    {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {                
+                MapManager.Instance.Tiles[x, y].ResetColor();  //01.20 정수민: Tiles를 MapManager의 것으로 쓰도록
+            }
+        } 
+
+        Vector2Int p1Pos = new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
+        Vector2Int p2Pos = new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
+        
+        var area1 = Get3x3Area(p1Pos);
+        var area2 = Get3x3Area(p2Pos);
+
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+
+                bool inP1 = area1.Contains(pos);
+                bool inP2 = area2.Contains(pos);
+
+                if (inP1 && inP2) MapManager.Instance.Tiles[x, y].SetColor(overlapColor);  //01.20 정수민 수정
+                else if (inP1) MapManager.Instance.Tiles[x, y].SetColor(player1Color);
+                else if (inP2) MapManager.Instance.Tiles[x, y].SetColor(player2Color); 
+            }
+        }
     }
 
     public void Attack() {
@@ -261,7 +383,7 @@ public class GameManager : Singleton<GameManager>
         {
             for (int y = 0; y < Utils.FieldHeight; y++)
             {
-                Piece p = Pieces[x, y];
+                Piece p = MapManager.Instance.Pieces[x, y];
 
                 //p가 몬스터인지 확인
                 if (p != null && p is Monster)
@@ -283,20 +405,76 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    //01.17 정수민
+    public void CalculateTurn() {
+        //1/19 구본환
+        IsTagTurn = false;
+        currentTurn = currentTurn + 1;
+        int remainTurn = totalTurn - currentTurn;
+        UIManager.Instance.ShowRemainTurn(remainTurn, totalTurn);
+        if(remainTurn == 0) {
+            ChangeStageState(Enums.StageState.Gameover);
+        }
+        
+    }
+    //현재 턴 1 증가
+    //uimanager에 남은 턴수 표시, 남은 턴수가 0이면 게임오버
 
 
     ///UIManager에서 받아오는 함수들
     public void HandleMove() {
+
         ChangeTurnState(Enums.TurnState.PlayerMove);
+        TutorialManager.Instance.IncrementStep();  //01.19 정수민
     }
 
     public void HandleTag() {
+
+        
+        //01.19 정수민
+        if(isTutorialMode) {
+        Piece piece = GetCurrentPlayer();
+
+            if(!piece.hasMoved) {
+                Debug.Log("이동하고 눌러야지");
+                return; 
+            }
+            
+            // 2. 특정 단계(0, 2번 스텝)에서는 태그 금지
+            if(TutorialManager.Instance.currentStep is 0 or 2) {
+                Debug.Log("지금은 태그할 단계가 아닙니다.");
+                return; 
+            }
+        }
+        //1/19 구본환
+        IsTagTurn = true;
+
         ChangeTurnState(Enums.TurnState.PlayerTag);
+        TutorialManager.Instance.IncrementStep();  //01.19 정수민
     }
     //Edited By 구본환 1/13
     public void HandleEnd()
     {
+        //01.18정수민 tutorialmanager tutorial일 때 이동을 하고 나서야 턴 종료가능
+        if(isTutorialMode) {
+            Piece piece = GetCurrentPlayer();
+            if(!piece.hasMoved) {
+                Debug.Log("이동하고 종료하쇼");
+                return;
+            }
+            if(TutorialManager.Instance.currentStep is 1 or 3 or 4 or 5) {
+                if(CurrentTurnState is Enums.TurnState.PlayerMove) {
+                    Debug.Log("tag버튼 누르라니깐");
+                    return;
+                }
+            }
+
+        }
+
+        ClearEffects(); //01.19 정수민 코드 안움직이더라도 이펙트 사라지도록
+        
         StartCoroutine(ProcessTurnSequence());
+        TutorialManager.Instance.IncrementStep(); //01.19 정수민
     }
     IEnumerator ProcessTurnSequence()
     {
@@ -320,18 +498,48 @@ public class GameManager : Singleton<GameManager>
     ///MovementManager 호출하는 함수들
     public bool IsValidMove(Piece piece, (int, int) targetPos)
     {
+        //01.18 정수민 tutorialmanager 추가
+        if(isTutorialMode) {
+            return TutorialManager.Instance.IsValidTutorialMove(piece,targetPos);
+        } else
         return MovementManager.Instance.IsValidMove(piece, targetPos);
     }
 
     public void ShowPossibleMoves(Piece piece)
     {
+        //01.18 정수민 tutorialmanager 추가
+        if(isTutorialMode) {
+            TutorialManager.Instance.ShowTutorialMoves(piece);
+        } else
         MovementManager.Instance.ShowPossibleMoves(piece);
     }
 
     public void ClearEffects()
     {
+        //01.18 정수민 tutorialmanager 추가
+        TutorialManager.Instance.ClearEffects();
         MovementManager.Instance.ClearEffects();
     }
+
+    //01.20 정수민
+    public bool IsRemainMonster() {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                //  해당 칸에 기물이 있고, 그 타입이 Monster인지 확인
+                if (MapManager.Instance.Pieces[x, y] != null && MapManager.Instance.Pieces[x, y] is Monster)
+                {
+                    // 몬스터를 하나라도 찾으면 즉시 true 반환 (알고리즘 효율성)
+                    return true;
+                }
+            }
+        }
+
+        //  모든 칸을 다 돌았는데 없으면 false 반환
+        return false;
+
+        }
 
     // 추가적인 게임 관리 기능들
 }

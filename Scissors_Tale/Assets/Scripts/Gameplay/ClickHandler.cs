@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class ClickHandler : MonoBehaviour
 {
+        
     ///movestate에서 player1을 클릭하면 이동 effect가 나오고, (공격범위도 나오나) 이동가능
     /// 
     /// tagstate에서 player2를 클릭하면 이동 effect가 나오고, 이동가능 
@@ -18,7 +19,7 @@ public class ClickHandler : MonoBehaviour
     private (int, int) GetBoardPosition(Vector3 WorldPosition)
     {
         float x = WorldPosition.x + (Utils.TileSize * Utils.FieldWidth) / 2f;
-        float y = WorldPosition.y + (Utils.TileSize * Utils.FieldHeight) / 2f;
+        float y = WorldPosition.y + (Utils.TileSize * Utils.FieldHeight) / 2f - 0.5f;  //01.19정수민
         
         int boardX = Mathf.FloorToInt(x / Utils.TileSize);
         int boardY = Mathf.FloorToInt(y / Utils.TileSize);
@@ -45,8 +46,10 @@ public class ClickHandler : MonoBehaviour
                 Debug.Log($"BoardPos = {BoardPos}");
                 if(GameManager.Instance.IsValidMove(selectedPiece,BoardPos)) { 
                     GameManager.Instance.MovePlayer(selectedPiece,BoardPos);
+                    //01.19 정수민: move일때 엉뚱한 곳을 클릭해도 이펙트가 사라지지 않음
+                    GameManager.Instance.ClearEffects();
                 }
-                GameManager.Instance.ClearEffects();
+                
             }
         }
     }    
