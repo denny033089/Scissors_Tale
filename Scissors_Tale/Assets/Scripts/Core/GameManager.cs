@@ -423,7 +423,7 @@ public class GameManager : Singleton<GameManager>
     public void HandleMove() {
 
         ChangeTurnState(Enums.TurnState.PlayerMove);
-        TutorialManager.Instance.stepcount ++;  //01.19 정수민
+        TutorialManager.Instance.IncrementStep();  //01.19 정수민
     }
 
     public void HandleTag() {
@@ -448,7 +448,7 @@ public class GameManager : Singleton<GameManager>
         IsTagTurn = true;
 
         ChangeTurnState(Enums.TurnState.PlayerTag);
-        TutorialManager.Instance.stepcount ++;  //01.19 정수민
+        TutorialManager.Instance.IncrementStep();  //01.19 정수민
     }
     //Edited By 구본환 1/13
     public void HandleEnd()
@@ -472,7 +472,7 @@ public class GameManager : Singleton<GameManager>
         ClearEffects(); //01.19 정수민 코드 안움직이더라도 이펙트 사라지도록
         
         StartCoroutine(ProcessTurnSequence());
-        TutorialManager.Instance.stepcount ++; //01.19 정수민
+        TutorialManager.Instance.IncrementStep(); //01.19 정수민
     }
     IEnumerator ProcessTurnSequence()
     {
