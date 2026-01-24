@@ -311,7 +311,7 @@ public class GameManager : Singleton<GameManager>
         // 배열에 새 자리 채우기
         MapManager.Instance.Pieces[targetPos.Item1, targetPos.Item2] = piece;
 
-        TutorialManager.Instance.IncrementStep(); //01.21 정수민
+        if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
 
 
         UpdateAttackAreaTiles();
@@ -425,7 +425,7 @@ public class GameManager : Singleton<GameManager>
     public void HandleMove() {
 
         ChangeTurnState(Enums.TurnState.PlayerMove);
-        TutorialManager.Instance.IncrementStep();  //01.19 정수민
+        if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
     }
 
     public void HandleTag() {
@@ -450,7 +450,7 @@ public class GameManager : Singleton<GameManager>
         IsTagTurn = true;
 
         ChangeTurnState(Enums.TurnState.PlayerTag);
-        TutorialManager.Instance.IncrementStep();  //01.19 정수민
+        if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
     }
     //Edited By 구본환 1/13
     public void HandleEnd()
@@ -474,7 +474,7 @@ public class GameManager : Singleton<GameManager>
         ClearEffects(); //01.19 정수민 코드 안움직이더라도 이펙트 사라지도록
         
         StartCoroutine(ProcessTurnSequence());
-        TutorialManager.Instance.IncrementStep(); //01.19 정수민
+        if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
     }
     IEnumerator ProcessTurnSequence()
     {

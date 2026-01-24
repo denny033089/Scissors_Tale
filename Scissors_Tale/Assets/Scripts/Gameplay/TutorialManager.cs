@@ -23,6 +23,16 @@ public class TutorialManager : Singleton<TutorialManager>
     
 
 
+    //01.24 정수민 씬이 로드될 때마다 변수 초기화 가능
+    protected override void OnSceneLoaded(string sceneName)
+    {
+        Debug.Log($"현재 로드된 씬: {sceneName}");
+
+        currentStep = 0;
+        stepcount = 0;
+        TutorialDialogue.Instance.OpenDialogue(stepcount);
+    }
+    
     // 현재 튜토리얼 단계에서 가야 할 목표 좌표
     
     private void Start()
