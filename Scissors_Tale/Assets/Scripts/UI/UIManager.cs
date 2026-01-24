@@ -9,6 +9,10 @@ using UnityEngine.UI;
 /// </summary>
 public class UIManager : Singleton<UIManager>
 {
+    
+    //01.24 정수민 씬 전환 시 삭제
+    protected override bool DontDestroy => false;
+    
     //01.17 정수민
     public GameObject moveButton;
     public GameObject turnEndButton;
