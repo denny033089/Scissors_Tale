@@ -42,6 +42,7 @@ public class synopsis : MonoBehaviour, IPointerDownHandler
         {
             Debug.Log("대화 종료");
             SceneManager.LoadScene("Tutorial");
+            GameSystemManager.Instance.ChangeGameState(Enums.GameState.InGame); //01.25 정수민 추가
             dialogue_count = 0;
         }
 

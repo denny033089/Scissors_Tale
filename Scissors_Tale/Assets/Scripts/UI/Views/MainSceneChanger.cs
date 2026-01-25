@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainView : MonoBehaviour
+public class MainSceneChanger : BaseSceneChanger
 {
     private void Start()
     {
@@ -10,6 +10,7 @@ public class MainView : MonoBehaviour
     public void OnGameStartClicked() {
         SoundManager.Instance.PlaySFX("Click");
         GameSystemManager.Instance.ChangeGameState(Enums.GameState.StageSelection);
+        ChangeScene(nextScenes[0]);
     }
 
     public void OnEndGameClicked() {

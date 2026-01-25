@@ -24,6 +24,8 @@ public class MapManager : Singleton<MapManager>
     
     public void InitializeBoard()
     {
+        Debug.Log("맵 생성중");
+        
         //01.20 정수민
         Utils.FieldWidth = currentMapData.width;
         Utils.FieldHeight = currentMapData.height;

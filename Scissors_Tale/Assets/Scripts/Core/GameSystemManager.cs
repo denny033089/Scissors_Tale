@@ -16,22 +16,23 @@ public class GameSystemManager : Singleton<GameSystemManager>
         switch (CurrentGameState)
         {
             case Enums.GameState.Main:
-            SceneManager.LoadScene("Main");
+            
             break;
             case Enums.GameState.StageSelection:
-            SceneManager.LoadScene("StageSelection");
+            
             break;
             case Enums.GameState.Tutorial:
-            SceneManager.LoadScene("Synopsis");
+            GameManager.Instance.isTutorialMode = true; //01.25 정수민
+
             break;
 
             case Enums.GameState.InGame:
-            SceneManager.LoadScene("Testscene20260119");
+            
             break;
             case Enums.GameState.Story:
             break;
             case Enums.GameState.Quit:
-            Application.Quit();
+            
             break;
         }
 

@@ -17,7 +17,10 @@ public class UIManager : Singleton<UIManager>
     public GameObject moveButton;
     public GameObject turnEndButton;
 
-    public GameObject ResultPanel;
+    public GameObject ClearUI;
+
+    public GameObject PauseUI;
+    public GameObject FailUI;
     
     [SerializeField]
     private TextMeshProUGUI turnText;
@@ -88,18 +91,20 @@ public class UIManager : Singleton<UIManager>
         turnText.text = $"{remainTurn} / {totalTurn}";
     }
 
-    public void ShowRetryPanel() {
-
+    public void ShowFailPanel() {
+        FailUI.SetActive(true);
     }
 
-    public void ShowResultPanel() {
-        ResultPanel.SetActive(true);
+    public void ShowClearPanel() {
+        ClearUI.SetActive(true);
     }
 
-    public void OnMoveToStageSelectionButton()
-    {
-        SoundManager.Instance.PlaySFX("Click");
-        GameSystemManager.Instance.ChangeGameState(Enums.GameState.StageSelection);
+    public void ShowPausePanel() {
+        PauseUI.SetActive(true);
+    }
+
+    public void HidePausePanel() {
+        PauseUI.SetActive(false);
     }
 }
 

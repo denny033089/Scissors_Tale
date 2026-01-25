@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEngine.SceneManagement;
 
 
 /// <summary>
@@ -73,11 +74,11 @@ public class GameManager : Singleton<GameManager>
             case Enums.StageState.Pause:
             break;
             case Enums.StageState.Victory:
-            UIManager.Instance.ShowResultPanel();
+            UIManager.Instance.ShowClearPanel();
 
             break;
             case Enums.StageState.Gameover:
-            UIManager.Instance.ShowRetryPanel();
+            UIManager.Instance.ShowFailPanel();
             break;
         }
     }
@@ -137,9 +138,68 @@ public class GameManager : Singleton<GameManager>
     }
 
     
+    //01.25 정수민 reset 버튼 구현을 위한 함수(싱글톤)
+    // protected override void OnSceneLoaded(string sceneName)
+    // {
+        
+    //     bool isGameScene = sceneName.Contains("Stage") || sceneName.Contains("Tutorial") || sceneName.Contains("Test"); //게임 씬 바로 실행 가능
+    //     if(GameSystemManager.Instance.CurrentGameState is not (Enums.GameState.InGame or Enums.GameState.Tutorial) && !isGameScene) {
+    //         Debug.Log("게임 씬이 아닙니다");
+    //         return;
+    //     }
+        
+    //     playeruistatus = FindFirstObjectByType<PlayerUIStatus>();
+        
+        
+    //     EffectParent = GameObject.Find("EffectParent").transform;
 
+    //     MovementManager.Instance.Initialize(EffectPrefab, EffectParent);
+
+    //     //01.18 정수민 tutorialmanager 추가
+    //     if(isTutorialMode) {
+    //         TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
+    //     }
+
+    //     //01.20 정수민 totalturn 초기화
+    //     if (currentMapData != null) 
+    //     {
+    //         totalTurn = currentMapData.totalTurnLimit;
+    //     }
+        
+        
+    //     //01.25 정수민
+    //     MapManager sceneMapMgr = FindFirstObjectByType<MapManager>();
+    
+    //     if (sceneMapMgr != null)
+    //     {
+    //         // 핵심: 씬에 있는 MapManager가 들고 있는 데이터를 GameManager로 복사합니다.
+    //         this.currentMapData = sceneMapMgr.currentMapData; 
+            
+    //         if (currentMapData != null) 
+    //         {
+    //             totalTurn = currentMapData.totalTurnLimit;
+    //             Debug.Log($"[GameManager] {sceneName}의 데이터를 성공적으로 로드했습니다.");
+                
+    //             // 데이터 할당 후 보드 생성 호출
+    //             sceneMapMgr.InitializeBoard(); 
+    //         }
+    //     }
+        
+        
+        
+    //     // if (MapManager.Instance != null)
+    //     // {
+    //     //     Debug.Log($"[GameManager] {sceneName} 씬에서 보드 초기화를 시작합니다.");
+    //     //     MapManager.Instance.InitializeBoard();
+    //     // }
+    // }
     protected override void Awake()
     {
+    
+        //01.25 싱글톤 로직 실행
+        // base.Awake();     
+        // if (Instance != this) return; // 내가 진짜 인스턴스일 때만 아래 실행
+        
         
         //01.19 정수민
 
@@ -170,6 +230,8 @@ public class GameManager : Singleton<GameManager>
         MapManager.Instance.InitializeBoard();
 
     }
+
+
     /// ---Ready---
     /// [Move] 버튼을 누르면 HandleMove, PlayerMove 상태로 바뀜
     /// ---PlayerMove---
@@ -539,7 +601,37 @@ public class GameManager : Singleton<GameManager>
         //  모든 칸을 다 돌았는데 없으면 false 반환
         return false;
 
-        }
+    }
+
+    public void RequestPause()
+    {
+        // 일시정지 처리
+        CurrentStageState = Enums.StageState.Pause;
+        // 일시정지 UI 표시
+        UIManager.Instance.ShowPausePanel();
+        
+        Time.timeScale = 0f;    //게임 정지
+    }
+
+    public void CancelPause()
+    {
+        Time.timeScale = 1f;    //게임 재개
+
+        // 일시정지 UI 숨김
+        UIManager.Instance.HidePausePanel();
+        // play 처리
+        CurrentStageState = Enums.StageState.Playing;
+    }
+
+    public void StageRestart()
+    {
+        Time.timeScale = 1f;
+
+        
+        //씬 초기화
+        string currentSceneName = SceneManager.GetActiveScene().name; //현재 씬 가져와서 로드
+        SceneManager.LoadScene(currentSceneName);
+    }
 
     // 추가적인 게임 관리 기능들
 }
