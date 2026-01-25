@@ -8,7 +8,7 @@ public class StageSelectionSceneChanger : BaseSceneChanger
     public void OnBackToMainClicked() {
         SoundManager.Instance.PlaySFX("Click");
         GameSystemManager.Instance.ChangeGameState(Enums.GameState.Main);
-        ChangeScene(nextScenes[0]);
+        ChangeScene(nextScenes[3]); //메인메뉴로
 
     }
     

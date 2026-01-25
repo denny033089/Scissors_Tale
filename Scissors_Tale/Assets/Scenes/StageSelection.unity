@@ -119,6 +119,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &70185100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 70185102}
+  - component: {fileID: 70185101}
+  m_Layer: 0
+  m_Name: StageDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &70185101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70185100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f239ce48d8e28a4b9286d400bd5304f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageDataManager
+  allStages:
+  - {fileID: 11400000, guid: 0c8047608f8d3fe43abc58b4f2fddb0f, type: 2}
+  - {fileID: 11400000, guid: 25d17c8b8caa4654896be49f639824d4, type: 2}
+  - {fileID: 11400000, guid: 9263337a17d758f4fb97124c3e7a7230, type: 2}
+  currentStageIndex: 0
+--- !u!4 &70185102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70185100}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 629.68286, y: 411.01157, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &136015105
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +201,7 @@ MonoBehaviour:
   - StageSelection
   - Synopsis
   - StageScene
+  - Main
   transitionUI: {fileID: 0}
   graphicRaycaster: {fileID: 0}
 --- !u!4 &136015107
@@ -1315,7 +1365,7 @@ GameObject:
   - component: {fileID: 2013958863}
   - component: {fileID: 2013958862}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BackToMainButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1464,10 +1514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bda56eb3ca00bee43a20d79089b53886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageButton
-  allStageDatas:
-  - {fileID: 11400000, guid: 0c8047608f8d3fe43abc58b4f2fddb0f, type: 2}
-  - {fileID: 11400000, guid: 25d17c8b8caa4654896be49f639824d4, type: 2}
-  - {fileID: 11400000, guid: 9263337a17d758f4fb97124c3e7a7230, type: 2}
 --- !u!4 &2132760036
 Transform:
   m_ObjectHideFlags: 0
@@ -1493,3 +1539,4 @@ SceneRoots:
   - {fileID: 179944722}
   - {fileID: 136015107}
   - {fileID: 2132760036}
+  - {fileID: 70185102}

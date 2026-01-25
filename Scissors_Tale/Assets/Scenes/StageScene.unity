@@ -320,7 +320,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Next
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -731,8 +731,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 179, y: -198}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 178.3013, y: -147.39}
+  m_SizeDelta: {x: 161.3975, y: 131.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &174091317
 MonoBehaviour:
@@ -864,8 +864,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11, y: -198}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -17.9875, y: -147.39}
+  m_SizeDelta: {x: 173.975, y: 131.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &210942566
 MonoBehaviour:
@@ -2085,6 +2085,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660967640}
   m_CullTransparentMesh: 1
+--- !u!1 &663963593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 663963595}
+  - component: {fileID: 663963594}
+  m_Layer: 0
+  m_Name: StageButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &663963594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663963593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda56eb3ca00bee43a20d79089b53886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageButton
+--- !u!4 &663963595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663963593}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.87803, y: 6.49219, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &712543902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2321,8 +2365,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -105, y: -102}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -116.17993, y: -72.65253}
+  m_SizeDelta: {x: 182.3599, y: 88.6949}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &741222107
 MonoBehaviour:
@@ -2842,8 +2886,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 122, y: -96}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 129.6863, y: -61.7614}
+  m_SizeDelta: {x: 175.3724, y: 98.4773}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1093988121
 MonoBehaviour:
@@ -3815,8 +3859,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 172, y: -112}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 176.1925, y: -117.68}
+  m_SizeDelta: {x: 171.1801, y: 147.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1499520250
 MonoBehaviour:
@@ -3862,9 +3906,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 721287269}
-        m_TargetAssemblyTypeName: StageSceneChanger, Assembly-CSharp
-        m_MethodName: OnClickedNext
+      - m_Target: {fileID: 663963594}
+        m_TargetAssemblyTypeName: StageButton, Assembly-CSharp
+        m_MethodName: OnNextStageClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4480,8 +4524,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -205, y: -196}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -233.64868, y: -146.38885}
+  m_SizeDelta: {x: 217.2974, y: 129.2223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1922072680
 MonoBehaviour:
@@ -5223,3 +5267,4 @@ SceneRoots:
   - {fileID: 563984177}
   - {fileID: 2047539145}
   - {fileID: 721287270}
+  - {fileID: 663963595}

@@ -15,6 +15,11 @@ public class BaseSceneChanger : MonoBehaviour
     //private 씬 로드
 
     //이동할 씬들 목록
+    /// 0: stageselection
+    /// 1: tutorialscene(synopsis)
+    /// 2: stagescene
+    /// 3: Mainmenu
+    /// 4: 그밖의 것들
     public string[] nextScenes;
 
     public CanvasGroup transitionUI;                //transitionUI

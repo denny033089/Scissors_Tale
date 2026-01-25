@@ -14,7 +14,7 @@ public class StageSceneChanger : BaseSceneChanger
         ChangeScene(nextScenes[0], 0.5f);
     }
 
-    //다음 레벨로
+    //다음 레벨로 //안쓸 것 같음
     public void OnClickedNext()
     {
         ChangeScene(nextScenes[1],0.5f);
