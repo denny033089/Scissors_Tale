@@ -24,6 +24,9 @@ public class GameManager : Singleton<GameManager>
     private PlayerUIStatus playeruistatus;
     public MapData currentMapData; //01.20 정수민  currentMapData를 인스펙터에서 할당, totalturn을 받아옴
     
+    // 01.25 정수민: 씬이 바뀌어도 유일하게 메모리에 남는 정적 변수
+    public static MapData SelectedMapData;
+    
 
 
     public GameObject EffectPrefab;
@@ -196,6 +199,17 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
     
+        //01.25 정수민
+        // 1. 만약 정적 변수에 선택된 데이터가 있다면 덮어씌움
+        if (SelectedMapData != null)
+        {
+            currentMapData = SelectedMapData;
+        }
+
+
+        
+        
+        
         //01.25 싱글톤 로직 실행
         // base.Awake();     
         // if (Instance != this) return; // 내가 진짜 인스턴스일 때만 아래 실행

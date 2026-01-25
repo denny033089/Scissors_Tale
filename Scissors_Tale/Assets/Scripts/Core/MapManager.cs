@@ -5,6 +5,7 @@ public class MapManager : Singleton<MapManager>
 
     public MapData currentMapData; //01.21 정수민  currentMapData를 인스펙터에서 할당
 
+
     public Tile[,] Tiles = new Tile[Utils.FieldWidth, Utils.FieldHeight];   // Tile.cs 담는 2차원 배열
     public Piece[,] Pieces = new Piece[Utils.FieldWidth, Utils.FieldHeight];    // Piece.cs들
     public GameObject TilePrefab;  //인스펙터 창에 tileprefab 삽입
@@ -20,6 +21,13 @@ public class MapManager : Singleton<MapManager>
     protected override void Awake() {
         TileParent = GameObject.Find("TileParent").transform;
         PieceParent = GameObject.Find("PieceParent").transform;
+
+        //01.25 정수민
+        // 1. 만약 정적 변수에 선택된 데이터가 있다면 덮어씌움
+        if (GameManager.SelectedMapData != null)
+        {
+            currentMapData = GameManager.SelectedMapData;
+        }
     }
     
     public void InitializeBoard()
