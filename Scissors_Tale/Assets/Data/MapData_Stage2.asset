@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: MapData_Stage2
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   stageId: 1
-  width: 5
-  height: 5
+  width: 7
+  height: 3
   stageName: Stage2
   totalTurnLimit: 15
   startpos1: {x: 1, y: 1}
-  startpos2: {x: 1, y: 3}
+  startpos2: {x: 1, y: 2}
   monsterSpawns:
   - monsterName: Monster
     spawnPos: {x: 3, y: 2}
   - monsterName: Monster
     spawnPos: {x: 3, y: 0}
+  - monsterName: Monster
+    spawnPos: {x: 5, y: 1}
   tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
