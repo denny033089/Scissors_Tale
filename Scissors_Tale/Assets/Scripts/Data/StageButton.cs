@@ -21,7 +21,10 @@ public class StageButton : MonoBehaviour
         if (nextData != null)
         {
             GameManager.SelectedMapData = nextData;
-            GameManager.Instance.StageRestart();
+
+            //GameManager.Instance.StageRestart();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("StageScene"); //01.25 정수민
+
         }
         else
         {

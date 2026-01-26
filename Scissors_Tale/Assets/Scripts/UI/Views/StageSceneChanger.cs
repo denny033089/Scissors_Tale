@@ -15,9 +15,9 @@ public class StageSceneChanger : BaseSceneChanger
     }
 
     //다음 레벨로 //안쓸 것 같음
-    public void OnClickedNext()
-    {
-        ChangeScene(nextScenes[1],0.5f);
-    }
+    // public void OnClickedNext()
+    // {
+    //     ChangeScene(nextScenes[1],0.5f);
+    // }
 }
 

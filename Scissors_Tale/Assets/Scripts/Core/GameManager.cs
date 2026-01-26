@@ -199,6 +199,9 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
     
+        
+        
+        
         //01.25 정수민
         // 1. 만약 정적 변수에 선택된 데이터가 있다면 덮어씌움
         if (SelectedMapData != null)
@@ -233,7 +236,10 @@ public class GameManager : Singleton<GameManager>
         if (currentMapData != null) 
         {
             totalTurn = currentMapData.totalTurnLimit;
+            
         }
+
+        
                 
         
     }
@@ -242,6 +248,9 @@ public class GameManager : Singleton<GameManager>
     {
         //SoundManager 문제로 InitializeBoard를 Start로 옮김
         MapManager.Instance.InitializeBoard();
+
+        //01.26 정수민 처음에 remainTurn 표시 (awake에서 문제 발생해서 start로 옮김)
+        UIManager.Instance.ShowRemainTurn(totalTurn, totalTurn);
 
     }
 
