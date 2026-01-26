@@ -2710,6 +2710,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3302ed330985ca548bcff8ab91c19ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  stageNumberImage: {fileID: 800211622}
+  stageNumberSprites:
+  - {fileID: -3984245449681229936, guid: f4974c4afbd9c69419e0302f992659e1, type: 3}
   moveButton: {fileID: 994229639}
   turnEndButton: {fileID: 1662188639}
   ClearUI: {fileID: 713304498}

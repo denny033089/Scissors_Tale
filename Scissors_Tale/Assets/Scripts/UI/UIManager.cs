@@ -13,6 +13,11 @@ public class UIManager : Singleton<UIManager>
     //01.24 정수민 씬 전환 시 삭제
     protected override bool DontDestroy => false;
     
+    //01.27 정수민
+    [Header("Stage Number UI")]
+    public Image stageNumberImage; // 화면 상단의 'STAGE.0' 이미지가 들어갈 곳
+    public Sprite[] stageNumberSprites; // 0번부터 순서대로 숫자 스프라이트들을 넣어주세요.
+    
     //01.17 정수민
     public GameObject moveButton;
     public GameObject turnEndButton;
@@ -105,6 +110,22 @@ public class UIManager : Singleton<UIManager>
 
     public void HidePausePanel() {
         PauseUI.SetActive(false);
+    }
+
+
+    //01.27 정수민
+    public void UpdateStageNumberUI(int stageIndex)
+    {
+        if (stageIndex >= 0 && stageIndex < stageNumberSprites.Length)
+        {
+            if (stageNumberImage != null && stageNumberSprites[stageIndex] != null)
+            {
+                // 인덱스에 맞는 스프라이트로 교체
+                stageNumberImage.sprite = stageNumberSprites[stageIndex];
+                // 이미지 크기가 다를 경우를 대비해 원본 크기로 맞춰줌
+                //stageNumberImage.SetNativeSize(); 
+            }
+        }
     }
 }
 

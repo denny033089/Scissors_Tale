@@ -252,6 +252,11 @@ public class GameManager : Singleton<GameManager>
         //01.26 정수민 처음에 remainTurn 표시 (awake에서 문제 발생해서 start로 옮김)
         UIManager.Instance.ShowRemainTurn(totalTurn, totalTurn);
 
+        //01.27 정수민
+        // StageDataManager에 저장된 현재 스테이지 인덱스를 가져와서 UI 업데이트
+        int currentIdx = StageDataManager.Instance.currentStageIndex;
+        UIManager.Instance.UpdateStageNumberUI(currentIdx);
+
     }
 
 
