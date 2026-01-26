@@ -17,6 +17,7 @@ MonoBehaviour:
   height: 5
   stageName: Tutorial
   totalTurnLimit: 10
+  PlayerRemainMove: 1
   startpos1: {x: 1, y: 3}
   startpos2: {x: 1, y: 2}
   monsterSpawns:

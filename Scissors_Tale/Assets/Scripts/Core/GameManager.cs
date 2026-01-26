@@ -51,6 +51,8 @@ public class GameManager : Singleton<GameManager>
     //01.17 정수민
     public int totalTurn; //스테이지 마다 정해진 총 턴 수
     public int currentTurn = 0; //현재 턴수 
+    public int PlayerRemainMove = 1; //01.27 정수민
+    public int PlayerMoveCount = 1;
 
 
     //01.20 정수민: startpos 정보 삭제
@@ -100,14 +102,18 @@ public class GameManager : Singleton<GameManager>
             //01.19 정수민 초상화 업데이트
             GetActivatePlayer();
             playeruistatus.UpdatePlayerPortrait();
+            PlayerMoveCount = PlayerRemainMove;  //01.27 playerMovecount 초기화
 
 
+            break;
+            case Enums.TurnState.PlayerMovable:  //01.27 플레이어가 한 턴에 2번이상 움직이는 경우
+            UIManager.Instance.ShowMoveButton();
             break;
             
             case Enums.TurnState.PlayerMove:
             
             Piece piece = GetActivatePlayer();        
-            ShowPossibleMoves(piece);                            
+            ShowPossibleMoves(piece);                      
             break;
 
             case Enums.TurnState.PlayerTag:
@@ -236,6 +242,9 @@ public class GameManager : Singleton<GameManager>
         if (currentMapData != null) 
         {
             totalTurn = currentMapData.totalTurnLimit;
+            //01.27 정수민 PlayerRemainMove 추가
+            PlayerRemainMove = currentMapData.PlayerRemainMove;
+            PlayerMoveCount = PlayerRemainMove;
             
         }
 
@@ -628,6 +637,18 @@ public class GameManager : Singleton<GameManager>
 
         //  모든 칸을 다 돌았는데 없으면 false 반환
         return false;
+
+    }
+
+
+    //01.25 정수민
+    public void CheckRemainMove() {
+        PlayerMoveCount --;
+        if(PlayerMoveCount != 0) {
+            ChangeTurnState(Enums.TurnState.PlayerMovable);
+            GetCurrentPlayer().hasMoved = false;
+            
+        }
 
     }
 

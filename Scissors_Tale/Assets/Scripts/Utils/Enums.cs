@@ -20,6 +20,7 @@ public static class Enums
     public enum TurnState
     {
         Ready,
+        PlayerMovable,
         PlayerMove,
         PlayerTag,
         PlayerAttack,

@@ -38,8 +38,8 @@ public class UIManager : Singleton<UIManager>
             return;
         }
         
-        
-        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready) {
+        //01.27 조건 변경, movable 추가
+        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMovable) { 
             SoundManager.Instance.PlaySFX("Click");
             Debug.Log("무브 버튼 클릭");
             GameManager.Instance.HandleMove();
@@ -59,12 +59,19 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove) {
+        //01.27 조건 변경, playermovable 추가
+        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable) {
 
-            SoundManager.Instance.PlaySFX("Click");
-            Debug.Log("태그 버튼 클릭!");
-            // MovementManager에게 태그 로직 실행 요청
-            GameManager.Instance.HandleTag();
+            if(GameManager.Instance.IsTagTurn==false) { //01.27 정수민 tag 조건 추가(playerremainmove용)
+                SoundManager.Instance.PlaySFX("Click");
+                Debug.Log("태그 버튼 클릭!");
+                // MovementManager에게 태그 로직 실행 요청
+                GameManager.Instance.HandleTag();
+                moveButton.SetActive(false); //01.27 정수민 tag 눌렀을 시에 move다시 못하도록 수정
+                turnEndButton.SetActive(true);
+            } else {
+                Debug.Log("태그 이미 했음");
+            }
         }
     }
 

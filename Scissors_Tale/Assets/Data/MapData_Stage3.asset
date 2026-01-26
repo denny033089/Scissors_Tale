@@ -17,6 +17,7 @@ MonoBehaviour:
   height: 7
   stageName: Stage3
   totalTurnLimit: 20
+  PlayerRemainMove: 2
   startpos1: {x: 1, y: 1}
   startpos2: {x: 1, y: 2}
   monsterSpawns:
