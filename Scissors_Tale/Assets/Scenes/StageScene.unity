@@ -377,6 +377,8 @@ MonoBehaviour:
   CurrentPlayer: 0
   totalTurn: 10
   currentTurn: 0
+  PlayerRemainMove: 1
+  PlayerMoveCount: 1
   player1Color: {r: 0.8666667, g: 0.627451, b: 0.8666667, a: 1}
   player2Color: {r: 0.4980392, g: 1, b: 0.8313726, a: 1}
   overlapColor: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
@@ -1592,6 +1594,8 @@ MonoBehaviour:
   - {fileID: 8357774654964675909, guid: 72188c12e1d97fc4ea574f80817d59e1, type: 3}
   - {fileID: 5294844828858646776, guid: eb7c0b442d497f94ab823aa79f1207f4, type: 3}
   - {fileID: 524731917048748400, guid: b651c38e42ae1f042bd0dd4c7d512412, type: 3}
+  - {fileID: 5294844828858646776, guid: e4ec59fc5aebbb4449b9fc50350897bd, type: 3}
+  - {fileID: 5294844828858646776, guid: 4977177537c860b439c12abd179fa42e, type: 3}
 --- !u!4 &431215382
 Transform:
   m_ObjectHideFlags: 0

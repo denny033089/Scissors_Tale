@@ -1988,8 +1988,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 22.86, y: 29.0186}
-  m_SizeDelta: {x: 1938, y: 406.4081}
+  m_AnchoredPosition: {x: 8.374, y: -26.88361}
+  m_SizeDelta: {x: 1857.6, y: 265.9456}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1027036944
 MonoBehaviour:
@@ -2011,7 +2011,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7868959264912460546, guid: 2505a92706646804a8a1b74a2eeb8d26, type: 3}
+  m_Sprite: {fileID: -3836601288994810069, guid: 246169ec5d8bfd447aedc87ad4626e46, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2491,6 +2491,8 @@ MonoBehaviour:
   CurrentPlayer: 0
   totalTurn: 10
   currentTurn: 0
+  PlayerRemainMove: 1
+  PlayerMoveCount: 1
   player1Color: {r: 0.8666667, g: 0.627451, b: 0.8666667, a: 1}
   player2Color: {r: 0.4980392, g: 1, b: 0.8313726, a: 1}
   overlapColor: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
@@ -3590,7 +3592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -777, y: 262}
+  m_AnchoredPosition: {x: -661, y: 262}
   m_SizeDelta: {x: 338.2831, y: 414.2193}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1766526428
@@ -4750,7 +4752,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 751.31, y: 278}
+  m_AnchoredPosition: {x: 591, y: 278}
   m_SizeDelta: {x: 338.2831, y: 414.2193}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2027517191
