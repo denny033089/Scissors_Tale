@@ -29,6 +29,8 @@ public class UIManager : Singleton<UIManager>
     
     [SerializeField]
     private TextMeshProUGUI turnText;
+    [SerializeField]
+    private TextMeshProUGUI RemainMoveText;
     
     
     public void OnMoveButtonClicked()
@@ -101,6 +103,10 @@ public class UIManager : Singleton<UIManager>
     public void ShowRemainTurn(int remainTurn, int totalTurn) {
         Debug.Log($"TURN : {remainTurn} / {totalTurn}");
         turnText.text = $"{remainTurn} / {totalTurn}";
+    }
+
+    public void ShowPlayerRemainMove(int PlayerRemainMove) {
+        RemainMoveText.text = $"턴 당 최대 이동 횟수 : {PlayerRemainMove}";
     }
 
     public void ShowFailPanel() {

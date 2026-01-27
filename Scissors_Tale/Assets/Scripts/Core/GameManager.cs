@@ -266,6 +266,9 @@ public class GameManager : Singleton<GameManager>
         int currentIdx = StageDataManager.Instance.currentStageIndex;
         UIManager.Instance.UpdateStageNumberUI(currentIdx);
 
+        //01.27 정수민
+        UIManager.Instance.ShowPlayerRemainMove(PlayerRemainMove);
+
     }
 
 
