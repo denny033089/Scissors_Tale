@@ -365,50 +365,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &332811795
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 332811797}
-  - component: {fileID: 332811796}
-  m_Layer: 0
-  m_Name: StageButton
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &332811796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332811795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bda56eb3ca00bee43a20d79089b53886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StageButton
---- !u!4 &332811797
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332811795}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.87803, y: 6.49219, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &364001271
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,6 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LvlSceneChanger
   nextScenes:
   - StageSelection
+  - StageScene
   transitionUI: {fileID: 0}
   graphicRaycaster: {fileID: 0}
 --- !u!4 &364001273
@@ -2731,8 +2688,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 332811796}
-        m_TargetAssemblyTypeName: StageButton, Assembly-CSharp
+      - m_Target: {fileID: 364001272}
+        m_TargetAssemblyTypeName: StageSceneChanger, Assembly-CSharp
         m_MethodName: OnNextStageClick
         m_Mode: 1
         m_Arguments:
@@ -3904,57 +3861,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814568029}
   m_CullTransparentMesh: 1
---- !u!1 &1825956565
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1825956567}
-  - component: {fileID: 1825956566}
-  m_Layer: 0
-  m_Name: StageSelectionSceneChanger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1825956566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1825956565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2046b24054475a44810bf402e35618b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StageSelectionSceneChanger
-  nextScenes:
-  - StageSelection
-  - Synopsis
-  - StageScene
-  - Main
-  transitionUI: {fileID: 0}
-  graphicRaycaster: {fileID: 0}
---- !u!4 &1825956567
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1825956565}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 775.6319, y: 126.70081, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836137438
 GameObject:
   m_ObjectHideFlags: 0
@@ -5189,6 +5095,4 @@ SceneRoots:
   - {fileID: 1148159471}
   - {fileID: 484589086}
   - {fileID: 364001273}
-  - {fileID: 332811797}
   - {fileID: 1933879514}
-  - {fileID: 1825956567}
