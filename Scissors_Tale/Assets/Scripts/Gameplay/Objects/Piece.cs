@@ -6,19 +6,6 @@ public class Piece : MonoBehaviour
     public (int, int) MyPos;    // 자신의 좌표
     public bool hasMoved = false;
 
-    //01.18 정수민
-    [Header("Directional Sprites")]
-    public Sprite spriteUp;
-    public Sprite spriteDown;
-    public Sprite spriteLeft;
-    public Sprite spriteRight;
-
-    private SpriteRenderer spriterenderer;
-
-    void Awake()
-    {
-        spriterenderer = GetComponent<SpriteRenderer>();
-    }
     
     // Update is called once per frame
     void Update()
@@ -37,23 +24,6 @@ public class Piece : MonoBehaviour
         transform.DOMove((Utils.ToRealPos(targetPos)),0.3f).SetEase(Ease.OutQuad); //01.18 정수민: dotween으로 수정
     }
 
-
-    //01.18 정수민
-    public void UpdateDirectionSprite((int x, int y) targetPos) {
-
-        int diffX = targetPos.Item1 - MyPos.Item1; //방향 찾기
-        int diffY = targetPos.Item2 - MyPos.Item2;
-
-        if (diffY > 0) {      // 위로 이동
-            spriterenderer.sprite = spriteUp;
-        } else if (diffY < 0) {     // 아래로 이동
-            spriterenderer.sprite = spriteDown;
-        } else if (diffX < 0) {      // 왼쪽으로 이동
-            spriterenderer.sprite = spriteLeft;
-        } else if (diffX > 0) {      // 오른쪽으로 이동
-            spriterenderer.sprite = spriteRight;
-        }
-    }
 
 
 
