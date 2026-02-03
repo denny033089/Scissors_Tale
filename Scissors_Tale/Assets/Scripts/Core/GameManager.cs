@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEngine.SceneManagement;
 
 
 /// <summary>
@@ -22,6 +23,9 @@ public class GameManager : Singleton<GameManager>
     //01.19 정수민
     private PlayerUIStatus playeruistatus;
     public MapData currentMapData; //01.20 정수민  currentMapData를 인스펙터에서 할당, totalturn을 받아옴
+    
+    // 01.25 정수민: 씬이 바뀌어도 유일하게 메모리에 남는 정적 변수
+    public static MapData SelectedMapData;
     
 
 
@@ -47,6 +51,8 @@ public class GameManager : Singleton<GameManager>
     //01.17 정수민
     public int totalTurn; //스테이지 마다 정해진 총 턴 수
     public int currentTurn = 0; //현재 턴수 
+    public int PlayerRemainMove = 1; //01.27 정수민
+    public int PlayerMoveCount = 1;
 
 
     //01.20 정수민: startpos 정보 삭제
@@ -73,11 +79,11 @@ public class GameManager : Singleton<GameManager>
             case Enums.StageState.Pause:
             break;
             case Enums.StageState.Victory:
-            UIManager.Instance.ShowResultPanel();
+            UIManager.Instance.ShowClearPanel();
 
             break;
             case Enums.StageState.Gameover:
-            UIManager.Instance.ShowRetryPanel();
+            UIManager.Instance.ShowFailPanel();
             break;
         }
     }
@@ -96,14 +102,18 @@ public class GameManager : Singleton<GameManager>
             //01.19 정수민 초상화 업데이트
             GetActivatePlayer();
             playeruistatus.UpdatePlayerPortrait();
+            PlayerMoveCount = PlayerRemainMove;  //01.27 playerMovecount 초기화
 
 
+            break;
+            case Enums.TurnState.PlayerMovable:  //01.27 플레이어가 한 턴에 2번이상 움직이는 경우
+            UIManager.Instance.ShowMoveButton();
             break;
             
             case Enums.TurnState.PlayerMove:
             
             Piece piece = GetActivatePlayer();        
-            ShowPossibleMoves(piece);                            
+            ShowPossibleMoves(piece);                      
             break;
 
             case Enums.TurnState.PlayerTag:
@@ -137,9 +147,82 @@ public class GameManager : Singleton<GameManager>
     }
 
     
+    //01.25 정수민 reset 버튼 구현을 위한 함수(싱글톤)
+    // protected override void OnSceneLoaded(string sceneName)
+    // {
+        
+    //     bool isGameScene = sceneName.Contains("Stage") || sceneName.Contains("Tutorial") || sceneName.Contains("Test"); //게임 씬 바로 실행 가능
+    //     if(GameSystemManager.Instance.CurrentGameState is not (Enums.GameState.InGame or Enums.GameState.Tutorial) && !isGameScene) {
+    //         Debug.Log("게임 씬이 아닙니다");
+    //         return;
+    //     }
+        
+    //     playeruistatus = FindFirstObjectByType<PlayerUIStatus>();
+        
+        
+    //     EffectParent = GameObject.Find("EffectParent").transform;
 
+    //     MovementManager.Instance.Initialize(EffectPrefab, EffectParent);
+
+    //     //01.18 정수민 tutorialmanager 추가
+    //     if(isTutorialMode) {
+    //         TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
+    //     }
+
+    //     //01.20 정수민 totalturn 초기화
+    //     if (currentMapData != null) 
+    //     {
+    //         totalTurn = currentMapData.totalTurnLimit;
+    //     }
+        
+        
+    //     //01.25 정수민
+    //     MapManager sceneMapMgr = FindFirstObjectByType<MapManager>();
+    
+    //     if (sceneMapMgr != null)
+    //     {
+    //         // 핵심: 씬에 있는 MapManager가 들고 있는 데이터를 GameManager로 복사합니다.
+    //         this.currentMapData = sceneMapMgr.currentMapData; 
+            
+    //         if (currentMapData != null) 
+    //         {
+    //             totalTurn = currentMapData.totalTurnLimit;
+    //             Debug.Log($"[GameManager] {sceneName}의 데이터를 성공적으로 로드했습니다.");
+                
+    //             // 데이터 할당 후 보드 생성 호출
+    //             sceneMapMgr.InitializeBoard(); 
+    //         }
+    //     }
+        
+        
+        
+    //     // if (MapManager.Instance != null)
+    //     // {
+    //     //     Debug.Log($"[GameManager] {sceneName} 씬에서 보드 초기화를 시작합니다.");
+    //     //     MapManager.Instance.InitializeBoard();
+    //     // }
+    // }
     protected override void Awake()
     {
+    
+        
+        
+        
+        //01.25 정수민
+        // 1. 만약 정적 변수에 선택된 데이터가 있다면 덮어씌움
+        if (SelectedMapData != null)
+        {
+            currentMapData = SelectedMapData;
+        }
+
+
+        
+        
+        
+        //01.25 싱글톤 로직 실행
+        // base.Awake();     
+        // if (Instance != this) return; // 내가 진짜 인스턴스일 때만 아래 실행
+        
         
         //01.19 정수민
 
@@ -159,7 +242,13 @@ public class GameManager : Singleton<GameManager>
         if (currentMapData != null) 
         {
             totalTurn = currentMapData.totalTurnLimit;
+            //01.27 정수민 PlayerRemainMove 추가
+            PlayerRemainMove = currentMapData.PlayerRemainMove;
+            PlayerMoveCount = PlayerRemainMove;
+            
         }
+
+        
                 
         
     }
@@ -169,7 +258,20 @@ public class GameManager : Singleton<GameManager>
         //SoundManager 문제로 InitializeBoard를 Start로 옮김
         MapManager.Instance.InitializeBoard();
 
+        //01.26 정수민 처음에 remainTurn 표시 (awake에서 문제 발생해서 start로 옮김)
+        UIManager.Instance.ShowRemainTurn(totalTurn, totalTurn);
+
+        //01.27 정수민
+        // StageDataManager에 저장된 현재 스테이지 인덱스를 가져와서 UI 업데이트
+        int currentIdx = StageDataManager.Instance.currentStageIndex;
+        UIManager.Instance.UpdateStageNumberUI(currentIdx);
+
+        //01.27 정수민
+        UIManager.Instance.ShowPlayerRemainMove(PlayerRemainMove);
+
     }
+
+
     /// ---Ready---
     /// [Move] 버튼을 누르면 HandleMove, PlayerMove 상태로 바뀜
     /// ---PlayerMove---
@@ -311,7 +413,7 @@ public class GameManager : Singleton<GameManager>
         // 배열에 새 자리 채우기
         MapManager.Instance.Pieces[targetPos.Item1, targetPos.Item2] = piece;
 
-        TutorialManager.Instance.IncrementStep(); //01.21 정수민
+        if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
 
 
         UpdateAttackAreaTiles();
@@ -425,7 +527,7 @@ public class GameManager : Singleton<GameManager>
     public void HandleMove() {
 
         ChangeTurnState(Enums.TurnState.PlayerMove);
-        TutorialManager.Instance.IncrementStep();  //01.19 정수민
+        if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
     }
 
     public void HandleTag() {
@@ -450,7 +552,7 @@ public class GameManager : Singleton<GameManager>
         IsTagTurn = true;
 
         ChangeTurnState(Enums.TurnState.PlayerTag);
-        TutorialManager.Instance.IncrementStep();  //01.19 정수민
+        if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
     }
     //Edited By 구본환 1/13
     public void HandleEnd()
@@ -474,7 +576,7 @@ public class GameManager : Singleton<GameManager>
         ClearEffects(); //01.19 정수민 코드 안움직이더라도 이펙트 사라지도록
         
         StartCoroutine(ProcessTurnSequence());
-        TutorialManager.Instance.IncrementStep(); //01.19 정수민
+        if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
     }
     IEnumerator ProcessTurnSequence()
     {
@@ -539,7 +641,49 @@ public class GameManager : Singleton<GameManager>
         //  모든 칸을 다 돌았는데 없으면 false 반환
         return false;
 
+    }
+
+
+    //01.25 정수민
+    public void CheckRemainMove() {
+        PlayerMoveCount --;
+        if(PlayerMoveCount != 0) {
+            ChangeTurnState(Enums.TurnState.PlayerMovable);
+            GetCurrentPlayer().hasMoved = false;
+            
         }
+
+    }
+
+    public void RequestPause()
+    {
+        // 일시정지 처리
+        CurrentStageState = Enums.StageState.Pause;
+        // 일시정지 UI 표시
+        UIManager.Instance.ShowPausePanel();
+        
+        Time.timeScale = 0f;    //게임 정지
+    }
+
+    public void CancelPause()
+    {
+        Time.timeScale = 1f;    //게임 재개
+
+        // 일시정지 UI 숨김
+        UIManager.Instance.HidePausePanel();
+        // play 처리
+        CurrentStageState = Enums.StageState.Playing;
+    }
+
+    public void StageRestart()
+    {
+        Time.timeScale = 1f;
+
+        
+        //씬 초기화
+        string currentSceneName = SceneManager.GetActiveScene().name; //현재 씬 가져와서 로드
+        SceneManager.LoadScene(currentSceneName);
+    }
 
     // 추가적인 게임 관리 기능들
 }

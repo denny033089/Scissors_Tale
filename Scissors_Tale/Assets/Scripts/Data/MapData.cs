@@ -17,6 +17,8 @@ public class MapData : ScriptableObject
     public string stageName;
     public int totalTurnLimit; // 스테이지별 제한 턴
 
+    public int PlayerRemainMove;
+
     public Vector2Int startpos1;
     public Vector2Int startpos2;
     public List<MonsterSpawnInfo> monsterSpawns; // 이 맵에 나올 몬스터 목록

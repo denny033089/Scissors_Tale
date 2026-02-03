@@ -48,6 +48,7 @@ public class ClickHandler : MonoBehaviour
                     GameManager.Instance.MovePlayer(selectedPiece,BoardPos);
                     //01.19 정수민: move일때 엉뚱한 곳을 클릭해도 이펙트가 사라지지 않음
                     GameManager.Instance.ClearEffects();
+                    GameManager.Instance.CheckRemainMove(); //01.27 남은 remainmove 확인
                 }
                 
             }

@@ -23,6 +23,18 @@ public class TutorialManager : Singleton<TutorialManager>
     
 
 
+    //01.24 정수민 씬이 로드될 때마다 변수 초기화 가능
+    protected override void OnSceneLoaded(string sceneName)
+    {
+        Debug.Log($"현재 로드된 씬: {sceneName}");
+
+        currentStep = 0;
+        stepcount = 0;
+        if(GameManager.Instance.isTutorialMode) {
+            TutorialDialogue.Instance.OpenDialogue(stepcount);
+        }
+    }
+    
     // 현재 튜토리얼 단계에서 가야 할 목표 좌표
     
     private void Start()
@@ -101,6 +113,7 @@ public class TutorialManager : Singleton<TutorialManager>
         {
             Debug.Log("모든 튜토리얼 이동을 완료했습니다!");
             // 여기서 튜토리얼 종료 처리나 다음 씬 전환 등을 호출할 수 있습니다.
+            GameManager.Instance.isTutorialMode = false; //01.25 정수민
             return;
         }
 
