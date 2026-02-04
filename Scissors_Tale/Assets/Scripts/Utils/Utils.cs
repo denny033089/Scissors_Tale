@@ -31,4 +31,11 @@ public static class Utils
     {
         return (v.x, v.y);
     }
+
+    public static Vector2Int ToVector2Int(this (int x, int y) tuple)
+    {
+        return new Vector2Int(tuple.x, tuple.y);
+    }
+
+
 }

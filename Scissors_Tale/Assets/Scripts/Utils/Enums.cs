@@ -24,6 +24,7 @@ public static class Enums
         PlayerMove,
         PlayerTag,
         PlayerAttack,
+        MonsterAttack,
         MonsterMove,
         End
     }

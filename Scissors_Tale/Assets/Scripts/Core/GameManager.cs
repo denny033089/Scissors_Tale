@@ -101,11 +101,11 @@ public class GameManager : Singleton<GameManager>
             CalculateTurn();
             //01.19 정수민 초상화 업데이트
             GetActivatePlayer();
+            MonsterAttackManager.Instance.GetPastPosition(p1Instance.MyPos.ToVector2Int(),p2Instance.MyPos.ToVector2Int()); //02.04 정수민
             playeruistatus.UpdatePlayerPortrait();
             PlayerMoveCount = PlayerRemainMove;  //01.27 playerMovecount 초기화
-
-
             break;
+            
             case Enums.TurnState.PlayerMovable:  //01.27 플레이어가 한 턴에 2번이상 움직이는 경우
             UIManager.Instance.ShowMoveButton();
             break;
@@ -123,6 +123,10 @@ public class GameManager : Singleton<GameManager>
             case Enums.TurnState.PlayerAttack:
             Attack();
                 // 공격 범위 계산 및 표시
+            break;
+
+            case Enums.TurnState.MonsterAttack:  //02.04 정수민 추가
+            MonsterAttack();
             break;
             case Enums.TurnState.MonsterMove:
             MonsterMove();
@@ -477,6 +481,46 @@ public class GameManager : Singleton<GameManager>
         AttackManager.Instance.Attack();
     }
 
+    //02.04 정수민
+    public void MonsterAttack() {
+        //남아있는 몬스터 모두 참조 후 공격 실행(동시에 실행할 것인지 따로따로 실행할 것인지 결정)
+        //monsterattackmanager에서 monsterattack 실행
+        //이펙트
+        //데미지 계산(damanage calculater)
+        //후에 몬스터 이펙트 표시해줘야 함
+        //플레이어도 체력 추가필요
+
+        //맵에 있는 몬스터 확인
+        List<Monster> allMonsters = new List<Monster>();
+
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Piece p = MapManager.Instance.Pieces[x, y];
+
+                //p가 몬스터인지 확인
+                if (p != null && p is Monster)
+                {
+                    allMonsters.Add((Monster)p);
+                }
+            }
+        }
+
+
+        // 몬스터 공격
+        foreach (Monster m in allMonsters)
+        {
+            // 몬스터 살아있는지 확인
+            if (m != null)
+            {
+                MonsterAttackManager.Instance.MonsterAttack(m);
+            }
+        }
+        
+
+    }
+
     public void MonsterMove() {
         //몬스터 배열 새로 생성
         List<Monster> allMonsters = new List<Monster>();
@@ -583,6 +627,10 @@ public class GameManager : Singleton<GameManager>
         // 1. 플레이어 공격 페이즈
         ChangeTurnState(Enums.TurnState.PlayerAttack);
         yield return new WaitForSeconds(0.5f); // 공격 모션 대기
+
+        // 몬스터 공격 페이즈  02.24 정수민
+        ChangeTurnState(Enums.TurnState.MonsterAttack);
+        yield return new WaitForSeconds(1.0f);
 
         // 2. 몬스터 이동 페이즈
         ChangeTurnState(Enums.TurnState.MonsterMove);

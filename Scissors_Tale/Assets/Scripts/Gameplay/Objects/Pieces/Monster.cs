@@ -25,6 +25,13 @@ public class Monster : Piece
     // FIFO ť: [Step1, Step2]
     public List<(int, int)> moveQueue = new List<(int, int)>();
 
+
+    //02.04 정수민
+    public List<AttackInfo> attackPatterns;
+    protected int currentPatternIndex = 0;
+
+    public int turnCounter = 0;
+
     // 스폰시 호출
     //01.19 정수민: InitializeStats 인수 삭제
     public virtual void InitializeStats()
@@ -220,4 +227,67 @@ public class Monster : Piece
             (currentX, currentY) = (nextX, nextY);
         }
     }
+
+
+
+    //02.04 정수민
+    //공격범위에 해당하는 타일 획득
+    public List<Vector2Int> GetAttackTiles(AttackInfo info) {
+        List<Vector2Int> targetTiles = new List<Vector2Int>();
+
+        switch (info.type)
+        {
+            case AttackType.FullLine:
+                // 몬스터가 있는 줄 전체 (X축 0부터 끝까지)
+                for (int x = 0; x < Utils.FieldWidth; x++) 
+                    targetTiles.Add(new Vector2Int(x, MyPos.Item2));
+                break;
+
+            case AttackType.Directional:
+                // 플레이어 방향을 구하고, 그 방향에 맞춰 areaOffsets를 회전/적용
+                Vector2Int dir = MonsterAttackManager.Instance.GetDirectionToPlayer(this);
+                foreach (var offset in info.areaOffsets)
+                    targetTiles.Add(MonsterAttackManager.Instance.RotateOffset(offset, dir));
+                break;
+
+            case AttackType.Splash:
+                // 플레이어의 현재 위치를 중심점으로 잡고 범위 타격
+                Vector2Int center = GameManager.Instance.p1Instance.MyPos.ToVector2Int();
+                foreach (var offset in info.areaOffsets)
+                    targetTiles.Add(center + offset);
+                break;
+        }
+
+        return targetTiles;
+
+    }
+
+
+    //02.04 정수민 특별한 기믹이 있다면 override하여 사용할 것
+    public virtual void PerformAttack()
+    {
+        
+        if (attackPatterns.Count == 0) return;
+        AttackInfo info = attackPatterns[currentPatternIndex];
+        
+        //공격범위 안에 있을때만 공격
+        if(MonsterAttackManager.Instance.isInRange(this)) {
+
+            turnCounter++; // 공격범위 안에 들어가면 일단 공격안함, 1턴 지나면 카운트가 증가하여 공격함
+            
+            // 2의 배수가 아닐 때는 공격하지 않고 종료 (1턴 쉬고 2턴째 공격)
+            if (turnCounter == 0) {
+                Debug.Log($"{this.name}: 기를 모으는 중... (다음 턴에 공격)");
+                return; 
+            }
+            List<Vector2Int> targetTiles = GetAttackTiles(info);
+            // 계산된 타일들에 데미지 적용
+            foreach (var tile in targetTiles) {
+                MonsterAttackManager.Instance.ApplyDamage(tile.x, tile.y, info.damage);
+            }
+        } else {
+            turnCounter = 0;
+        }
+    }
+
 }
