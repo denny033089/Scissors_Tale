@@ -29,7 +29,9 @@ public class GameManager : Singleton<GameManager>
     
 
 
-    public GameObject EffectPrefab;
+    public GameObject MoveEffectPrefab;
+    //02.04 정수민
+    public GameObject AttackEffectPrefab;
     public Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
     public Piece p2Instance;
     
@@ -37,7 +39,7 @@ public class GameManager : Singleton<GameManager>
     // 오브젝트의 parent들
 
 
-    private Transform EffectParent;
+    public Transform EffectParent;
     private UIManager uiManager;
 
     // Piece.cs들
@@ -101,7 +103,11 @@ public class GameManager : Singleton<GameManager>
             CalculateTurn();
             //01.19 정수민 초상화 업데이트
             GetActivatePlayer();
-            MonsterAttackManager.Instance.GetPastPosition(p1Instance.MyPos.ToVector2Int(),p2Instance.MyPos.ToVector2Int()); //02.04 정수민
+
+            //02.04 정수민 몬스터공격
+            MonsterAttackManager.Instance.GetPastPosition(p1Instance.MyPos.ToVector2Int(),p2Instance.MyPos.ToVector2Int());
+            PlanMonsterAttack();
+
             playeruistatus.UpdatePlayerPortrait();
             PlayerMoveCount = PlayerRemainMove;  //01.27 playerMovecount 초기화
             break;
@@ -127,6 +133,7 @@ public class GameManager : Singleton<GameManager>
 
             case Enums.TurnState.MonsterAttack:  //02.04 정수민 추가
             MonsterAttack();
+
             break;
             case Enums.TurnState.MonsterMove:
             MonsterMove();
@@ -235,11 +242,11 @@ public class GameManager : Singleton<GameManager>
         
         EffectParent = GameObject.Find("EffectParent").transform;
 
-        MovementManager.Instance.Initialize(EffectPrefab, EffectParent);
+        MovementManager.Instance.Initialize(MoveEffectPrefab, EffectParent);
 
         //01.18 정수민 tutorialmanager 추가
         if(isTutorialMode) {
-            TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
+            TutorialManager.Instance.Initialize(MoveEffectPrefab,EffectParent);
         }
 
         //01.20 정수민 totalturn 초기화
@@ -514,7 +521,9 @@ public class GameManager : Singleton<GameManager>
             // 몬스터 살아있는지 확인
             if (m != null)
             {
-                MonsterAttackManager.Instance.MonsterAttack(m);
+                if(m.willAttack()) { //공격할 턴인 애들만 공격 수행
+                    MonsterAttackManager.Instance.MonsterAttack(m);
+                }
             }
         }
         
@@ -669,6 +678,40 @@ public class GameManager : Singleton<GameManager>
         //01.18 정수민 tutorialmanager 추가
         TutorialManager.Instance.ClearEffects();
         MovementManager.Instance.ClearEffects();
+    }
+
+    public void PlanMonsterAttack()
+    {
+        List<Monster> allMonsters = new List<Monster>();
+
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Piece p = MapManager.Instance.Pieces[x, y];
+
+                //p가 몬스터인지 확인
+                if (p != null && p is Monster)
+                {
+                    allMonsters.Add((Monster)p);
+                }
+            }
+        }
+
+
+        // 몬스터 공격
+        foreach (Monster m in allMonsters)
+        {
+            // 몬스터 살아있는지 확인
+            if (m != null)
+            {
+                m.UpdateTurnCounter();
+                if(m.willAttack()) { //공격할 턴인 애들만 이펙트 보여주기
+                    MonsterAttackManager.Instance.ShowPossibleMonsterAttack(m);
+                }
+            }
+        }
+        
     }
 
     //01.20 정수민

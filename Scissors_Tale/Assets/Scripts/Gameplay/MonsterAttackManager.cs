@@ -6,6 +6,8 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
 {
     Vector2Int p1pastposition;
     Vector2Int p2pastposition;
+    private List<GameObject> currentAttackEffects = new List<GameObject>();
+    
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -128,5 +130,33 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
 
         return offset; // 예외 케이스 처리
 
+    }
+
+    public void ShowPossibleMonsterAttack(Monster monster) {
+
+        if (monster.attackPatterns.Count > 0)
+        {
+            AttackInfo info = monster.attackPatterns[monster.currentPatternIndex];
+            List<Vector2Int> tiles = monster.GetAttackTiles(info);
+            Debug.Log($"계산된 타일 수: {tiles.Count}"); // 타일이 0개는 아닌지 확인
+
+            foreach (Vector2Int tile in tiles)
+            {
+                Vector3 realPos = Utils.ToRealPos(tile.ToTuple());
+                Debug.Log($"이펙트 생성 위치: {realPos}");
+                GameObject effect = Instantiate(GameManager.Instance.AttackEffectPrefab, realPos, Quaternion.identity,GameManager.Instance.EffectParent);
+                    
+                // 나중에 지우기 위해 리스트에 보관
+                monster.currentAttackEffects.Add(effect);
+            }
+        }
+    }
+
+    public void ClearAttackEffects(Monster monster) {
+        foreach (GameObject obj in monster.currentAttackEffects)
+        {
+            if (obj != null) Destroy(obj);
+        }
+        monster.currentAttackEffects.Clear();
     }
 }
