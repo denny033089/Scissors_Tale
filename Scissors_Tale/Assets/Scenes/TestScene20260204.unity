@@ -4486,6 +4486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb4988f31bd3b684684f5d03fba6627a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAttackManager
+  AttackSprite: {fileID: 2188979712143680289, guid: 45c12cedf88ddc54b9eb78cf8bc2df36, type: 3}
 --- !u!4 &1922488617
 Transform:
   m_ObjectHideFlags: 0

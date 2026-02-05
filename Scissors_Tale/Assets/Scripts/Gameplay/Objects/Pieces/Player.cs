@@ -36,8 +36,10 @@ public class Player : Piece //02.04 정수민
     {
         if (DamagePopupPrefab == null || sprite == null) return;
 
+        Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(1, 1.5f), 0);
+
         // 몬스터 위에서 스폰
-        Vector3 spawnPos = (PopupSpawnPoint != null) ? PopupSpawnPoint.position : transform.position + Vector3.up * 1.0f;
+        Vector3 spawnPos = (PopupSpawnPoint != null) ? PopupSpawnPoint.position : transform.position + randomOffset * 1.0f;
 
         GameObject popupObj = Instantiate(DamagePopupPrefab, spawnPos, Quaternion.identity);
         DamagePopup popupScript = popupObj.GetComponent<DamagePopup>();
@@ -48,12 +50,12 @@ public class Player : Piece //02.04 정수민
         }
     }
     
+    
     public virtual void TakeDamage(int damage)
     {
-        for(int i = 0;i<damage;i++) {
-            CurrentHP --;
-            //SpawnDamageEffect(d);
-        }
+        CurrentHP = CurrentHP - damage;
+
+        MonsterAttackManager.Instance.ShowDamageEffect(damage,this);
 
         if (CurrentHP < 0) CurrentHP = 0;
 

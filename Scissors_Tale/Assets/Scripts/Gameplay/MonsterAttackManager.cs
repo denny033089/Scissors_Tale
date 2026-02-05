@@ -162,4 +162,24 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
         monster.currentAttackEffects.Clear();
     }
 
+    public virtual void ShowDamageEffect(int damage,Piece piece)
+    {
+        StartCoroutine(ProcessEffectSequence(damage,piece));
+    }
+
+    private IEnumerator ProcessEffectSequence(int damage,Piece piece) {
+        for(int i = 0;i<damage;i++) {
+            if (piece is Player1 player1)
+            {
+                player1.SpawnDamageEffect(AttackSprite);
+            }
+            if (piece is Player2 player2)
+            {
+                player2.SpawnDamageEffect(AttackSprite);
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+
+    }
+
 }

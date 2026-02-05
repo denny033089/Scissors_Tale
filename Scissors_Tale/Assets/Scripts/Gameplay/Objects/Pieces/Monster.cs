@@ -129,6 +129,8 @@ public class Monster : Piece
         // 화살표 삭제
         foreach (var arrow in _spawnedArrows) if (arrow != null) Destroy(arrow);
 
+        MonsterAttackManager.Instance.ClearAttackEffects(this); //02.06 정수민 이펙트 삭제
+
         // 오브젝트 삭제
         Destroy(gameObject);
 
