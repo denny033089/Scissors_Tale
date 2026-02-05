@@ -8,6 +8,12 @@ public struct MonsterSpawnInfo
     public Vector2Int spawnPos;
 }
 
+[System.Serializable]
+public struct StageObjective
+{
+    public string description;
+}
+
 [CreateAssetMenu(fileName = "NewMapData", menuName = "Stage/MapData")]
 public class MapData : ScriptableObject
 {
@@ -23,5 +29,8 @@ public class MapData : ScriptableObject
     public Vector2Int startpos2;
     public List<MonsterSpawnInfo> monsterSpawns; // 이 맵에 나올 몬스터 목록
     public GameObject tilePrefab; // 맵마다 타일 모양이 다를 경우
+
+    [Header("Objectives")]
+    public StageObjective[] objectives = new StageObjective[3];
 
 }

@@ -2814,6 +2814,15 @@ MonoBehaviour:
   ClearUI: {fileID: 713304498}
   PauseUI: {fileID: 1617320278}
   FailUI: {fileID: 223396493}
+  objectiveTexts: []
+  objectiveStars: []
+  objectiveCompleteIcons: []
+  completedStarSprite: {fileID: 0}
+  incompleteStarSprite: {fileID: 0}
+  completedTextColor: {r: 1, g: 1, b: 1, a: 1}
+  incompleteTextColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  completedStarTint: {r: 1, g: 1, b: 1, a: 1}
+  incompleteStarTint: {r: 1, g: 1, b: 1, a: 1}
   turnText: {fileID: 998501835}
   RemainMoveText: {fileID: 565173979}
 --- !u!4 &1409192375
@@ -3635,10 +3644,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Piece
   hasMoved: 0
-  spriteUp: {fileID: 0}
-  spriteDown: {fileID: 0}
-  spriteLeft: {fileID: 0}
-  spriteRight: {fileID: 0}
 --- !u!4 &1756953778
 Transform:
   m_ObjectHideFlags: 0
@@ -3711,7 +3716,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4256445754951089380, guid: f4218e371d39c7b47b47f38e3a0d4b52, type: 3}
+  m_Sprite: {fileID: 8702093835460269203, guid: 77be930ed5e1f51428ebeacb204339d6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4820,7 +4825,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7435542849257306331, guid: 6902fbeff64a72c439233808b0031455, type: 3}
+  m_Sprite: {fileID: -768587845766013918, guid: 156c7fb28f95d4448a86c1f256fdb7c5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -67,6 +67,7 @@ public class GameManager : Singleton<GameManager>
     public bool IsTagTurn = false;
     
 
+
     //01.17 정수민 stagestate 변경
     public void ChangeStageState(Enums.StageState newStageState)
     {
@@ -79,7 +80,12 @@ public class GameManager : Singleton<GameManager>
             case Enums.StageState.Pause:
             break;
             case Enums.StageState.Victory:
-            UIManager.Instance.ShowClearPanel();
+            //2/5 구본환
+            ObjectiveManager.Instance.NotifyStageCleared();
+            UIManager.Instance.ShowClearPanel(
+                ObjectiveManager.Instance.GetDescriptions(),
+                ObjectiveManager.Instance.GetCompletionStatus()
+            );
 
             break;
             case Enums.StageState.Gameover:
@@ -248,6 +254,8 @@ public class GameManager : Singleton<GameManager>
             
         }
 
+        ObjectiveManager.Instance.InitializeForStage(currentMapData);
+        
         
                 
         

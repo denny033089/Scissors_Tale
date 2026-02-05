@@ -26,7 +26,23 @@ public class UIManager : Singleton<UIManager>
 
     public GameObject PauseUI;
     public GameObject FailUI;
-    
+
+    //2/5 구본환
+    [Header("Objective UI")]
+    [SerializeField] private TextMeshProUGUI[] objectiveTexts;
+    [SerializeField] private Image[] objectiveStars;
+
+    [SerializeField] private GameObject[] objectiveCompleteIcons;
+
+    [SerializeField] private Sprite completedStarSprite;   // 성공별
+    [SerializeField] private Sprite incompleteStarSprite;  // 실패별
+    // 검정 텍스트
+    [SerializeField] private Color completedTextColor = new Color(0.12f, 0.10f, 0.08f, 1f);
+    [SerializeField] private Color incompleteTextColor = new Color(0.45f, 0.43f, 0.40f, 1f);
+    [SerializeField] private Color completedStarTint = Color.white;
+    [SerializeField] private Color incompleteStarTint = Color.white;
+
+    [Header("Turn UI")]
     [SerializeField]
     private TextMeshProUGUI turnText;
     [SerializeField]
@@ -83,7 +99,7 @@ public class UIManager : Singleton<UIManager>
         if(GameManager.Instance.CurrentStageState is Enums.StageState.Victory or Enums.StageState.Gameover) {
             return;
         }
-        
+            
         
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerTag) {
             SoundManager.Instance.PlaySFX("Click");
@@ -112,9 +128,58 @@ public class UIManager : Singleton<UIManager>
     public void ShowFailPanel() {
         FailUI.SetActive(true);
     }
-
-    public void ShowClearPanel() {
+    //2/5 구본환
+    public void ShowClearPanel(string[] objectiveDescriptions, bool[] objectiveCompletionStatus) {
         ClearUI.SetActive(true);
+        UpdateObjectiveUI(objectiveDescriptions, objectiveCompletionStatus);
+    }
+
+    private void UpdateObjectiveUI(string[] objectiveDescriptions, bool[] objectiveCompletionStatus)
+    {
+        if (objectiveDescriptions == null || objectiveCompletionStatus == null) return;
+
+        int count = int.MaxValue;
+        if (objectiveTexts != null) count = Mathf.Min(count, objectiveTexts.Length);
+        if (objectiveDescriptions != null) count = Mathf.Min(count, objectiveDescriptions.Length);
+        if (objectiveCompletionStatus != null) count = Mathf.Min(count, objectiveCompletionStatus.Length);
+        count = Mathf.Clamp(count, 0, 3); // 목표 3개만
+
+        for (int i = 0; i < count; i++)
+        {
+            bool isDone = objectiveCompletionStatus[i];
+
+            // 실패시에 목표설명 회색처리
+            if (objectiveTexts != null && i < objectiveTexts.Length && objectiveTexts[i] != null)
+            {
+                objectiveTexts[i].text = objectiveDescriptions[i];
+                objectiveTexts[i].color = isDone ? completedTextColor : incompleteTextColor;
+            }
+
+            // 별 이미지 변경
+            Image starImage = null;
+
+            if (objectiveStars != null && i < objectiveStars.Length)
+            {
+                starImage = objectiveStars[i];
+            }
+            else if (objectiveCompleteIcons != null && i < objectiveCompleteIcons.Length && objectiveCompleteIcons[i] != null)
+            {
+                // 이전 코드 호환성을 위해 별 이미지 사용
+                starImage = objectiveCompleteIcons[i].GetComponent<Image>();
+                objectiveCompleteIcons[i].SetActive(true);
+            }
+
+            if (starImage != null)
+            {
+                Sprite desiredSprite = isDone ? completedStarSprite : incompleteStarSprite;
+                if (desiredSprite != null)
+                {
+                    starImage.sprite = desiredSprite;
+                }
+
+                starImage.color = isDone ? completedStarTint : incompleteStarTint;
+            }
+        }
     }
 
     public void ShowPausePanel() {
