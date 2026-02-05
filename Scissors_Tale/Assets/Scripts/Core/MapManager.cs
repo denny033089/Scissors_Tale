@@ -101,6 +101,14 @@ public class MapManager : Singleton<MapManager>
         p1Instance = PlacePiece(0,currentMapData.startpos1.ToTuple());
         p2Instance = PlacePiece(1,currentMapData.startpos2.ToTuple());
 
+        //02.05 정수민 player initialize
+        if(p1Instance is Player player1) {
+            player1.InitializeStats();
+        }
+        if(p2Instance is Player player2) {
+            player2.InitializeStats();
+        }
+
         GameManager.Instance.p1Instance = p1Instance;  //플레이어 정보 gamemanager에 전달
         GameManager.Instance.p2Instance = p2Instance;
         Debug.Log("플레이어 게임매니저에 할당");

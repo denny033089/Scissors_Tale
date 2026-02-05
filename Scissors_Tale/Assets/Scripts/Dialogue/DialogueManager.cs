@@ -12,7 +12,7 @@ public class synopsis : MonoBehaviour, IPointerDownHandler
 
     public Text ScriptText_dialogue;
     public string[] dialogue = { "평화롭던 숲속에 나타난, 정체불명의 검은 조각들.",
-    "몸에 달라붙은 검은 조각들 때문에 괴로워하는 숲속 친구들의 목소리를 들은 A와 B는, 숲속 친구들을 구하기 위해 숲으로 향하게 되는데...",
+    "괴로워하는 숲속 친구들의 목소리를 들은 A와 B는, 숲속 친구들을 구하기 위해 숲으로 향하게 되는데...",
     "A: 앗, 안녕! 사람을 보는 건 처음인데! 나는 A라고 해. 반가워!",
     "B: ...안녕, 나는 A의 친구 B,",
     "A: 긴 어떻게 찾아온 거야? 다친 데는 없어? 다닐 만해?",

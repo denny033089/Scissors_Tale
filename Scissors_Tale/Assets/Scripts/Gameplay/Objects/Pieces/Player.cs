@@ -27,12 +27,37 @@ public class Player : Piece //02.04 정수민
         
     }
 
+    public virtual void InitializeStats() {
+        CurrentHP = MaxHP;
+        UpdateHPText();
+    }
+
+    public virtual void SpawnDamageEffect(Sprite sprite)
+    {
+        if (DamagePopupPrefab == null || sprite == null) return;
+
+        // 몬스터 위에서 스폰
+        Vector3 spawnPos = (PopupSpawnPoint != null) ? PopupSpawnPoint.position : transform.position + Vector3.up * 1.0f;
+
+        GameObject popupObj = Instantiate(DamagePopupPrefab, spawnPos, Quaternion.identity);
+        DamagePopup popupScript = popupObj.GetComponent<DamagePopup>();
+
+        if (popupScript != null)
+        {
+            popupScript.Setup(sprite);
+        }
+    }
+    
     public virtual void TakeDamage(int damage)
     {
-        CurrentHP -= damage;
+        for(int i = 0;i<damage;i++) {
+            CurrentHP --;
+            //SpawnDamageEffect(d);
+        }
+
         if (CurrentHP < 0) CurrentHP = 0;
 
-        Debug.Log($"현재 체력(누구껀지는 모름): {CurrentHP}/{MaxHP}");
+        Debug.Log($"[{gameObject.name} : {GetInstanceID()}] HP: {CurrentHP}");
 
         UpdateHPText();
 

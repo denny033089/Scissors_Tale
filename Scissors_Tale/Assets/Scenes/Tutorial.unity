@@ -2578,9 +2578,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   isTutorialMode: 1
   currentMapData: {fileID: 11400000, guid: 0c8047608f8d3fe43abc58b4f2fddb0f, type: 2}
-  EffectPrefab: {fileID: 9091587442089639357, guid: 095d220f822daa04d8c74afb19b7af92, type: 3}
+  MoveEffectPrefab: {fileID: 9091587442089639357, guid: 095d220f822daa04d8c74afb19b7af92, type: 3}
+  AttackEffectPrefab: {fileID: 9091587442089639357, guid: a578cc8a1aa21bf4487c66f472cce93a, type: 3}
   p1Instance: {fileID: 0}
   p2Instance: {fileID: 0}
+  EffectParent: {fileID: 0}
   NextPlayer: 0
   CurrentPlayer: 0
   totalTurn: 10
@@ -3635,10 +3637,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Piece
   hasMoved: 0
-  spriteUp: {fileID: 0}
-  spriteDown: {fileID: 0}
-  spriteLeft: {fileID: 0}
-  spriteRight: {fileID: 0}
 --- !u!4 &1756953778
 Transform:
   m_ObjectHideFlags: 0
@@ -3711,7 +3709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4256445754951089380, guid: f4218e371d39c7b47b47f38e3a0d4b52, type: 3}
+  m_Sprite: {fileID: -3228868622773454368, guid: ee6fe49255ee4994e8c9bb344082f38f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4820,7 +4818,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7435542849257306331, guid: 6902fbeff64a72c439233808b0031455, type: 3}
+  m_Sprite: {fileID: 2796228713657353526, guid: a1c08f2562303a645a1689ab7882f81d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

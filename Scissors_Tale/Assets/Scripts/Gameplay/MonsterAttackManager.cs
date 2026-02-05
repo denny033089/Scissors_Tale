@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class MonsterAttackManager : Singleton<MonsterAttackManager>
 {
+    public Sprite AttackSprite; 
+    
     Vector2Int p1pastposition;
     Vector2Int p2pastposition;
     private List<GameObject> currentAttackEffects = new List<GameObject>();
@@ -159,4 +161,5 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
         }
         monster.currentAttackEffects.Clear();
     }
+
 }

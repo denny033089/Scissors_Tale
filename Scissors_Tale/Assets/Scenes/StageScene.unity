@@ -370,9 +370,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   isTutorialMode: 0
   currentMapData: {fileID: 11400000, guid: 25d17c8b8caa4654896be49f639824d4, type: 2}
-  EffectPrefab: {fileID: 9091587442089639357, guid: 095d220f822daa04d8c74afb19b7af92, type: 3}
+  MoveEffectPrefab: {fileID: 9091587442089639357, guid: 095d220f822daa04d8c74afb19b7af92, type: 3}
+  AttackEffectPrefab: {fileID: 9091587442089639357, guid: a578cc8a1aa21bf4487c66f472cce93a, type: 3}
   p1Instance: {fileID: 0}
   p2Instance: {fileID: 0}
+  EffectParent: {fileID: 0}
   NextPlayer: 0
   CurrentPlayer: 0
   totalTurn: 10
@@ -3000,10 +3002,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Piece
   hasMoved: 0
-  spriteUp: {fileID: 0}
-  spriteDown: {fileID: 0}
-  spriteLeft: {fileID: 0}
-  spriteRight: {fileID: 0}
 --- !u!4 &1215518835
 Transform:
   m_ObjectHideFlags: 0
