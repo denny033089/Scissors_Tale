@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public enum AttackType 
 { 
     Directional, // 플레이어 방향으로 특정 범위 (2x3 등)
-    FullLine,    // 가로줄 전체 공격
+    XAxisLine,    // 가로줄 전체 공격
+    YAxisLine,    // 세로줄 전체 공격
     Splash       // 원거리 특정 지점 폭발 (포격)
 }
 

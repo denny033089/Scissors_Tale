@@ -153,6 +153,10 @@ public class GameManager : Singleton<GameManager>
                 ChangeStageState(Enums.StageState.Victory);
             }
 
+            if(!IsRemainPlayer()) {
+                ChangeStageState(Enums.StageState.Gameover);
+            }
+
             break;
         }
     }
@@ -722,6 +726,26 @@ public class GameManager : Singleton<GameManager>
             {
                 //  해당 칸에 기물이 있고, 그 타입이 Monster인지 확인
                 if (MapManager.Instance.Pieces[x, y] != null && MapManager.Instance.Pieces[x, y] is Monster)
+                {
+                    // 몬스터를 하나라도 찾으면 즉시 true 반환 (알고리즘 효율성)
+                    return true;
+                }
+            }
+        }
+
+        //  모든 칸을 다 돌았는데 없으면 false 반환
+        return false;
+
+    }
+
+    //02.08 정수민 패배조건
+    public bool IsRemainPlayer() {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                //  해당 칸에 기물이 있고, 그 타입이 Monster인지 확인
+                if (MapManager.Instance.Pieces[x, y] != null && MapManager.Instance.Pieces[x, y] is Player)
                 {
                     // 몬스터를 하나라도 찾으면 즉시 true 반환 (알고리즘 효율성)
                     return true;

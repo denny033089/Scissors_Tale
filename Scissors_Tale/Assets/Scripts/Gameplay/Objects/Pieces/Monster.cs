@@ -257,11 +257,21 @@ public class Monster : Piece
 
         switch (info.type)
         {
-            case AttackType.FullLine:
+            case AttackType.XAxisLine:
             
             // 몬스터가 있는 줄 전체 (X축 0부터 끝까지)
             for (int x = 0; x < Utils.FieldWidth; x++) { 
                 Vector2Int position = new Vector2Int(x,MyPos.Item2);
+                if(!Utils.IsInBoard(position.ToTuple())) continue;
+                targetTiles.Add(position);
+            }
+            break;
+
+            case AttackType.YAxisLine:
+            
+            // 몬스터가 있는 줄 전체 (y축 0부터 끝까지)
+            for (int y = 0; y < Utils.FieldHeight; y++) { 
+                Vector2Int position = new Vector2Int(MyPos.Item1,y);
                 if(!Utils.IsInBoard(position.ToTuple())) continue;
                 targetTiles.Add(position);
             }
@@ -282,7 +292,7 @@ public class Monster : Piece
             case AttackType.Splash:
             
             // 플레이어의 현재 위치를 중심점으로 잡고 범위 타격
-            Vector2Int center = GameManager.Instance.p1Instance.MyPos.ToVector2Int();
+            Vector2Int center = MonsterAttackManager.Instance.FindClosePlayerPosition(this);
             foreach (var offset in info.areaOffsets) {
                 Vector2Int position = center + offset;
                 if(!Utils.IsInBoard(position.ToTuple())) continue;

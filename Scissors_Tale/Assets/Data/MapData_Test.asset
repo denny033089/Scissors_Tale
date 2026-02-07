@@ -25,8 +25,8 @@ MonoBehaviour:
     spawnPos: {x: 5, y: 3}
   - monsterName: TestMonster
     spawnPos: {x: 6, y: 0}
-  - monsterName: TestMonster
+  - monsterName: TestFullLineMonster
     spawnPos: {x: 5, y: 1}
-  - monsterName: TestMonster
+  - monsterName: TestThrowMonster
     spawnPos: {x: 6, y: 4}
   tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TwoTurnMonster : Monster
+public class FrontAttackMonster : Monster
 {    
     public override AttackInfo[] GetAttacks()
     {
@@ -22,7 +22,7 @@ public class TwoTurnMonster : Monster
         return new AttackInfo[]
         {
             // AttackType.Directional을 사용하여 플레이어 방향으로 이 범위를 출력합니다.
-            new AttackInfo(AttackType.Directional, 2, 2, area3x2)
+            new AttackInfo(AttackType.Directional, 2, 3, area3x2)
         };
     }
 }

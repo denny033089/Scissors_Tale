@@ -126,6 +126,8 @@ public class MapManager : Singleton<MapManager>
         if (name == "BatMonster") return 4;
         if (name == "TurtleMonster") return 5;
         if (name == "TestMonster") return 6;
+        if (name == "TestThrowMonster") return 7;
+        if (name == "TestFullLineMonster") return 8;
         return 2; // 기본값  나중에 dictionary로 대체
     }
 

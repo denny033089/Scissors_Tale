@@ -47,6 +47,9 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
             distance2 = Vector2.Distance(p2pastposition, monster.MyPos.ToVector2Int());
             if(distance2<distance1) {
                 PlayerPos = p2pastposition;
+            } else if(distance2==distance1) {  //거리가 같으면 p1과 p2중 하나를 고름
+                int choice = Random.Range(0, 2);  
+                PlayerPos = (choice == 0) ? p1pastposition : p2pastposition;
             }
         }
 
