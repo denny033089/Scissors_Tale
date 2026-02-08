@@ -103,9 +103,7 @@ public class GameManager : Singleton<GameManager>
             CalculateTurn();
             //01.19 정수민 초상화 업데이트
             GetActivatePlayer();
-
-            //02.04 정수민 몬스터공격
-            MonsterAttackManager.Instance.GetPastPosition(p1Instance.MyPos.ToVector2Int(),p2Instance.MyPos.ToVector2Int());
+            //02.08 정수민 몬스터 공격 계획
             PlanMonsterAttack();
 
             playeruistatus.UpdatePlayerPortrait();
@@ -141,8 +139,7 @@ public class GameManager : Singleton<GameManager>
             break;
 
             case Enums.TurnState.End:
-            p1Instance.hasMoved = false; //턴이 끝나면 이동여부 초기화
-            p2Instance.hasMoved = false;
+            ResetHasMoved(); //02.08 정수민
 
             //01.18 정수민 tutorialmanager
             if (isTutorialMode) {
@@ -378,6 +375,18 @@ public class GameManager : Singleton<GameManager>
     }
 
     public Piece GetActivatePlayer() {
+        
+        //02.08 정수민 추가
+        if (p1Instance == null) {
+            CurrentPlayer = 1;
+            return p2Instance;
+        }
+        
+        if (p2Instance == null) {
+            CurrentPlayer = 0;
+            return p1Instance;
+        }
+        
         //플레이어 바꾸기
         if(CurrentTurnState == Enums.TurnState.PlayerTag) { //tag를 누른 상태라면
             if(NextPlayer == 0) {
@@ -466,11 +475,13 @@ public class GameManager : Singleton<GameManager>
             }
         } 
 
-        Vector2Int p1Pos = new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
-        Vector2Int p2Pos = new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
-        
-        var area1 = Get3x3Area(p1Pos);
-        var area2 = Get3x3Area(p2Pos);
+        // 02.08 정수민 플레이어 사망 여부 추가
+        bool isP1Alive = p1Instance != null;
+        bool isP2Alive = p2Instance != null;
+
+        HashSet<Vector2Int> area1 = isP1Alive ? new HashSet<Vector2Int>(Get3x3Area(p1Instance.MyPos.ToVector2Int())) : new HashSet<Vector2Int>();
+        HashSet<Vector2Int> area2 = isP2Alive ? new HashSet<Vector2Int>(Get3x3Area(p2Instance.MyPos.ToVector2Int())) : new HashSet<Vector2Int>();
+
 
         for (int x = 0; x < Utils.FieldWidth; x++)
         {
@@ -478,8 +489,8 @@ public class GameManager : Singleton<GameManager>
             {
                 Vector2Int pos = new Vector2Int(x, y);
 
-                bool inP1 = area1.Contains(pos);
-                bool inP2 = area2.Contains(pos);
+                bool inP1 = isP1Alive && area1.Contains(pos); //02.08 정수민 플레이어 사망 조건 여부 추가
+                bool inP2 = isP2Alive && area2.Contains(pos);
 
                 if (inP1 && inP2) MapManager.Instance.Tiles[x, y].SetColor(overlapColor);  //01.20 정수민 수정
                 else if (inP1) MapManager.Instance.Tiles[x, y].SetColor(player1Color);
@@ -588,7 +599,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     public void HandleTag() {
-
+        
         
         //01.19 정수민
         if(isTutorialMode) {
@@ -686,6 +697,17 @@ public class GameManager : Singleton<GameManager>
 
     public void PlanMonsterAttack()
     {
+        //02.04 정수민 플레이어 과거 위치 전달하기
+        if(p1Instance != null) {
+            MonsterAttackManager.Instance.p1pastposition = p1Instance.MyPos.ToVector2Int();
+            Debug.Log($"플레이어1 과거위치: {p1Instance.MyPos.ToVector2Int()}");
+
+        }
+        if(p2Instance != null) {
+            MonsterAttackManager.Instance.p2pastposition = p2Instance.MyPos.ToVector2Int();
+            Debug.Log($"플레이어2 과거위치: {p2Instance.MyPos.ToVector2Int()}");
+        } 
+        
         List<Monster> allMonsters = new List<Monster>();
 
         for (int x = 0; x < Utils.FieldWidth; x++)
@@ -738,13 +760,22 @@ public class GameManager : Singleton<GameManager>
 
     }
 
-    //02.08 정수민 패배조건
+    //02.08 정수민 사망 로직, nextplayer가 반대의 인물이됨
+    public void OnPlayerDeath(Player deadplayer) {
+        if(deadplayer is Player player1) {
+            p1Instance = null;
+            
+        } else if (deadplayer is Player player2) {
+            p2Instance = null;
+        }
+    }
+    
     public bool IsRemainPlayer() {
         for (int x = 0; x < Utils.FieldWidth; x++)
         {
             for (int y = 0; y < Utils.FieldHeight; y++)
             {
-                //  해당 칸에 기물이 있고, 그 타입이 Monster인지 확인
+                //  해당 칸에 기물이 있고, 그 타입이 Player인지 확인
                 if (MapManager.Instance.Pieces[x, y] != null && MapManager.Instance.Pieces[x, y] is Player)
                 {
                     // 몬스터를 하나라도 찾으면 즉시 true 반환 (알고리즘 효율성)
@@ -756,6 +787,16 @@ public class GameManager : Singleton<GameManager>
         //  모든 칸을 다 돌았는데 없으면 false 반환
         return false;
 
+    }
+
+    //턴이 끝나면 이동여부 초기화
+    public void ResetHasMoved() {
+        if(p1Instance != null) {
+            p1Instance.hasMoved = false;
+        }
+        if(p2Instance != null) {
+            p2Instance.hasMoved = false;
+        }       
     }
 
 

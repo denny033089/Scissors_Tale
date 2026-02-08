@@ -55,7 +55,6 @@ public class UIManager : Singleton<UIManager>
     }
     public void OnTagButtonClicked()
     {
-
         //01.19 정수민
         if(GameManager.Instance.CurrentStageState is Enums.StageState.Victory or Enums.StageState.Gameover) {
             return;

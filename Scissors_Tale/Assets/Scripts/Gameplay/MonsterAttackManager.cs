@@ -6,8 +6,8 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
 {
     public Sprite AttackSprite; 
     
-    Vector2Int p1pastposition;
-    Vector2Int p2pastposition;
+    public Vector2Int p1pastposition;
+    public Vector2Int p2pastposition;
     private List<GameObject> currentAttackEffects = new List<GameObject>();
     
 
@@ -36,8 +36,8 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
     
     //가까운 플레이어의 위치를 얻어옴->몬스터의 공격방향 결정
     public Vector2Int FindClosePlayerPosition(Monster monster) {
-        float distance1 = -1;
-        float distance2 = -1;
+        float distance1 = 1000;
+        float distance2 = 1000;
         Vector2Int PlayerPos = monster.MyPos.ToVector2Int();
         if(GameManager.Instance.p1Instance != null) {
             distance1 = Vector2.Distance(p1pastposition, monster.MyPos.ToVector2Int());
@@ -65,6 +65,7 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
 
         // 2. 플레이어와 몬스터의 위치 가져오기 (Vector2Int 변환)
         Vector2Int playerPos = FindClosePlayerPosition(monster);
+        Debug.Log($"플레이어 위치: {playerPos}");
         Vector2Int monsterPos = monster.MyPos.ToVector2Int();
 
         // 3. 거리 계산 (직선 거리)
@@ -82,12 +83,6 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
             return false;
         }
 
-    }
-    
-    //플레이어가 이동하기 전의 위치정보를 얻어옴
-    public void GetPastPosition(Vector2Int pos1,Vector2Int pos2) {
-        p1pastposition = pos1;
-        p2pastposition = pos2;
     }
 
     public void ApplyDamage(int x, int y, int damage) {

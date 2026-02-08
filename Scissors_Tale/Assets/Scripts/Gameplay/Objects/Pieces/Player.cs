@@ -82,6 +82,7 @@ public class Player : Piece //02.04 정수민
         Debug.Log("플레이어 사망");
         // 보드에서 지우기
         MapManager.Instance.Pieces[MyPos.Item1, MyPos.Item2] = null;
+        GameManager.Instance.OnPlayerDeath(this);
 
         // 오브젝트 삭제
         Destroy(gameObject);
