@@ -264,6 +264,7 @@ public class GameManager : Singleton<GameManager>
         //01.27 정수민
         // StageDataManager에 저장된 현재 스테이지 인덱스를 가져와서 UI 업데이트
         int currentIdx = StageDataManager.Instance.currentStageIndex;
+
         UIManager.Instance.UpdateStageNumberUI(currentIdx);
 
         //01.27 정수민

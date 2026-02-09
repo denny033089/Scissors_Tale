@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f9f6b943daa24204baecd9523349385d
+guid: ead0471ad83fc8343b76bf776eeaa590
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7651895242900624139
-    second: Stage3_0
+      213: -1011477410803938143
+    second: Stage3_ver2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -84,7 +84,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Standalone
+    buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -110,7 +110,33 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: iOS
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -126,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Stage3_0
+      name: Stage3_ver2_0
       rect:
         serializedVersion: 2
-        x: 20
-        y: 8
-        width: 1228
-        height: 343
+        x: 0
+        y: 15
+        width: 1110
+        height: 304
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5fc286c61d10fc590800000000000000
-      internalID: -7651895242900624139
+      spriteID: 1ac03b667a286f1f0800000000000000
+      internalID: -1011477410803938143
       vertices: []
       indices: 
       edges: []
@@ -161,7 +187,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Stage3_0: -7651895242900624139
+      Stage3_ver2_0: -1011477410803938143
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
