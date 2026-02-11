@@ -14,6 +14,10 @@ public class Player : Piece //02.04 정수민
     [Header("스탯")]
     public int CurrentHP = 20;
     public int MaxHP = 20;
+
+    public GameObject Triangle;
+    public SpriteRenderer MySpriteRenderer { get; private set; } //02.12 정수민
+    public int thickness;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,6 +29,12 @@ public class Player : Piece //02.04 정수민
     void Update()
     {
         
+    }
+
+    public virtual void Awake() 
+    {
+        MySpriteRenderer = GetComponent<SpriteRenderer>();
+        thickness = 10;  //여기서 테두리 굵기 정하기
     }
 
     public virtual void InitializeStats() {

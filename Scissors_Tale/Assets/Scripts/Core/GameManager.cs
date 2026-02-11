@@ -34,6 +34,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject AttackEffectPrefab;
     public Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
     public Piece p2Instance;
+    public GameObject TagEffect;
     
 
     // 오브젝트의 parent들
@@ -41,6 +42,7 @@ public class GameManager : Singleton<GameManager>
 
     public Transform EffectParent;
     private UIManager uiManager;
+
 
     // Piece.cs들
   
@@ -389,12 +391,17 @@ public class GameManager : Singleton<GameManager>
         
         //플레이어 바꾸기
         if(CurrentTurnState == Enums.TurnState.PlayerTag) { //tag를 누른 상태라면
+            
             if(NextPlayer == 0) {
                 CurrentPlayer = 0; //01.19 정수민
                 NextPlayer = 1; //next는 player2(tag상태일 때만 바꾸기 가능)
+
+                ShowTagEffect(NextPlayer); //02.11 정수민 태그 추가
             } else {
                 CurrentPlayer = 1; //01.19 정수민
                 NextPlayer = 0; //next는 player1(tag상태일 때만 바꾸기 가능)
+
+                ShowTagEffect(NextPlayer); //02.11 정수민 태그 추가
             }
         } else { //01.19 정수민 : tag를 누르지 않은 상태라면 그대로감
             CurrentPlayer = NextPlayer;
@@ -839,6 +846,43 @@ public class GameManager : Singleton<GameManager>
         //씬 초기화
         string currentSceneName = SceneManager.GetActiveScene().name; //현재 씬 가져와서 로드
         SceneManager.LoadScene(currentSceneName);
+    }
+
+
+    public void ShowTagEffect(int NextPlayer) {
+        
+        Vector3 PlayerPosition = new Vector3(0,0,0);
+        
+        if(NextPlayer == 0) {
+            PlayerPosition = Utils.ToRealPos(p1Instance.MyPos);
+            if(p1Instance is Player player1) { player1.MySpriteRenderer.material.SetFloat("_Thickness",player1.thickness); player1.Triangle.SetActive(true); }
+            if(p2Instance is Player player2) { player2.MySpriteRenderer.material.SetFloat("_Thickness",0f); player2.Triangle.SetActive(false); }
+
+        } else if(NextPlayer == 1) {
+            PlayerPosition = Utils.ToRealPos(p2Instance.MyPos);
+            if(p2Instance is Player player2) { player2.MySpriteRenderer.material.SetFloat("_Thickness",player2.thickness); player2.Triangle.SetActive(true); }
+            if(p1Instance is Player player1) { player1.MySpriteRenderer.material.SetFloat("_Thickness",0f); player1.Triangle.SetActive(false); }
+        }
+
+        SpawnTagEffect(NextPlayer,PlayerPosition);
+    }
+
+    //02.11 정수민
+    public void SpawnTagEffect(int NextPlayer,Vector3 PlayerPosition)
+    {
+        if (TagEffect == null) return;
+        Sprite tagsprite = TagEffect.GetComponent<SpriteRenderer>()?.sprite;     
+
+        Vector3 TagPosition = PlayerPosition + Vector3.up * 2.0f;
+        // 몬스터 위에서 스폰
+
+        GameObject popupObj = Instantiate(TagEffect, TagPosition, Quaternion.identity);
+        DamagePopup popupScript = popupObj.GetComponent<DamagePopup>();
+
+        if (popupScript != null)
+        {
+            popupScript.Setup(tagsprite);
+        }
     }
 
     // 추가적인 게임 관리 기능들

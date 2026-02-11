@@ -1598,6 +1598,7 @@ MonoBehaviour:
   - {fileID: 524731917048748400, guid: b651c38e42ae1f042bd0dd4c7d512412, type: 3}
   - {fileID: 5294844828858646776, guid: e4ec59fc5aebbb4449b9fc50350897bd, type: 3}
   - {fileID: 5294844828858646776, guid: 4977177537c860b439c12abd179fa42e, type: 3}
+  backgroundRenderer: {fileID: 2047539144}
 --- !u!4 &431215382
 Transform:
   m_ObjectHideFlags: 0
@@ -4670,7 +4671,7 @@ GameObject:
   - component: {fileID: 2047539145}
   - component: {fileID: 2047539144}
   m_Layer: 0
-  m_Name: "\uC2A4\uD14C\uC774\uC9C00 \uBC30\uACBD(\uD22C\uBA85\uB3C4100)_0"
+  m_Name: StageBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -17,6 +17,8 @@ public class MapManager : Singleton<MapManager>
     private Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
     private Piece p2Instance;
 
+    public SpriteRenderer backgroundRenderer; //02.11 정수민
+
 
     protected override void Awake() {
         TileParent = GameObject.Find("TileParent").transform;
@@ -33,6 +35,8 @@ public class MapManager : Singleton<MapManager>
     public void InitializeBoard()
     {
         Debug.Log("맵 생성중");
+        //02.11 정수민
+        ApplyStageBackground();
         
         //01.20 정수민
         Utils.FieldWidth = currentMapData.width;
@@ -143,5 +147,16 @@ public class MapManager : Singleton<MapManager>
         Pieces[pos.x,pos.y] = pieceObj.GetComponent<Piece>();
         Pieces[pos.x,pos.y].MoveTo(pos);
         return pieceObj.GetComponent<Piece>();
+    }
+
+    //02.11 정수민
+    private void ApplyStageBackground() {
+        if (currentMapData != null && currentMapData.backgroundSprite != null)
+        {
+            // MapData에 등록된 스프라이트를 렌더러에 할당
+            backgroundRenderer.sprite = currentMapData.backgroundSprite;
+            
+            Debug.Log($"{currentMapData.name} 배경 이미지 적용 완료");
+        }
     }
 }

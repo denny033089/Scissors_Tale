@@ -31,6 +31,8 @@ public class UIManager : Singleton<UIManager>
     private TextMeshProUGUI turnText;
     [SerializeField]
     private TextMeshProUGUI RemainMoveText;
+
+
     
     
     public void OnMoveButtonClicked()
@@ -139,5 +141,7 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
+
+    
 }
 

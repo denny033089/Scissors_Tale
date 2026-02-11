@@ -24,4 +24,6 @@ public class MapData : ScriptableObject
     public List<MonsterSpawnInfo> monsterSpawns; // 이 맵에 나올 몬스터 목록
     public GameObject tilePrefab; // 맵마다 타일 모양이 다를 경우
 
+    public Sprite backgroundSprite; //02.11 맵마다 배경
+
 }
