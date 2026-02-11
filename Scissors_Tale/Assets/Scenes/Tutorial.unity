@@ -2583,6 +2583,7 @@ MonoBehaviour:
   AttackEffectPrefab: {fileID: 9091587442089639357, guid: a578cc8a1aa21bf4487c66f472cce93a, type: 3}
   p1Instance: {fileID: 0}
   p2Instance: {fileID: 0}
+  TagEffect: {fileID: 1522020091020992407, guid: 0cc8ede7877f0584786d5cce729bcf97, type: 3}
   EffectParent: {fileID: 0}
   NextPlayer: 0
   CurrentPlayer: 0
