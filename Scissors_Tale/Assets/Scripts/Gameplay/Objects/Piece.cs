@@ -6,7 +6,6 @@ public class Piece : MonoBehaviour
     public (int, int) MyPos;    // 자신의 좌표
     public bool hasMoved = false;
 
-    
     // Update is called once per frame
     void Update()
     {

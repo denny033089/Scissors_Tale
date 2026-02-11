@@ -8,9 +8,22 @@ public struct MonsterSpawnInfo
     public Vector2Int spawnPos;
 }
 
+//2/11 구본환
 [System.Serializable]
 public struct StageObjective
 {
+    public Enums.ObjectiveType type;
+
+    // 턴수 제한 (FinishWithinTurns).
+    public int maxTurns;
+
+    // 태그수 제한 (FinishWithinTags).
+    public int maxTags;
+
+    // 캐릭터 체력% 제한 (FinishWithHealthPercent).
+    public int minHealthPercent;
+
+    // 설명 옵션; 비어있으면 타입과 파라미터에서 설명 생성
     public string description;
 }
 
@@ -24,6 +37,11 @@ public class MapData : ScriptableObject
     public int totalTurnLimit; // 스테이지별 제한 턴
 
     public int PlayerRemainMove;
+
+    
+    
+    public int player1MaxHP = 10;
+    public int player2MaxHP = 10;
 
     public Vector2Int startpos1;
     public Vector2Int startpos2;

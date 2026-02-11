@@ -35,5 +35,13 @@ public static class Enums
         Victory,
         Gameover
     }
+
+    public enum ObjectiveType
+    {
+        None,
+        FinishWithinTurns,
+        FinishWithinTags,
+        FinishWithHealthPercent
+    }
 }
 
