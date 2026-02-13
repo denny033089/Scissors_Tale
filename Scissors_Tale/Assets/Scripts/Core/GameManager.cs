@@ -269,7 +269,9 @@ public class GameManager : Singleton<GameManager>
             PlayerRemainMove = currentMapData.PlayerRemainMove;
             PlayerMoveCount = PlayerRemainMove;
         }
-
+        //2/11 구본환
+        //목표 관련 변수 설정
+        //플레이어 체력 지정 안했을때 기본값 10
         TagCountThisStage = 0;
         
         ObjectiveManager.Instance.InitializeForStage(currentMapData);
@@ -295,6 +297,9 @@ public class GameManager : Singleton<GameManager>
 
         //01.27 정수민
         UIManager.Instance.ShowPlayerRemainMove(PlayerRemainMove);
+
+        // 스테이지가 시작될 때 현재 스테이지의 목표를 UI에 표시
+        UIManager.Instance.RefreshObjectiveUI();
 
     }
 
@@ -638,6 +643,7 @@ public class GameManager : Singleton<GameManager>
         }
         //1/19 구본환
         IsTagTurn = true;
+        //2/13 구본환
         TagCountThisStage++;
 
         ChangeTurnState(Enums.TurnState.PlayerTag);

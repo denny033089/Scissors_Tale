@@ -18,6 +18,8 @@ MonoBehaviour:
   stageName: Stage1
   totalTurnLimit: 15
   PlayerRemainMove: 1
+  player1MaxHP: 10
+  player2MaxHP: 10
   startpos1: {x: 1, y: 1}
   startpos2: {x: 1, y: 3}
   monsterSpawns:
@@ -39,7 +41,6 @@ MonoBehaviour:
     description: 
   - type: 2
     maxTurns: 0
-    maxTags: 5
+    maxTags: 7
     minHealthPercent: 0
     description: 
-  backgroundSprite: {fileID: -237502752621307925, guid: 436e642d30ced874598f9dca0e3b8a04, type: 3}
