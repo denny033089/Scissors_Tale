@@ -2818,6 +2818,15 @@ MonoBehaviour:
   ClearUI: {fileID: 713304498}
   PauseUI: {fileID: 1617320278}
   FailUI: {fileID: 223396493}
+  objectiveTexts: []
+  objectiveStars: []
+  objectiveCompleteIcons: []
+  completedStarSprite: {fileID: 0}
+  incompleteStarSprite: {fileID: 0}
+  completedTextColor: {r: 1, g: 1, b: 1, a: 1}
+  incompleteTextColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  completedStarTint: {r: 1, g: 1, b: 1, a: 1}
+  incompleteStarTint: {r: 1, g: 1, b: 1, a: 1}
   turnText: {fileID: 998501835}
   RemainMoveText: {fileID: 565173979}
 --- !u!4 &1409192375

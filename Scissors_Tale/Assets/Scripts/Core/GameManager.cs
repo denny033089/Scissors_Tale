@@ -69,7 +69,14 @@ public class GameManager : Singleton<GameManager>
 
     //1/19 구본환
     public bool IsTagTurn = false;
-    
+    //2/11 구본환
+    public int TagCountThisStage { get; private set; }
+
+    /// <summary>Player health for objectives. Only used when health-% objective is active; apply damage here when you add player damage.</summary>
+    public int Player1CurrentHP { get; set; }
+    public int Player1MaxHP { get; private set; }
+    public int Player2CurrentHP { get; set; }
+    public int Player2MaxHP { get; private set; }
 
     //01.17 정수민 stagestate 변경
     public void ChangeStageState(Enums.StageState newStageState)
@@ -83,7 +90,12 @@ public class GameManager : Singleton<GameManager>
             case Enums.StageState.Pause:
             break;
             case Enums.StageState.Victory:
-            UIManager.Instance.ShowClearPanel();
+            //2/5 구본환
+            ObjectiveManager.Instance.NotifyStageCleared();
+            UIManager.Instance.ShowClearPanel(
+                ObjectiveManager.Instance.GetDescriptions(),
+                ObjectiveManager.Instance.GetCompletionStatus()
+            );
 
             break;
             case Enums.StageState.Gameover:
@@ -259,9 +271,17 @@ public class GameManager : Singleton<GameManager>
             //01.27 정수민 PlayerRemainMove 추가
             PlayerRemainMove = currentMapData.PlayerRemainMove;
             PlayerMoveCount = PlayerRemainMove;
-            
         }
 
+        TagCountThisStage = 0;
+        int p1Max = (currentMapData != null && currentMapData.player1MaxHP > 0) ? currentMapData.player1MaxHP : 10;
+        int p2Max = (currentMapData != null && currentMapData.player2MaxHP > 0) ? currentMapData.player2MaxHP : 10;
+        Player1MaxHP = p1Max;
+        Player1CurrentHP = p1Max;
+        Player2MaxHP = p2Max;
+        Player2CurrentHP = p2Max;
+        ObjectiveManager.Instance.InitializeForStage(currentMapData);
+        
         
                 
         
@@ -626,6 +646,7 @@ public class GameManager : Singleton<GameManager>
         }
         //1/19 구본환
         IsTagTurn = true;
+        TagCountThisStage++;
 
         ChangeTurnState(Enums.TurnState.PlayerTag);
         if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민

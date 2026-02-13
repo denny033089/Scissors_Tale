@@ -8,6 +8,25 @@ public struct MonsterSpawnInfo
     public Vector2Int spawnPos;
 }
 
+//2/11 구본환
+[System.Serializable]
+public struct StageObjective
+{
+    public Enums.ObjectiveType type;
+
+    // 턴수 제한 (FinishWithinTurns).
+    public int maxTurns;
+
+    // 태그수 제한 (FinishWithinTags).
+    public int maxTags;
+
+    // 캐릭터 체력% 제한 (FinishWithHealthPercent).
+    public int minHealthPercent;
+
+    // 설명 옵션; 비어있으면 타입과 파라미터에서 설명 생성
+    public string description;
+}
+
 [CreateAssetMenu(fileName = "NewMapData", menuName = "Stage/MapData")]
 public class MapData : ScriptableObject
 {
@@ -19,10 +38,18 @@ public class MapData : ScriptableObject
 
     public int PlayerRemainMove;
 
+    
+    
+    public int player1MaxHP = 10;
+    public int player2MaxHP = 10;
+
     public Vector2Int startpos1;
     public Vector2Int startpos2;
     public List<MonsterSpawnInfo> monsterSpawns; // 이 맵에 나올 몬스터 목록
     public GameObject tilePrefab; // 맵마다 타일 모양이 다를 경우
+
+    [Header("Objectives")]
+    public StageObjective[] objectives = new StageObjective[3];
 
     public Sprite backgroundSprite; //02.11 맵마다 배경
 
