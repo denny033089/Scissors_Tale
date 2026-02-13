@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 7806276cd0d9dff4bbcdea40c9b3d15c
+guid: ac525c1a40727744d8e7022b1ade7f78
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3992268649618622779
-    second: Stage Clear_0
-  - first:
-      213: 1386894430435555474
-    second: Stage Clear_1
+      213: -5564363447544617609
+    second: "\uB2E4\uC74Cver2_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -87,7 +84,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Standalone
+    buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -113,7 +110,20 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: iOS
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -129,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Stage Clear_0
+      name: "\uB2E4\uC74Cver2_0"
       rect:
         serializedVersion: 2
-        x: 20
-        y: 32
-        width: 922
-        height: 343
+        x: 0
+        y: 0
+        width: 366
+        height: 224
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,30 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b3942745f23676730800000000000000
-      internalID: 3992268649618622779
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Stage Clear_1
-      rect:
-        serializedVersion: 2
-        x: 1031
-        y: 50
-        width: 1018
-        height: 296
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 298341be22d3f3310800000000000000
-      internalID: 1386894430435555474
+      spriteID: 7756febfce867c2b0800000000000000
+      internalID: -5564363447544617609
       vertices: []
       indices: 
       edges: []
@@ -186,8 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Stage Clear_0: 3992268649618622779
-      Stage Clear_1: 1386894430435555474
+      "\uB2E4\uC74Cver2_0": -5564363447544617609
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

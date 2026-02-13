@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 757a9fd4d3a080447ad1a1dd8c23bb49
+guid: 120c8209c2e0597488adff163fc91bc4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4929876528642101393
-    second: "\uD134 \uC885\uB8CC \uBC84\uD2BC_0"
+      213: 4083701189840340809
+    second: Stage clear_ver2_0
+  - first:
+      213: -4947322337243902486
+    second: Stage clear_ver2_1
+  - first:
+      213: 6461506752550808050
+    second: Stage clear_ver2_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -84,7 +90,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Standalone
+    buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -110,7 +116,20 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: iOS
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -126,23 +145,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uD134 \uC885\uB8CC \uBC84\uD2BC_0"
+      name: Stage clear_ver2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 637
-        height: 237
+        width: 1108
+        height: 376
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6f60c3ba6f859bb0800000000000000
-      internalID: -4929876528642101393
+      spriteID: 947064588983ca830800000000000000
+      internalID: 4083701189840340809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stage clear_ver2_1
+      rect:
+        serializedVersion: 2
+        x: 1101
+        y: 0
+        width: 1108
+        height: 376
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aedc83bdb84975bb0800000000000000
+      internalID: -4947322337243902486
       vertices: []
       indices: 
       edges: []
@@ -151,7 +192,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 73bc423886bd1214d83a066eba2fd492
     internalID: 0
     vertices: []
     indices: 
@@ -159,9 +200,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":1108.0,"y":376.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      "\uD134 \uC885\uB8CC \uBC84\uD2BC_0": -4929876528642101393
+      Stage clear_ver2_0: 4083701189840340809
+      Stage clear_ver2_1: -4947322337243902486
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
