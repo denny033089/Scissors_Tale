@@ -38,11 +38,6 @@ public class MapData : ScriptableObject
 
     public int PlayerRemainMove;
 
-    
-    
-    public int player1MaxHP = 10;
-    public int player2MaxHP = 10;
-
     public Vector2Int startpos1;
     public Vector2Int startpos2;
     public List<MonsterSpawnInfo> monsterSpawns; // 이 맵에 나올 몬스터 목록

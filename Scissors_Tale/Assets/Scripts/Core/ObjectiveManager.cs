@@ -95,8 +95,20 @@ public class ObjectiveManager : Singleton<ObjectiveManager>
 
         int currentTurn = gm.currentTurn;
         int tagCount = gm.TagCountThisStage;
-        float healthPercentP1 = GetHealthPercent(gm.Player1CurrentHP, gm.Player1MaxHP);
-        float healthPercentP2 = GetHealthPercent(gm.Player2CurrentHP, gm.Player2MaxHP);
+
+        //02.13 정수민 player.cs에 맞게 수정
+        Player player1 = (Player)gm.p1Instance;
+        Player player2 = (Player)gm.p2Instance;
+        float healthPercentP1 = 0;
+        float healthPercentP2 = 0;
+        if(player1 != null) {
+            healthPercentP1 = GetHealthPercent(player1.CurrentHP, player1.MaxHP);
+        }
+        if(player2 != null) {
+            healthPercentP2 = GetHealthPercent(player2.CurrentHP,player2.MaxHP);
+        }
+        
+        
 
         for (int i = 1; i < ObjectiveCount; i++)
         {
