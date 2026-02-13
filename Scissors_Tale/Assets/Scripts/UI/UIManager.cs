@@ -28,11 +28,14 @@ public class UIManager : Singleton<UIManager>
     public GameObject FailUI;
 
     //2/5 구본환
-    [Header("Objective UI")]
-    [SerializeField] private TextMeshProUGUI[] objectiveTexts;
-    [SerializeField] private Image[] objectiveStars;
-
+    [Header("Clear UI Objectives")]
+    [SerializeField] private TextMeshProUGUI[] clearObjectiveTexts;
+    [SerializeField] private Image[] clearObjectiveStars;
     [SerializeField] private GameObject[] objectiveCompleteIcons;
+
+    [Header("In-Game Objectives")]
+    [SerializeField] private TextMeshProUGUI[] inGameObjectiveTexts;
+    [SerializeField] private Image[] inGameObjectiveStars;
 
     [SerializeField] private Sprite completedStarSprite;   // 성공별
     [SerializeField] private Sprite incompleteStarSprite;  // 실패별
@@ -47,8 +50,8 @@ public class UIManager : Singleton<UIManager>
     private TextMeshProUGUI turnText;
     [SerializeField]
     private TextMeshProUGUI RemainMoveText;
-    
-    
+
+
     public void OnMoveButtonClicked()
     {
         //01.19 정수민
@@ -131,15 +134,51 @@ public class UIManager : Singleton<UIManager>
     //2/5 구본환
     public void ShowClearPanel(string[] objectiveDescriptions, bool[] objectiveCompletionStatus) {
         ClearUI.SetActive(true);
-        UpdateObjectiveUI(objectiveDescriptions, objectiveCompletionStatus);
+        UpdateClearObjectiveUI(objectiveDescriptions, objectiveCompletionStatus);
     }
 
-    private void UpdateObjectiveUI(string[] objectiveDescriptions, bool[] objectiveCompletionStatus)
+    //2/13 구본환
+    // 현재 스테이지의 목표 정보를 바로 UI에 표시할 때 사용 (플레이 중 상단 HUD용)
+    public void RefreshObjectiveUI()
+    {
+        // ObjectiveManager가 준비되지 않았거나 싱글톤이 없으면 무시
+        if (ObjectiveManager.Instance == null) return;
+
+        var descriptions = ObjectiveManager.Instance.GetDescriptions();
+        var completionStatus = ObjectiveManager.Instance.GetCompletionStatus();
+
+        UpdateInGameObjectiveUI(descriptions, completionStatus);
+    }
+
+    /// <summary>
+    /// 클리어 패널에 표시되는 목표 UI 갱신
+    /// </summary>
+    private void UpdateClearObjectiveUI(string[] objectiveDescriptions, bool[] objectiveCompletionStatus)
+    {
+        UpdateObjectiveUIInternal(objectiveDescriptions, objectiveCompletionStatus, clearObjectiveTexts, clearObjectiveStars);
+    }
+
+    /// <summary>
+    /// 플레이 중 상단 HUD에 표시되는 목표 UI 갱신
+    /// </summary>
+    private void UpdateInGameObjectiveUI(string[] objectiveDescriptions, bool[] objectiveCompletionStatus)
+    {
+        UpdateObjectiveUIInternal(objectiveDescriptions, objectiveCompletionStatus, inGameObjectiveTexts, inGameObjectiveStars);
+    }
+
+    /// <summary>
+    /// 공통 목표 UI 갱신 로직
+    /// </summary>
+    private void UpdateObjectiveUIInternal(
+        string[] objectiveDescriptions,
+        bool[] objectiveCompletionStatus,
+        TextMeshProUGUI[] targetTexts,
+        Image[] targetStars)
     {
         if (objectiveDescriptions == null || objectiveCompletionStatus == null) return;
 
         int count = int.MaxValue;
-        if (objectiveTexts != null) count = Mathf.Min(count, objectiveTexts.Length);
+        if (targetTexts != null) count = Mathf.Min(count, targetTexts.Length);
         if (objectiveDescriptions != null) count = Mathf.Min(count, objectiveDescriptions.Length);
         if (objectiveCompletionStatus != null) count = Mathf.Min(count, objectiveCompletionStatus.Length);
         count = Mathf.Clamp(count, 0, 3); // 목표 3개만
@@ -149,18 +188,18 @@ public class UIManager : Singleton<UIManager>
             bool isDone = objectiveCompletionStatus[i];
 
             // 실패시에 목표설명 회색처리
-            if (objectiveTexts != null && i < objectiveTexts.Length && objectiveTexts[i] != null)
+            if (targetTexts != null && i < targetTexts.Length && targetTexts[i] != null)
             {
-                objectiveTexts[i].text = objectiveDescriptions[i];
-                objectiveTexts[i].color = isDone ? completedTextColor : incompleteTextColor;
+                targetTexts[i].text = objectiveDescriptions[i];
+                targetTexts[i].color = isDone ? completedTextColor : incompleteTextColor;
             }
 
             // 별 이미지 변경
             Image starImage = null;
 
-            if (objectiveStars != null && i < objectiveStars.Length)
+            if (targetStars != null && i < targetStars.Length)
             {
-                starImage = objectiveStars[i];
+                starImage = targetStars[i];
             }
             else if (objectiveCompleteIcons != null && i < objectiveCompleteIcons.Length && objectiveCompleteIcons[i] != null)
             {

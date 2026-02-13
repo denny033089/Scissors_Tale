@@ -68,7 +68,7 @@ public class GameManager : Singleton<GameManager>
     //2/11 구본환
     public int TagCountThisStage { get; private set; }
 
-    /// <summary>Player health for objectives. Only used when health-% objective is active; apply damage here when you add player damage.</summary>
+    // 목표용 플레이어 체력. 체력% 목표 활성 시 사용, 플레이어 데미지 추가 시 여기서 적용
     public int Player1CurrentHP { get; set; }
     public int Player1MaxHP { get; private set; }
     public int Player2CurrentHP { get; set; }
@@ -258,7 +258,9 @@ public class GameManager : Singleton<GameManager>
             PlayerRemainMove = currentMapData.PlayerRemainMove;
             PlayerMoveCount = PlayerRemainMove;
         }
-
+        //2/11 구본환
+        //목표 관련 변수 설정
+        //플레이어 체력 지정 안했을때 기본값 10
         TagCountThisStage = 0;
         int p1Max = (currentMapData != null && currentMapData.player1MaxHP > 0) ? currentMapData.player1MaxHP : 10;
         int p2Max = (currentMapData != null && currentMapData.player2MaxHP > 0) ? currentMapData.player2MaxHP : 10;
@@ -288,6 +290,9 @@ public class GameManager : Singleton<GameManager>
 
         //01.27 정수민
         UIManager.Instance.ShowPlayerRemainMove(PlayerRemainMove);
+
+        // 스테이지가 시작될 때 현재 스테이지의 목표를 UI에 표시
+        UIManager.Instance.RefreshObjectiveUI();
 
     }
 
@@ -570,6 +575,7 @@ public class GameManager : Singleton<GameManager>
         }
         //1/19 구본환
         IsTagTurn = true;
+        //2/13 구본환
         TagCountThisStage++;
 
         ChangeTurnState(Enums.TurnState.PlayerTag);
