@@ -3977,9 +3977,11 @@ MonoBehaviour:
   ClearUI: {fileID: 1868401930}
   PauseUI: {fileID: 1116149080}
   FailUI: {fileID: 494660752}
-  objectiveTexts: []
-  objectiveStars: []
+  clearObjectiveTexts: []
+  clearObjectiveStars: []
   objectiveCompleteIcons: []
+  inGameObjectiveTexts: []
+  inGameObjectiveStars: []
   completedStarSprite: {fileID: 0}
   incompleteStarSprite: {fileID: 0}
   completedTextColor: {r: 0.12, g: 0.1, b: 0.08, a: 1}
@@ -4154,7 +4156,19 @@ MonoBehaviour:
     m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
     m_ActionName: 'Player/Look[/Mouse/position,/Mouse/delta]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1718894090}
+        m_TargetAssemblyTypeName: ClickHandler, Assembly-CSharp
+        m_MethodName: OnClickPiece
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
@@ -4221,6 +4235,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a5d10247-5bd9-4148-9425-fda1f29c316a
+    m_ActionName: 'Player/ClickPiece[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

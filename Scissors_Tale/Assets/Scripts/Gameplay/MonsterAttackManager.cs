@@ -9,7 +9,6 @@ public class MonsterAttackManager : Singleton<MonsterAttackManager>
     public Vector2Int p1pastposition;
     public Vector2Int p2pastposition;
     private List<GameObject> currentAttackEffects = new List<GameObject>();
-    
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created

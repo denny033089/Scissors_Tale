@@ -905,5 +905,32 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+
+    public void ShineAttackEffect(Monster monster) {
+        foreach(GameObject effect in monster.currentAttackEffects) {
+            SpriteRenderer Effectsr = effect.GetComponent<SpriteRenderer>();
+            if(Effectsr != null) {
+                Effectsr.material.SetFloat("_Thickness",20f);
+                Effectsr.sortingOrder = 0; //이펙트순서 나오게하기
+            } else{Debug.Log("이펙트 없음");}
+            
+        }
+    }
+
+    public void ClearShine() {
+        SpriteRenderer[] allRenderers = EffectParent.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (SpriteRenderer sr in allRenderers)
+        {
+            if (sr.gameObject.name.Contains("MonsterAttackEffect")) {
+                sr.material.SetFloat("_Thickness", 0f);
+                if(sr.sortingOrder == 0) { //이펙트순서 되돌리기
+                    sr.sortingOrder = -1;
+                }
+                     
+            }
+        }
+    }
+
     // 추가적인 게임 관리 기능들
 }

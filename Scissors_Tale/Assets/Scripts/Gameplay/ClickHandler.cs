@@ -53,6 +53,20 @@ public class ClickHandler : MonoBehaviour
                 
             }
         }
-    }    
+    }
+
+    public void OnClickPiece(InputAction.CallbackContext context) {
+        if(context.performed) {
+            GameManager.Instance.ClearShine();
+            if(MapManager.Instance.Pieces[BoardPos.Item1, BoardPos.Item2] != null && MapManager.Instance.Pieces[BoardPos.Item1, BoardPos.Item2] is Monster monster) {
+                GameManager.Instance.ShineAttackEffect(monster);
+            }
+        }
+        
+        
+        
+
+    }
+
 }
 

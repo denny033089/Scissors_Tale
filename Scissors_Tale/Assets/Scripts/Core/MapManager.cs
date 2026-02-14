@@ -19,6 +19,18 @@ public class MapManager : Singleton<MapManager>
 
     public SpriteRenderer backgroundRenderer; //02.11 정수민
 
+    //02.14 정수민 화살표 색 설정
+    private Color[] rainbowColors = {
+        Color.red, 
+        new Color(1f, 0.5f, 0f), // 주황
+        Color.yellow, 
+        Color.green, 
+        Color.blue, 
+        new Color(0.29f, 0f, 0.51f), // 남색
+        new Color(0.56f, 0f, 1f)  // 보라
+    };
+    private int ColorIndex = 0;
+
 
     protected override void Awake() {
         TileParent = GameObject.Find("TileParent").transform;
@@ -96,8 +108,12 @@ public class MapManager : Singleton<MapManager>
 
             if (p is Monster monster)
             {
+                monster.arrowColor = rainbowColors[ColorIndex];
+                ColorIndex = (ColorIndex + 1) % rainbowColors.Length;
+                
                 monster.InitializeStats();
                 monster.InitializePath();
+                
             }
         }
         

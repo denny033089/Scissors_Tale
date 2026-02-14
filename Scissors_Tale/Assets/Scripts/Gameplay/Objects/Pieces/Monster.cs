@@ -29,6 +29,7 @@ public class Monster : Piece
     private GameObject effectPrefab;
     private Transform effectParent;
     public List<GameObject> currentAttackEffects = new List<GameObject>();
+    public SpriteRenderer Effectsr;
 
 
     //02.04 정수민
@@ -37,6 +38,9 @@ public class Monster : Piece
     public bool iswillAttack = false;
 
     public int turnCounter = 0;
+
+    //02.14 정수민
+    public Color arrowColor = Color.black;
     protected virtual void Awake()
     {
         // 자식 클래스들이 정의한 공격 배열을 가져와서 리스트에 담음
@@ -241,6 +245,10 @@ public class Monster : Piece
             // 제미나이가 추천했지만 필요 없을것 같습니다
             float dist = Vector3.Distance(startPos, endPos);
             arrowObj.transform.localScale = new Vector3(dist, 1, 1);
+
+            // 02.14 정수민 화살표 색
+            SpriteRenderer sr = arrowObj.GetComponent<SpriteRenderer>();
+            sr.color = arrowColor;
 
             _spawnedArrows.Add(arrowObj);
 

@@ -25,6 +25,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "ClickPiece",
+                    "type": "Button",
+                    "id": "a5d10247-5bd9-4148-9425-fda1f29c316a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
@@ -361,6 +370,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse;PC",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "708d9f8e-94f5-475f-bb48-5274f7005ef5",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse;PC",
+                    "action": "ClickPiece",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
