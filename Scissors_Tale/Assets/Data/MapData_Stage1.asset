@@ -18,6 +18,8 @@ MonoBehaviour:
   stageName: Stage1
   totalTurnLimit: 15
   PlayerRemainMove: 1
+  player1MaxHP: 10
+  player2MaxHP: 10
   startpos1: {x: 1, y: 1}
   startpos2: {x: 1, y: 3}
   monsterSpawns:
@@ -26,3 +28,19 @@ MonoBehaviour:
   - monsterName: Monster
     spawnPos: {x: 3, y: 0}
   tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
+  objectives:
+  - type: 0
+    maxTurns: 0
+    maxTags: 0
+    minHealthPercent: 0
+    description: 
+  - type: 1
+    maxTurns: 10
+    maxTags: 0
+    minHealthPercent: 0
+    description: 
+  - type: 2
+    maxTurns: 0
+    maxTags: 7
+    minHealthPercent: 0
+    description: 

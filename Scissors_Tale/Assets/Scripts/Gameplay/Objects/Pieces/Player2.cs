@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2 : Piece
+public class Player2 : Player //02.04 상속 추가
 {
     public override MoveInfo[] GetMoves()
     {

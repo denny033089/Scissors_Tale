@@ -24,6 +24,7 @@ public static class Enums
         PlayerMove,
         PlayerTag,
         PlayerAttack,
+        MonsterAttack,
         MonsterMove,
         End
     }
@@ -34,6 +35,14 @@ public static class Enums
         Pause,
         Victory,
         Gameover
+    }
+
+    public enum ObjectiveType
+    {
+        None,
+        FinishWithinTurns,
+        FinishWithinTags,
+        FinishWithHealthPercent
     }
 }
 

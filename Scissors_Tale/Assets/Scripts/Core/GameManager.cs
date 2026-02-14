@@ -29,16 +29,20 @@ public class GameManager : Singleton<GameManager>
     
 
 
-    public GameObject EffectPrefab;
+    public GameObject MoveEffectPrefab;
+    //02.04 정수민
+    public GameObject AttackEffectPrefab;
     public Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
     public Piece p2Instance;
+    public GameObject TagEffect;
     
 
     // 오브젝트의 parent들
 
 
-    private Transform EffectParent;
+    public Transform EffectParent;
     private UIManager uiManager;
+
 
     // Piece.cs들
   
@@ -65,7 +69,11 @@ public class GameManager : Singleton<GameManager>
 
     //1/19 구본환
     public bool IsTagTurn = false;
-    
+    //2/11 구본환
+    public int TagCountThisStage { get; private set; }
+
+    /// <summary>Player health for objectives. Only used when health-% objective is active; apply damage here when you add player damage.</summary>
+    //02.13 정수민 piece.player에 체력 있어서 없앰
 
     //01.17 정수민 stagestate 변경
     public void ChangeStageState(Enums.StageState newStageState)
@@ -79,7 +87,12 @@ public class GameManager : Singleton<GameManager>
             case Enums.StageState.Pause:
             break;
             case Enums.StageState.Victory:
-            UIManager.Instance.ShowClearPanel();
+            //2/5 구본환
+            ObjectiveManager.Instance.NotifyStageCleared();
+            UIManager.Instance.ShowClearPanel(
+                ObjectiveManager.Instance.GetDescriptions(),
+                ObjectiveManager.Instance.GetCompletionStatus()
+            );
 
             break;
             case Enums.StageState.Gameover:
@@ -101,11 +114,13 @@ public class GameManager : Singleton<GameManager>
             CalculateTurn();
             //01.19 정수민 초상화 업데이트
             GetActivatePlayer();
+            //02.08 정수민 몬스터 공격 계획
+            PlanMonsterAttack();
+
             playeruistatus.UpdatePlayerPortrait();
             PlayerMoveCount = PlayerRemainMove;  //01.27 playerMovecount 초기화
-
-
             break;
+            
             case Enums.TurnState.PlayerMovable:  //01.27 플레이어가 한 턴에 2번이상 움직이는 경우
             UIManager.Instance.ShowMoveButton();
             break;
@@ -124,14 +139,18 @@ public class GameManager : Singleton<GameManager>
             Attack();
                 // 공격 범위 계산 및 표시
             break;
+
+            case Enums.TurnState.MonsterAttack:  //02.04 정수민 추가
+            MonsterAttack();
+
+            break;
             case Enums.TurnState.MonsterMove:
             MonsterMove();
                 // 몬스터 AI 시작 (코루틴 등 호출)
             break;
 
             case Enums.TurnState.End:
-            p1Instance.hasMoved = false; //턴이 끝나면 이동여부 초기화
-            p2Instance.hasMoved = false;
+            ResetHasMoved(); //02.08 정수민
 
             //01.18 정수민 tutorialmanager
             if (isTutorialMode) {
@@ -140,6 +159,10 @@ public class GameManager : Singleton<GameManager>
 
             if(!IsRemainMonster()) {
                 ChangeStageState(Enums.StageState.Victory);
+            }
+
+            if(!IsRemainPlayer()) {
+                ChangeStageState(Enums.StageState.Gameover);
             }
 
             break;
@@ -231,11 +254,11 @@ public class GameManager : Singleton<GameManager>
         
         EffectParent = GameObject.Find("EffectParent").transform;
 
-        MovementManager.Instance.Initialize(EffectPrefab, EffectParent);
+        MovementManager.Instance.Initialize(MoveEffectPrefab, EffectParent);
 
         //01.18 정수민 tutorialmanager 추가
         if(isTutorialMode) {
-            TutorialManager.Instance.Initialize(EffectPrefab,EffectParent);
+            TutorialManager.Instance.Initialize(MoveEffectPrefab,EffectParent);
         }
 
         //01.20 정수민 totalturn 초기화
@@ -245,9 +268,14 @@ public class GameManager : Singleton<GameManager>
             //01.27 정수민 PlayerRemainMove 추가
             PlayerRemainMove = currentMapData.PlayerRemainMove;
             PlayerMoveCount = PlayerRemainMove;
-            
         }
-
+        //2/11 구본환
+        //목표 관련 변수 설정
+        //플레이어 체력 지정 안했을때 기본값 10
+        TagCountThisStage = 0;
+        
+        ObjectiveManager.Instance.InitializeForStage(currentMapData);
+        
         
                 
         
@@ -264,10 +292,14 @@ public class GameManager : Singleton<GameManager>
         //01.27 정수민
         // StageDataManager에 저장된 현재 스테이지 인덱스를 가져와서 UI 업데이트
         int currentIdx = StageDataManager.Instance.currentStageIndex;
+
         UIManager.Instance.UpdateStageNumberUI(currentIdx);
 
         //01.27 정수민
         UIManager.Instance.ShowPlayerRemainMove(PlayerRemainMove);
+
+        // 스테이지가 시작될 때 현재 스테이지의 목표를 UI에 표시
+        UIManager.Instance.RefreshObjectiveUI();
 
     }
 
@@ -363,14 +395,31 @@ public class GameManager : Singleton<GameManager>
     }
 
     public Piece GetActivatePlayer() {
+        
+        //02.08 정수민 추가
+        if (p1Instance == null) {
+            CurrentPlayer = 1;
+            return p2Instance;
+        }
+        
+        if (p2Instance == null) {
+            CurrentPlayer = 0;
+            return p1Instance;
+        }
+        
         //플레이어 바꾸기
         if(CurrentTurnState == Enums.TurnState.PlayerTag) { //tag를 누른 상태라면
+            
             if(NextPlayer == 0) {
                 CurrentPlayer = 0; //01.19 정수민
                 NextPlayer = 1; //next는 player2(tag상태일 때만 바꾸기 가능)
+
+                ShowTagEffect(NextPlayer); //02.11 정수민 태그 추가
             } else {
                 CurrentPlayer = 1; //01.19 정수민
                 NextPlayer = 0; //next는 player1(tag상태일 때만 바꾸기 가능)
+
+                ShowTagEffect(NextPlayer); //02.11 정수민 태그 추가
             }
         } else { //01.19 정수민 : tag를 누르지 않은 상태라면 그대로감
             CurrentPlayer = NextPlayer;
@@ -451,11 +500,13 @@ public class GameManager : Singleton<GameManager>
             }
         } 
 
-        Vector2Int p1Pos = new Vector2Int(p1Instance.MyPos.Item1, p1Instance.MyPos.Item2);
-        Vector2Int p2Pos = new Vector2Int(p2Instance.MyPos.Item1, p2Instance.MyPos.Item2);
-        
-        var area1 = Get3x3Area(p1Pos);
-        var area2 = Get3x3Area(p2Pos);
+        // 02.08 정수민 플레이어 사망 여부 추가
+        bool isP1Alive = p1Instance != null;
+        bool isP2Alive = p2Instance != null;
+
+        HashSet<Vector2Int> area1 = isP1Alive ? new HashSet<Vector2Int>(Get3x3Area(p1Instance.MyPos.ToVector2Int())) : new HashSet<Vector2Int>();
+        HashSet<Vector2Int> area2 = isP2Alive ? new HashSet<Vector2Int>(Get3x3Area(p2Instance.MyPos.ToVector2Int())) : new HashSet<Vector2Int>();
+
 
         for (int x = 0; x < Utils.FieldWidth; x++)
         {
@@ -463,8 +514,8 @@ public class GameManager : Singleton<GameManager>
             {
                 Vector2Int pos = new Vector2Int(x, y);
 
-                bool inP1 = area1.Contains(pos);
-                bool inP2 = area2.Contains(pos);
+                bool inP1 = isP1Alive && area1.Contains(pos); //02.08 정수민 플레이어 사망 조건 여부 추가
+                bool inP2 = isP2Alive && area2.Contains(pos);
 
                 if (inP1 && inP2) MapManager.Instance.Tiles[x, y].SetColor(overlapColor);  //01.20 정수민 수정
                 else if (inP1) MapManager.Instance.Tiles[x, y].SetColor(player1Color);
@@ -475,6 +526,48 @@ public class GameManager : Singleton<GameManager>
 
     public void Attack() {
         AttackManager.Instance.Attack();
+    }
+
+    //02.04 정수민
+    public void MonsterAttack() {
+        //남아있는 몬스터 모두 참조 후 공격 실행(동시에 실행할 것인지 따로따로 실행할 것인지 결정)
+        //monsterattackmanager에서 monsterattack 실행
+        //이펙트
+        //데미지 계산(damanage calculater)
+        //후에 몬스터 이펙트 표시해줘야 함
+        //플레이어도 체력 추가필요
+
+        //맵에 있는 몬스터 확인
+        List<Monster> allMonsters = new List<Monster>();
+
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Piece p = MapManager.Instance.Pieces[x, y];
+
+                //p가 몬스터인지 확인
+                if (p != null && p is Monster)
+                {
+                    allMonsters.Add((Monster)p);
+                }
+            }
+        }
+
+
+        // 몬스터 공격
+        foreach (Monster m in allMonsters)
+        {
+            // 몬스터 살아있는지 확인
+            if (m != null)
+            {
+                if(m.willAttack()) { //공격할 턴인 애들만 공격 수행
+                    MonsterAttackManager.Instance.MonsterAttack(m);
+                }
+            }
+        }
+        
+
     }
 
     public void MonsterMove() {
@@ -531,7 +624,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     public void HandleTag() {
-
+        
         
         //01.19 정수민
         if(isTutorialMode) {
@@ -550,6 +643,8 @@ public class GameManager : Singleton<GameManager>
         }
         //1/19 구본환
         IsTagTurn = true;
+        //2/13 구본환
+        TagCountThisStage++;
 
         ChangeTurnState(Enums.TurnState.PlayerTag);
         if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
@@ -583,6 +678,10 @@ public class GameManager : Singleton<GameManager>
         // 1. 플레이어 공격 페이즈
         ChangeTurnState(Enums.TurnState.PlayerAttack);
         yield return new WaitForSeconds(0.5f); // 공격 모션 대기
+
+        // 몬스터 공격 페이즈  02.24 정수민
+        ChangeTurnState(Enums.TurnState.MonsterAttack);
+        yield return new WaitForSeconds(1.0f);
 
         // 2. 몬스터 이동 페이즈
         ChangeTurnState(Enums.TurnState.MonsterMove);
@@ -623,6 +722,51 @@ public class GameManager : Singleton<GameManager>
         MovementManager.Instance.ClearEffects();
     }
 
+    public void PlanMonsterAttack()
+    {
+        //02.04 정수민 플레이어 과거 위치 전달하기
+        if(p1Instance != null) {
+            MonsterAttackManager.Instance.p1pastposition = p1Instance.MyPos.ToVector2Int();
+            Debug.Log($"플레이어1 과거위치: {p1Instance.MyPos.ToVector2Int()}");
+
+        }
+        if(p2Instance != null) {
+            MonsterAttackManager.Instance.p2pastposition = p2Instance.MyPos.ToVector2Int();
+            Debug.Log($"플레이어2 과거위치: {p2Instance.MyPos.ToVector2Int()}");
+        } 
+        
+        List<Monster> allMonsters = new List<Monster>();
+
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                Piece p = MapManager.Instance.Pieces[x, y];
+
+                //p가 몬스터인지 확인
+                if (p != null && p is Monster)
+                {
+                    allMonsters.Add((Monster)p);
+                }
+            }
+        }
+
+
+        // 몬스터 공격
+        foreach (Monster m in allMonsters)
+        {
+            // 몬스터 살아있는지 확인
+            if (m != null)
+            {
+                m.UpdateTurnCounter();
+                if(m.willAttack()) { //공격할 턴인 애들만 이펙트 보여주기
+                    MonsterAttackManager.Instance.ShowPossibleMonsterAttack(m);
+                }
+            }
+        }
+        
+    }
+
     //01.20 정수민
     public bool IsRemainMonster() {
         for (int x = 0; x < Utils.FieldWidth; x++)
@@ -641,6 +785,45 @@ public class GameManager : Singleton<GameManager>
         //  모든 칸을 다 돌았는데 없으면 false 반환
         return false;
 
+    }
+
+    //02.08 정수민 사망 로직, nextplayer가 반대의 인물이됨
+    public void OnPlayerDeath(Player deadplayer) {
+        if(deadplayer is Player player1) {
+            p1Instance = null;
+            
+        } else if (deadplayer is Player player2) {
+            p2Instance = null;
+        }
+    }
+    
+    public bool IsRemainPlayer() {
+        for (int x = 0; x < Utils.FieldWidth; x++)
+        {
+            for (int y = 0; y < Utils.FieldHeight; y++)
+            {
+                //  해당 칸에 기물이 있고, 그 타입이 Player인지 확인
+                if (MapManager.Instance.Pieces[x, y] != null && MapManager.Instance.Pieces[x, y] is Player)
+                {
+                    // 몬스터를 하나라도 찾으면 즉시 true 반환 (알고리즘 효율성)
+                    return true;
+                }
+            }
+        }
+
+        //  모든 칸을 다 돌았는데 없으면 false 반환
+        return false;
+
+    }
+
+    //턴이 끝나면 이동여부 초기화
+    public void ResetHasMoved() {
+        if(p1Instance != null) {
+            p1Instance.hasMoved = false;
+        }
+        if(p2Instance != null) {
+            p2Instance.hasMoved = false;
+        }       
     }
 
 
@@ -683,6 +866,43 @@ public class GameManager : Singleton<GameManager>
         //씬 초기화
         string currentSceneName = SceneManager.GetActiveScene().name; //현재 씬 가져와서 로드
         SceneManager.LoadScene(currentSceneName);
+    }
+
+
+    public void ShowTagEffect(int NextPlayer) {
+        
+        Vector3 PlayerPosition = new Vector3(0,0,0);
+        
+        if(NextPlayer == 0) {
+            PlayerPosition = Utils.ToRealPos(p1Instance.MyPos);
+            if(p1Instance is Player player1) { player1.MySpriteRenderer.material.SetFloat("_Thickness",player1.thickness); player1.Triangle.SetActive(true); }
+            if(p2Instance is Player player2) { player2.MySpriteRenderer.material.SetFloat("_Thickness",0f); player2.Triangle.SetActive(false); }
+
+        } else if(NextPlayer == 1) {
+            PlayerPosition = Utils.ToRealPos(p2Instance.MyPos);
+            if(p2Instance is Player player2) { player2.MySpriteRenderer.material.SetFloat("_Thickness",player2.thickness); player2.Triangle.SetActive(true); }
+            if(p1Instance is Player player1) { player1.MySpriteRenderer.material.SetFloat("_Thickness",0f); player1.Triangle.SetActive(false); }
+        }
+
+        SpawnTagEffect(NextPlayer,PlayerPosition);
+    }
+
+    //02.11 정수민
+    public void SpawnTagEffect(int NextPlayer,Vector3 PlayerPosition)
+    {
+        if (TagEffect == null) return;
+        Sprite tagsprite = TagEffect.GetComponent<SpriteRenderer>()?.sprite;     
+
+        Vector3 TagPosition = PlayerPosition + Vector3.up * 2.0f;
+        // 몬스터 위에서 스폰
+
+        GameObject popupObj = Instantiate(TagEffect, TagPosition, Quaternion.identity);
+        DamagePopup popupScript = popupObj.GetComponent<DamagePopup>();
+
+        if (popupScript != null)
+        {
+            popupScript.Setup(tagsprite);
+        }
     }
 
     // 추가적인 게임 관리 기능들

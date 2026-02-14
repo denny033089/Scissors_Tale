@@ -29,7 +29,9 @@ public class StageSelectionSceneChanger : BaseSceneChanger
     // 1. 스테이지 선택 씬에서 사용할 때: 버튼마다 인덱스 번호를 지정 (0, 1, 2...)
     public void OnStageNumClick(int Stagenum)
     {
+        
         StageDataManager.Instance.currentStageIndex = Stagenum;
+        
 
         // 선택한 번호의 데이터를 정적 변수에 저장
         GameManager.SelectedMapData = StageDataManager.Instance.allStages[Stagenum];

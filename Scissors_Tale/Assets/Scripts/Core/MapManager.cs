@@ -17,6 +17,8 @@ public class MapManager : Singleton<MapManager>
     private Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
     private Piece p2Instance;
 
+    public SpriteRenderer backgroundRenderer; //02.11 정수민
+
 
     protected override void Awake() {
         TileParent = GameObject.Find("TileParent").transform;
@@ -33,6 +35,8 @@ public class MapManager : Singleton<MapManager>
     public void InitializeBoard()
     {
         Debug.Log("맵 생성중");
+        //02.11 정수민
+        ApplyStageBackground();
         
         //01.20 정수민
         Utils.FieldWidth = currentMapData.width;
@@ -101,6 +105,14 @@ public class MapManager : Singleton<MapManager>
         p1Instance = PlacePiece(0,currentMapData.startpos1.ToTuple());
         p2Instance = PlacePiece(1,currentMapData.startpos2.ToTuple());
 
+        //02.05 정수민 player initialize
+        if(p1Instance is Player player1) {
+            player1.InitializeStats();
+        }
+        if(p2Instance is Player player2) {
+            player2.InitializeStats();
+        }
+
         GameManager.Instance.p1Instance = p1Instance;  //플레이어 정보 gamemanager에 전달
         GameManager.Instance.p2Instance = p2Instance;
         Debug.Log("플레이어 게임매니저에 할당");
@@ -117,6 +129,9 @@ public class MapManager : Singleton<MapManager>
         if (name == "TutorialMonster") return 3;
         if (name == "BatMonster") return 4;
         if (name == "TurtleMonster") return 5;
+        if (name == "TestMonster") return 6;
+        if (name == "TestThrowMonster") return 7;
+        if (name == "TestFullLineMonster") return 8;
         return 2; // 기본값  나중에 dictionary로 대체
     }
 
@@ -132,5 +147,16 @@ public class MapManager : Singleton<MapManager>
         Pieces[pos.x,pos.y] = pieceObj.GetComponent<Piece>();
         Pieces[pos.x,pos.y].MoveTo(pos);
         return pieceObj.GetComponent<Piece>();
+    }
+
+    //02.11 정수민
+    private void ApplyStageBackground() {
+        if (currentMapData != null && currentMapData.backgroundSprite != null)
+        {
+            // MapData에 등록된 스프라이트를 렌더러에 할당
+            backgroundRenderer.sprite = currentMapData.backgroundSprite;
+            
+            Debug.Log($"{currentMapData.name} 배경 이미지 적용 완료");
+        }
     }
 }

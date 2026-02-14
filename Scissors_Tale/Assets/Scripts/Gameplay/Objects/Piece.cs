@@ -6,7 +6,6 @@ public class Piece : MonoBehaviour
     public (int, int) MyPos;    // 자신의 좌표
     public bool hasMoved = false;
 
-    
     // Update is called once per frame
     void Update()
     {
@@ -34,4 +33,11 @@ public class Piece : MonoBehaviour
         return new MoveInfo[0]; 
     }
     //public MoveInfo[] GetMoves();
+    
+    //02.04 정수민
+    public virtual AttackInfo[] GetAttacks()
+    {
+        return new AttackInfo[0];
+    }
+
 }

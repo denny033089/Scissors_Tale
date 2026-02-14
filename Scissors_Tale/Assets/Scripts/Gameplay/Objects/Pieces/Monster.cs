@@ -25,6 +25,31 @@ public class Monster : Piece
     // FIFO ť: [Step1, Step2]
     public List<(int, int)> moveQueue = new List<(int, int)>();
 
+
+    private GameObject effectPrefab;
+    private Transform effectParent;
+    public List<GameObject> currentAttackEffects = new List<GameObject>();
+
+
+    //02.04 정수민
+    public List<AttackInfo> attackPatterns = new List<AttackInfo>();
+    public int currentPatternIndex { get; protected set; } = 0;
+    public bool iswillAttack = false;
+
+    public int turnCounter = 0;
+    protected virtual void Awake()
+    {
+        // 자식 클래스들이 정의한 공격 배열을 가져와서 리스트에 담음
+        AttackInfo[] attacks = GetAttacks();
+        
+        if (attacks != null && attacks.Length > 0)
+        {
+            attackPatterns.Clear();
+            attackPatterns.AddRange(attacks);
+            Debug.Log($"{this.name}: {attackPatterns.Count}개의 공격 패턴 자동 할당 완료.");
+        }
+    }
+
     // 스폰시 호출
     //01.19 정수민: InitializeStats 인수 삭제
     public virtual void InitializeStats()
@@ -103,6 +128,8 @@ public class Monster : Piece
 
         // 화살표 삭제
         foreach (var arrow in _spawnedArrows) if (arrow != null) Destroy(arrow);
+
+        MonsterAttackManager.Instance.ClearAttackEffects(this); //02.06 정수민 이펙트 삭제
 
         // 오브젝트 삭제
         Destroy(gameObject);
@@ -220,4 +247,104 @@ public class Monster : Piece
             (currentX, currentY) = (nextX, nextY);
         }
     }
+
+
+
+    //02.04 정수민
+    //공격범위에 해당하는 타일 획득
+    public List<Vector2Int> GetAttackTiles(AttackInfo info) {
+        List<Vector2Int> targetTiles = new List<Vector2Int>();
+
+        switch (info.type)
+        {
+            case AttackType.XAxisLine:
+            
+            // 몬스터가 있는 줄 전체 (X축 0부터 끝까지)
+            for (int x = 0; x < Utils.FieldWidth; x++) { 
+                Vector2Int position = new Vector2Int(x,MyPos.Item2);
+                if(!Utils.IsInBoard(position.ToTuple())) continue;
+                targetTiles.Add(position);
+            }
+            break;
+
+            case AttackType.YAxisLine:
+            
+            // 몬스터가 있는 줄 전체 (y축 0부터 끝까지)
+            for (int y = 0; y < Utils.FieldHeight; y++) { 
+                Vector2Int position = new Vector2Int(MyPos.Item1,y);
+                if(!Utils.IsInBoard(position.ToTuple())) continue;
+                targetTiles.Add(position);
+            }
+            break;
+
+            case AttackType.Directional:
+            
+            // 플레이어 방향을 구하고, 그 방향에 맞춰 areaOffsets를 회전/적용
+            Vector2Int dir = MonsterAttackManager.Instance.GetDirectionToPlayer(this);
+            foreach (var offset in info.areaOffsets) {
+                Vector2Int rotatedOffset = MonsterAttackManager.Instance.RotateOffset(offset, dir);
+                Vector2Int position = MyPos.ToVector2Int() + rotatedOffset;
+                if(!Utils.IsInBoard(position.ToTuple())) continue;
+                targetTiles.Add(position);
+            }
+            break;
+
+            case AttackType.Splash:
+            
+            // 플레이어의 현재 위치를 중심점으로 잡고 범위 타격
+            Vector2Int center = MonsterAttackManager.Instance.FindClosePlayerPosition(this);
+            foreach (var offset in info.areaOffsets) {
+                Vector2Int position = center + offset;
+                if(!Utils.IsInBoard(position.ToTuple())) continue;
+                targetTiles.Add(position);
+            }
+            break;
+        }
+
+        return targetTiles;
+
+    }
+
+
+    //02.04 정수민 특별한 기믹이 있다면 override하여 사용할 것
+    public virtual void PerformAttack()
+    {
+        AttackInfo info = attackPatterns[currentPatternIndex];
+            
+        List<Vector2Int> targetTiles = GetAttackTiles(info);
+            // 계산된 타일들에 데미지 적용
+        foreach (var tile in targetTiles) {
+            MonsterAttackManager.Instance.ApplyDamage(tile.x, tile.y, info.damage);
+        }
+        turnCounter = 0; //턴카운터 초기화
+        MonsterAttackManager.Instance.ClearAttackEffects(this); //이펙트 삭제
+    }
+
+    public virtual bool willAttack() {
+    if(attackPatterns.Count == 0) return false;
+    
+    // 1. 단순 상태 체크 (카운트 증가 없음)
+        if(MonsterAttackManager.Instance.isInRange(this)) {
+            // 카운트가 1 이상일 때만 진짜 공격함 (0일 때는 기 모으는 중)
+            if(turnCounter > 0) {
+                iswillAttack = true;
+                return true;
+            } else {
+                iswillAttack = false;
+                return false;
+            }
+        } else {
+            iswillAttack = false;
+            return false;
+        }
+    }
+
+    public virtual void UpdateTurnCounter() {
+    if(MonsterAttackManager.Instance.isInRange(this)) {
+        turnCounter++; 
+    } else {
+        turnCounter = 0; // 범위를 벗어나면 초기화
+    }
+}
+
 }

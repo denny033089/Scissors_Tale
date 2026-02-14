@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player1 : Piece
+public class Player1 : Player // 02.04 상속 추가
 {
+    public override void Awake() {
+        base.Awake();
+        MySpriteRenderer.material.SetFloat("_Thickness",thickness);
+    }
+    
     public override MoveInfo[] GetMoves()
     {
         // --- TODO ---
