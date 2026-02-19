@@ -74,6 +74,9 @@ public class AttackManager : Singleton<AttackManager>
                 ApplyDamageWithVisual(1, secondSprite,mPos);
                 yield return new WaitForSeconds(0.1f);
 
+                gm.p1Instance.GetComponent<GameManager>().PlayAttackAnimation();
+                gm.p2Instance.GetComponent<GameManager>().PlayAttackAnimation();
+
                 // 태그 보너스 히트
                 if (gm.IsTagTurn)
                 {   
@@ -88,11 +91,13 @@ public class AttackManager : Singleton<AttackManager>
             {
                 SoundManager.Instance.PlaySFX("Attack");
                 ApplyDamageWithVisual(1, p1Sprite,mPos);
+                gm.p1Instance.GetComponent<GameManager>().PlayAttackAnimation();
             }
             else if (inArea2)
             {
                 SoundManager.Instance.PlaySFX("Attack");
                 ApplyDamageWithVisual(1, p2Sprite,mPos);
+                gm.p2Instance.GetComponent<GameManager>().PlayAttackAnimation();
             }
             
         }

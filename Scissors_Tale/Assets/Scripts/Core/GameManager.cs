@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine.SceneManagement;
+using System.Reflection;
 
 
 /// <summary>
@@ -35,6 +36,9 @@ public class GameManager : Singleton<GameManager>
     public Piece p1Instance;  //Instantiate해서 만들어진 실제 gameobject의 piece.cs를 받아줄 변수
     public Piece p2Instance;
     
+    // 애니메이터 설정
+    private Animator animator;
+
 
     // 오브젝트의 parent들
 
@@ -215,8 +219,9 @@ public class GameManager : Singleton<GameManager>
     // }
     protected override void Awake()
     {
-    
         
+        // 애니메이터 설정
+        animator = GetComponent<Animator>();
         
         
         //01.25 정수민
@@ -774,6 +779,11 @@ public class GameManager : Singleton<GameManager>
         //씬 초기화
         string currentSceneName = SceneManager.GetActiveScene().name; //현재 씬 가져와서 로드
         SceneManager.LoadScene(currentSceneName);
+    }
+
+    public void PlayAttackAnimation()
+    {
+        animator.SetTrigger("Attack");
     }
 
     // 추가적인 게임 관리 기능들
