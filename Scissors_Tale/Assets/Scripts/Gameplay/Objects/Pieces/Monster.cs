@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 
 //01.19 정수민 로직 전부 하위 monster에서 받을 수 있도록 virtual로 수정
@@ -39,6 +40,9 @@ public class Monster : Piece
 
     public int turnCounter = 0;
 
+    //02.19 정수민 애니메이션
+    public Animator anim;
+
     //02.14 정수민
     public Color arrowColor = Color.black;
     protected virtual void Awake()
@@ -52,6 +56,8 @@ public class Monster : Piece
             attackPatterns.AddRange(attacks);
             Debug.Log($"{this.name}: {attackPatterns.Count}개의 공격 패턴 자동 할당 완료.");
         }
+
+        anim = GetComponent<Animator>(); //02.19 정수민
     }
 
     // 스폰시 호출
@@ -318,6 +324,10 @@ public class Monster : Piece
     public virtual void PerformAttack()
     {
         AttackInfo info = attackPatterns[currentPatternIndex];
+
+        if(anim != null) {
+            PerformAnimation();
+        }
             
         List<Vector2Int> targetTiles = GetAttackTiles(info);
             // 계산된 타일들에 데미지 적용
@@ -348,11 +358,15 @@ public class Monster : Piece
     }
 
     public virtual void UpdateTurnCounter() {
-    if(MonsterAttackManager.Instance.isInRange(this)) {
-        turnCounter++; 
-    } else {
-        turnCounter = 0; // 범위를 벗어나면 초기화
+        if(MonsterAttackManager.Instance.isInRange(this)) {
+            turnCounter++; 
+        } else {
+            turnCounter = 0; // 범위를 벗어나면 초기화
+        }
     }
-}
+
+    public virtual void PerformAnimation() {
+
+    }
 
 }
