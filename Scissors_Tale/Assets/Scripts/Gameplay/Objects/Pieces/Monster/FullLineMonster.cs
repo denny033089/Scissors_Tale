@@ -16,6 +16,7 @@ public class FullLineMonster : Monster
 
     public override void PerformAttack() {
         
+
         if(anim != null) {
             PerformAnimation();
         }

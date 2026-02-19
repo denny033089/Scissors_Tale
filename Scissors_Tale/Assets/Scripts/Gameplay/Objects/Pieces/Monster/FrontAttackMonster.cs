@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public class FrontAttackMonster : Monster
 {    
+    [SerializeField]
+    private GameObject CrawPrefab;
+    [SerializeField]
+    private Transform EffectSpawner;
+    
     public override AttackInfo[] GetAttacks()
     {
         // 2x3 범위를 위한 상대 좌표 리스트 생성
@@ -25,20 +30,60 @@ public class FrontAttackMonster : Monster
             new AttackInfo(AttackType.Directional, 2, 3, area3x2)
         };
 
-        public override void PerformAttack() {
+        
+    }
+
+    public override void PerformAttack() {
         
         if(anim != null) {
             PerformAnimation();
         }
             
-        //데미지 적용을 collider 충돌 시로 이전
-        
+
+
+        AttackInfo info = attackPatterns[currentPatternIndex];
+        List<Vector2Int> targetTiles = GetAttackTiles(info);
+            // 계산된 타일들에 데미지 적용
+        foreach (var tile in targetTiles) {
+            MonsterAttackManager.Instance.ApplyDamage(tile.x, tile.y, info.damage);
+        }
+     
         turnCounter = 0; //턴카운터 초기화
         MonsterAttackManager.Instance.ClearAttackEffects(this); //이펙트 삭제
     }
+    
     public override void PerformAnimation()
     {
         anim.SetTrigger("isAttacking");
+        //MakeCrawEffect();
+
+    }
+
+    public void MakeCrawEffect() {
+
+        StartCoroutine(ProcessCrawEffect());
+
+        
+
+    }
+
+    public IEnumerator ProcessCrawEffect() {
+        AttackInfo info = attackPatterns[currentPatternIndex];
+
+        List<Vector3> CrawSpawns = new List<Vector3>();           
+        List<Vector2Int> targetTiles = GetAttackTiles(info);
+
+        foreach(var tile in targetTiles) {
+            CrawSpawns.Add(Utils.ToRealPos(tile.ToTuple()));
+        }
+        foreach(Vector3 spawnpos in CrawSpawns) {
+            EffectSpawner.position = spawnpos;
+            EffectSpawner.position -= new Vector3(0,0.1f,0);
+            Instantiate(CrawPrefab,EffectSpawner.position,Quaternion.identity);
+            yield return new WaitForSeconds(0.2f);
+        }
+        CrawSpawns.Clear();
+
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
@@ -67,5 +112,5 @@ public class FrontAttackMonster : Monster
             MonsterAttackManager.Instance.ApplyDamage(BoardPos.Item1, BoardPos.Item2, info.damage);
         }
     }
-    }
+    
 }
