@@ -61,6 +61,14 @@ public class Player : Piece //02.04 정수민
     }
     
     
+    //힐
+    public virtual void Heal(int amount)
+    {
+        if (amount <= 0) return;
+        CurrentHP = Mathf.Min(CurrentHP + amount, MaxHP);
+        UpdateHPText();
+    }
+
     public virtual void TakeDamage(int damage)
     {
         CurrentHP = CurrentHP - damage;

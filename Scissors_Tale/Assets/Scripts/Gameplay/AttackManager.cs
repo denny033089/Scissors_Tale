@@ -42,8 +42,11 @@ public class AttackManager : Singleton<AttackManager>
         HashSet<Vector2Int> allMonsterPos = gm.GetAllMonsterPositions();
         
 
-        HashSet<Vector2Int> area1 = GetAttackArea(p1Pos);
-        HashSet<Vector2Int> area2 = GetAttackArea(p2Pos);
+        //2/20 구본환
+        int radius1 = SkillManager.Instance != null ? SkillManager.Instance.GetAOE(0) : 1;
+        int radius2 = SkillManager.Instance != null ? SkillManager.Instance.GetAOE(1) : 1;
+        HashSet<Vector2Int> area1 = GetAttackArea(p1Pos, radius1);
+        HashSet<Vector2Int> area2 = GetAttackArea(p2Pos, radius2);
 
         foreach (Vector2Int mPos in allMonsterPos)
         {
@@ -97,7 +100,8 @@ public class AttackManager : Singleton<AttackManager>
             
         }
 
-
+        if (SkillManager.Instance != null)
+            SkillManager.Instance.ClearAOEAfterAttack();
 
         // 플레이어 확인
 
@@ -125,13 +129,15 @@ public class AttackManager : Singleton<AttackManager>
         gm.ApplyMonsterDamage(damage,mPos);
     }
 
-    private HashSet<Vector2Int> GetAttackArea(Vector2Int center)    // 장판 안에 존재하는지
+    //2/20 구본환
+    //범위 구하기
+    private HashSet<Vector2Int> GetAttackArea(Vector2Int center, int radius = 1)
     {
         HashSet<Vector2Int> result = new HashSet<Vector2Int>();
 
-        for (int dx = -1; dx <= 1; dx++)
+        for (int dx = -radius; dx <= radius; dx++)
         {
-            for (int dy = -1; dy <= 1; dy++)
+            for (int dy = -radius; dy <= radius; dy++)
             {
                 int x = center.x + dx;
                 int y = center.y + dy;

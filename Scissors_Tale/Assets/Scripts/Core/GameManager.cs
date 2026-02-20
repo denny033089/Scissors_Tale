@@ -464,6 +464,8 @@ public class GameManager : Singleton<GameManager>
 
         if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
 
+        // Update skill button visibility after movement
+        UIManager.Instance.UpdateSkillButtonVisibility();
 
         UpdateAttackAreaTiles();
     }
@@ -673,7 +675,7 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(ProcessTurnSequence());
         if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
     }
-    IEnumerator ProcessTurnSequence()
+    public IEnumerator ProcessTurnSequence()
     {
         // 1. 플레이어 공격 페이즈
         ChangeTurnState(Enums.TurnState.PlayerAttack);

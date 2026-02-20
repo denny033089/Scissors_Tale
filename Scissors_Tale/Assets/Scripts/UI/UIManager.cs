@@ -2,11 +2,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-/// <summary>
+
 /// Views의 UI 출력 / 숨김 등 관리 담당
 /// 턴이 바뀌었음을 알림
 /// <para>게임 전체 전역 싱글톤</para>
-/// </summary>
+
 public class UIManager : Singleton<UIManager>
 {
     
@@ -21,6 +21,10 @@ public class UIManager : Singleton<UIManager>
     //01.17 정수민
     public GameObject moveButton;
     public GameObject turnEndButton;
+
+    //2/20 구본환
+    public GameObject skillButtonPlayer1; 
+    public GameObject skillButtonPlayer2; 
 
     public GameObject ClearUI;
 
@@ -112,11 +116,122 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+
+
+    //2/20 구본환
+    public void OnSkillButtonPlayer1Clicked()
+    {
+        if(GameManager.Instance.CurrentStageState is Enums.StageState.Victory or Enums.StageState.Gameover) {
+            return;
+        }
+
+        //  PlayerMove 또는 PlayerMovable states에만만 P1 이동가능
+        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable)
+        {
+            if(GameManager.Instance.NextPlayer != 0) return;
+
+            // 플레이어가 이동했는지 확인
+            Piece currentPiece = GameManager.Instance.GetCurrentPlayer();
+            if(currentPiece == null || !currentPiece.hasMoved)
+            {
+                Debug.Log("이동하고 스킬을 사용하세요");
+                return;
+            }
+
+            // 스킬사용용
+            if(SkillManager.Instance != null && SkillManager.Instance.UseExpandAOE())
+            {
+                SoundManager.Instance.PlaySFX("Click");
+                Debug.Log("P1 스킬 사용");
+                
+                // 스킬 버튼 숨기기
+                if(skillButtonPlayer1 != null)
+                    skillButtonPlayer1.SetActive(false);
+                
+                // 공격 시퀀스 트리거(HandleEnd랑 똑같이)
+                GameManager.Instance.ClearEffects();
+                GameManager.Instance.StartCoroutine(GameManager.Instance.ProcessTurnSequence());
+            }
+            else
+            {
+                Debug.Log("플레이어1 스킬 쿨다운중!");
+            }
+        }
+    }
+
+
+    public void OnSkillButtonPlayer2Clicked()
+    {
+        if(GameManager.Instance.CurrentStageState is Enums.StageState.Victory or Enums.StageState.Gameover) {
+            return;
+        }
+
+        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable)
+        {
+            if(GameManager.Instance.NextPlayer != 1) return; 
+
+            // 플레이어가 이동했는지 확인
+            Piece currentPiece = GameManager.Instance.GetCurrentPlayer();
+            if(currentPiece == null || !currentPiece.hasMoved)
+            {
+                Debug.Log("이동하고 스킬을 사용하세요");
+                return;
+            }
+
+            if(SkillManager.Instance != null && SkillManager.Instance.UseHeal())
+            {
+                SoundManager.Instance.PlaySFX("Click");
+                Debug.Log("P2 스킬 사용");
+                
+                if(skillButtonPlayer2 != null)
+                    skillButtonPlayer2.SetActive(false);
+                
+                GameManager.Instance.ClearEffects();
+                GameManager.Instance.StartCoroutine(GameManager.Instance.ProcessTurnSequence());
+            }
+            else
+            {
+                Debug.Log("플레이어2 스킬 쿨다운중!");
+            }
+        }
+    }
+
     //01.17 정수민: 이동버튼 복구
     public void ShowMoveButton()
     {
         moveButton.SetActive(true);
         turnEndButton.SetActive(false);
+        UpdateSkillButtonVisibility();
+    }
+
+
+    //2/20 구본환
+    //현재 플레이어에 따라 스킬 버튼 표시 여부 업데이트
+    public void UpdateSkillButtonVisibility()
+    {
+        if (GameManager.Instance == null) return;
+
+        int currentPlayer = GameManager.Instance.NextPlayer;
+        
+        // Player 1일때는 범위 증가 스킬 버튼 표시
+        if (skillButtonPlayer1 != null)
+        {
+            bool shouldShow = currentPlayer == 0 && 
+                             GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable &&
+                             SkillManager.Instance != null && 
+                             SkillManager.Instance.IsExpandAOEAvailable();
+            skillButtonPlayer1.SetActive(shouldShow);
+        }
+
+        // Player 2일때는 체력 회복 스킬 버튼 표시
+        if (skillButtonPlayer2 != null)
+        {
+            bool shouldShow = currentPlayer == 1 && 
+                             GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable &&
+                             SkillManager.Instance != null && 
+                             SkillManager.Instance.IsHealAvailable();
+            skillButtonPlayer2.SetActive(shouldShow);
+        }
     }
 
     //01.17 정수민: 남은 턴 수 보여주기
@@ -151,25 +266,19 @@ public class UIManager : Singleton<UIManager>
         UpdateInGameObjectiveUI(descriptions, completionStatus);
     }
 
-    /// <summary>
-    /// 클리어 패널에 표시되는 목표 UI 갱신
-    /// </summary>
+    // 클리어 패널에 표시되는 목표 UI 갱신
     private void UpdateClearObjectiveUI(string[] objectiveDescriptions, bool[] objectiveCompletionStatus)
     {
         UpdateObjectiveUIInternal(objectiveDescriptions, objectiveCompletionStatus, clearObjectiveTexts, clearObjectiveStars);
     }
 
-    /// <summary>
-    /// 플레이 중 상단 HUD에 표시되는 목표 UI 갱신
-    /// </summary>
+    // 플레이 중 상단 HUD에 표시되는 목표 UI 갱신
     private void UpdateInGameObjectiveUI(string[] objectiveDescriptions, bool[] objectiveCompletionStatus)
     {
         UpdateObjectiveUIInternal(objectiveDescriptions, objectiveCompletionStatus, inGameObjectiveTexts, inGameObjectiveStars);
     }
 
-    /// <summary>
-    /// 공통 목표 UI 갱신 로직
-    /// </summary>
+    // 공통 목표 UI 갱신 로직
     private void UpdateObjectiveUIInternal(
         string[] objectiveDescriptions,
         bool[] objectiveCompletionStatus,
