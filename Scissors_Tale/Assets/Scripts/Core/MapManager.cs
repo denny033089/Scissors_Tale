@@ -143,7 +143,7 @@ public class MapManager : Singleton<MapManager>
     {
         if (name == "monster") return 2;
         if (name == "TutorialMonster") return 3;
-        if (name == "BatMonster") return 4;
+        if (name == "Monster_Bat") return 4;
         if (name == "TurtleMonster") return 5;
         if (name == "Monster_Meerkat") return 6;
         if (name == "TestThrowMonster") return 7;
