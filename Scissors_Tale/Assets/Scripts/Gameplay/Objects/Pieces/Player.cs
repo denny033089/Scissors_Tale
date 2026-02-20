@@ -67,6 +67,7 @@ public class Player : Piece //02.04 정수민
         CurrentHP = CurrentHP - damage;
 
         transform.DOShakePosition(0.5f, 0.2f, 20, 90, false, true); //02.20 정수민 피격시 떨림
+        CameraController.Instance.ShakeCamera();
 
         MonsterAttackManager.Instance.ShowDamageEffect(damage,this);
 

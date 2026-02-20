@@ -63,11 +63,23 @@ public class SeagullMonster : Monster
 
     public IEnumerator ProcessWingEffect() {
         AttackInfo info = attackPatterns[currentPatternIndex];
+        Vector2Int dir = MonsterAttackManager.Instance.GetDirectionToPlayer(this);
    
         List<Vector2Int> targetTiles = GetAttackTiles(info);
-        Vector3 LeftPos = Utils.ToRealPos(targetTiles[0].ToTuple());  //H의 좌측부분에 위치설정
-        Vector3 RightPos = Utils.ToRealPos(targetTiles[1].ToTuple()); //H의 우측부분
-        Vector3 midPos = Utils.ToRealPos(targetTiles[3].ToTuple()); //H의 중앙
+        //Vector3 LeftPos = Utils.ToRealPos(targetTiles[0].ToTuple());  //H의 좌측부분에 위치설정
+        //Vector3 RightPos = Utils.ToRealPos(targetTiles[1].ToTuple()); //H의 우측부분
+        //Vector3 midPos = Utils.ToRealPos(targetTiles[3].ToTuple()); //H의 중앙
+
+        Vector2Int rotatedLeftOrigin = MonsterAttackManager.Instance.RotateOffset(new Vector2Int(-1, 1), dir);
+        Vector2Int rotatedRightOrigin = MonsterAttackManager.Instance.RotateOffset(new Vector2Int(1, 1), dir);
+        Vector2Int rotatedMidOrigin = MonsterAttackManager.Instance.RotateOffset(new Vector2Int(0, 2), dir);
+
+        // 3. 실제 월드 좌표로 변환 (몬스터 위치 + 회전된 오프셋)
+        Vector3 LeftPos = Utils.ToRealPos((MyPos.ToVector2Int() + rotatedLeftOrigin).ToTuple());
+        Vector3 RightPos = Utils.ToRealPos((MyPos.ToVector2Int() + rotatedRightOrigin).ToTuple());
+        Vector3 midPos = Utils.ToRealPos((MyPos.ToVector2Int() + rotatedMidOrigin).ToTuple());
+
+
 
         SpawnCutter(LeftPos, (midPos - LeftPos).normalized);
         SpawnCutter(RightPos, (midPos - RightPos).normalized);
