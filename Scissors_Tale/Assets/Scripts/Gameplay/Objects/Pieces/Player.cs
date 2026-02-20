@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class Player : Piece //02.04 정수민
 {
@@ -64,6 +65,8 @@ public class Player : Piece //02.04 정수민
     public virtual void TakeDamage(int damage)
     {
         CurrentHP = CurrentHP - damage;
+
+        transform.DOShakePosition(0.5f, 0.2f, 20, 90, false, true); //02.20 정수민 피격시 떨림
 
         MonsterAttackManager.Instance.ShowDamageEffect(damage,this);
 

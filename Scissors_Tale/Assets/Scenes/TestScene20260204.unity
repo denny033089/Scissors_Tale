@@ -1646,6 +1646,7 @@ MonoBehaviour:
   - {fileID: 5294844828858646776, guid: 7adc4dcfb2194df448c1c4e00d2f5cc1, type: 3}
   - {fileID: 5294844828858646776, guid: e74fd3f5443aa644b84f45f5ecee08a8, type: 3}
   - {fileID: 5294844828858646776, guid: bfe2ef7633548444bbbbdf8b7824ec69, type: 3}
+  - {fileID: 5294844828858646776, guid: dab535c44af168f40a00e71ce95f1d18, type: 3}
   backgroundRenderer: {fileID: 1529059626}
 --- !u!4 &431215382
 Transform:
