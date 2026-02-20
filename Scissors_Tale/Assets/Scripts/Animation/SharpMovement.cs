@@ -16,7 +16,7 @@ public class SharpMovement : MonoBehaviour
         bool isLeft = true;
         while (true)
         {
-            float targetZ = isLeft ? 15f : -15f; // 좌우 15도씩 번갈아
+            float targetZ = isLeft ? angleAmount : -angleAmount; // 좌우 15도씩 번갈아
             transform.localRotation = Quaternion.Euler(0, 0, targetZ);
             
             isLeft = !isLeft;

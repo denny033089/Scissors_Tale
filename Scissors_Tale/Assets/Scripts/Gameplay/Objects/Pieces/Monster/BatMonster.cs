@@ -37,9 +37,6 @@ public class BatMonster : Monster
         if(anim != null) {
             PerformAnimation();
         }
-            
-
-        ApplyAttack();
     }
     
     public override void PerformAnimation()

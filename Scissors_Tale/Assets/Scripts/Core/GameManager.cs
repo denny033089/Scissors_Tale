@@ -496,7 +496,8 @@ public class GameManager : Singleton<GameManager>
         {
             for (int y = 0; y < Utils.FieldHeight; y++)
             {                
-                MapManager.Instance.Tiles[x, y].ResetColor();  //01.20 정수민: Tiles를 MapManager의 것으로 쓰도록
+                MapManager.Instance.RestoreColor(MapManager.Instance.Tiles[x,y]); //02.21 정수민
+                //MapManager.Instance.Tiles[x, y].ResetColor();  //01.20 정수민: Tiles를 MapManager의 것으로 쓰도록
             }
         } 
 
