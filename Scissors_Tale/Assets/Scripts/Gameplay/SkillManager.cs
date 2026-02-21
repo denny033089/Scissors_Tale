@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class SkillManager : Singleton<SkillManager>
 {
@@ -12,6 +12,23 @@ public class SkillManager : Singleton<SkillManager>
     private int _lastTurnUsedHeal = -SkillCooldown - 1;
 
     public int HealAmount = 5;
+
+    
+    //2/22 구본환
+    //씬 로드 시 초기화
+    protected override void OnSceneLoaded(string sceneName)
+    {
+        ResetForNewLevel();
+    }
+
+    // 쿨다운과 범위 증가 상태 초기화(다시 시작 / 새 스테이지)
+    public void ResetForNewLevel()
+    {
+        _expandAOE = -1;
+        _lastTurnUsedExpandArea = -SkillCooldown - 1;
+        _lastTurnUsedHeal = -SkillCooldown - 1;
+        _previewExpandAreaP1 = false;
+    }
 
 
     //범위 증가 스킬 사용
@@ -74,5 +91,18 @@ public class SkillManager : Singleton<SkillManager>
     {
         GameManager gm = GameManager.Instance;
         return gm != null && gm.currentTurn - _lastTurnUsedHeal >= SkillCooldown;
+    }
+
+    // P1프리뷰
+    private bool _previewExpandAreaP1;
+
+    public void SetExpandAreaPreview(bool active)
+    {
+        _previewExpandAreaP1 = active;
+    }
+
+    public bool IsExpandAreaPreviewActive()
+    {
+        return _previewExpandAreaP1;
     }
 }

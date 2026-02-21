@@ -127,6 +127,8 @@ public class GameManager : Singleton<GameManager>
             
             case Enums.TurnState.PlayerMove:
             
+            //2/22 구본환
+            UIManager.Instance.UpdateSkillButtonVisibility();
             Piece piece = GetActivatePlayer();        
             ShowPossibleMoves(piece);                      
             break;
@@ -464,7 +466,7 @@ public class GameManager : Singleton<GameManager>
 
         if(isTutorialMode) TutorialManager.Instance.IncrementStep(); //01.24 정수민
 
-        // Update skill button visibility after movement
+        // 이동 후 스킬 버튼 표시 여부 업데이트
         UIManager.Instance.UpdateSkillButtonVisibility();
 
         UpdateAttackAreaTiles();
@@ -473,22 +475,23 @@ public class GameManager : Singleton<GameManager>
     // 플레이어 장판
     HashSet<Vector2Int> Get3x3Area(Vector2Int center)
     {
-        HashSet<Vector2Int> area = new HashSet<Vector2Int>();
+        return GetAttackAreaWithRadius(center, 1);
+    }
 
-        for (int dx = -1; dx <= 1; dx++)
+    // 반지름 설정(1 = 3*3, 2 = 5*5)
+    HashSet<Vector2Int> GetAttackAreaWithRadius(Vector2Int center, int radius)
+    {
+        HashSet<Vector2Int> area = new HashSet<Vector2Int>();
+        for (int dx = -radius; dx <= radius; dx++)
         {
-            for (int dy = -1; dy <= 1; dy++)
+            for (int dy = -radius; dy <= radius; dy++)
             {
                 int x = center.x + dx;
                 int y = center.y + dy;
-
-                if(x >= 0 && x < Utils.FieldWidth && y >= 0 && y < Utils.FieldHeight)
-                {
+                if (x >= 0 && x < Utils.FieldWidth && y >= 0 && y < Utils.FieldHeight)
                     area.Add(new Vector2Int(x, y));
-                }
             }
         }
-
         return area;
     }
 
@@ -506,8 +509,17 @@ public class GameManager : Singleton<GameManager>
         bool isP1Alive = p1Instance != null;
         bool isP2Alive = p2Instance != null;
 
-        HashSet<Vector2Int> area1 = isP1Alive ? new HashSet<Vector2Int>(Get3x3Area(p1Instance.MyPos.ToVector2Int())) : new HashSet<Vector2Int>();
-        HashSet<Vector2Int> area2 = isP2Alive ? new HashSet<Vector2Int>(Get3x3Area(p2Instance.MyPos.ToVector2Int())) : new HashSet<Vector2Int>();
+        // P1 프리뷰 확인
+        int radius1 = 1;
+        if (isP1Alive && SkillManager.Instance != null)
+        {
+            if (SkillManager.Instance.IsExpandAreaPreviewActive())
+                radius1 = 2;
+            else
+                radius1 = SkillManager.Instance.GetAOE(0);
+        }
+        HashSet<Vector2Int> area1 = isP1Alive ? new HashSet<Vector2Int>(GetAttackAreaWithRadius(p1Instance.MyPos.ToVector2Int(), radius1)) : new HashSet<Vector2Int>();
+        HashSet<Vector2Int> area2 = isP2Alive ? new HashSet<Vector2Int>(GetAttackAreaWithRadius(p2Instance.MyPos.ToVector2Int(), SkillManager.Instance != null ? SkillManager.Instance.GetAOE(1) : 1)) : new HashSet<Vector2Int>();
 
 
         for (int x = 0; x < Utils.FieldWidth; x++)
