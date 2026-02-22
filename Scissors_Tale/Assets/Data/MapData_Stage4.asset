@@ -13,22 +13,22 @@ MonoBehaviour:
   m_Name: MapData_Stage4
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   stageId: 1
-  width: 7
-  height: 4
+  width: 5
+  height: 5
   stageName: Stage4
-  totalTurnLimit: 25
+  totalTurnLimit: 20
   PlayerRemainMove: 2
-  startpos1: {x: 1, y: 1}
-  startpos2: {x: 1, y: 2}
+  startpos1: {x: 0, y: 0}
+  startpos2: {x: 0, y: 1}
   monsterSpawns:
-  - monsterName: TurtleMonster
-    spawnPos: {x: 5, y: 0}
-  - monsterName: TurtleMonster
-    spawnPos: {x: 3, y: 2}
-  - monsterName: Monster_Bat
-    spawnPos: {x: 6, y: 0}
-  - monsterName: Monster_Bat
-    spawnPos: {x: 6, y: 3}
+  - monsterName: Meerkat_Attack
+    spawnPos: {x: 3, y: 4}
+  - monsterName: Meerkat_Attack
+    spawnPos: {x: 2, y: 2}
+  - monsterName: Bat_Attack
+    spawnPos: {x: 4, y: 4}
+  - monsterName: Bat_Attack
+    spawnPos: {x: 4, y: 1}
   tilePrefab: {fileID: 1868782838922341574, guid: f658b0c03b34f4141a1c9fb4d216f2dc, type: 3}
   objectives:
   - type: 0

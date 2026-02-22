@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 8216725990191897273}
   - component: {fileID: 2809289422557131614}
   - component: {fileID: 3010166492392374409}
-  - component: {fileID: -4382076136721435160}
   m_Layer: 0
-  m_Name: BatMonster
+  m_Name: MeerKat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,7 +88,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5646883332849939079, guid: 12d265ccdf2f2d648b44dc5b4f65bfc5, type: 3}
+  m_Sprite: {fileID: -5586239726949178320, guid: d85e9d8c7f192404ab234718efaf7930, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -134,33 +133,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5294844828858646776}
   m_CullTransparentMesh: 1
---- !u!114 &-4382076136721435160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5294844828858646776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07300eb82665dfa4e82d4625a3a043c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThrowAttackMonster
-  hasMoved: 0
-  HPText: {fileID: 0}
-  DamagePopupPrefab: {fileID: 8848335735341659432, guid: 1b7635724c3813a4da491e597c9fe50b, type: 3}
-  PopupSpawnPoint: {fileID: 0}
-  CurrentHP: 10
-  MaxHP: 10
-  PlanLength: 2
-  ArrowPrefab: {fileID: 2599406223229457744, guid: 869276e5408303847a24a53808851ba9, type: 3}
-  currentAttackEffects: []
-  Effectsr: {fileID: 0}
-  attackPatterns: []
-  iswillAttack: 0
-  turnCounter: 0
-  anim: {fileID: 0}
-  arrowColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &5794920595780771826
 GameObject:
   m_ObjectHideFlags: 0

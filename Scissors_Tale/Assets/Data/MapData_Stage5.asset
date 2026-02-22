@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MapData_Stage5
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   stageId: 1
-  width: 7
+  width: 5
   height: 5
   stageName: Stage5
   totalTurnLimit: 25
@@ -21,15 +21,11 @@ MonoBehaviour:
   startpos1: {x: 0, y: 1}
   startpos2: {x: 0, y: 2}
   monsterSpawns:
-  - monsterName: Monster_Meerkat
-    spawnPos: {x: 6, y: 4}
-  - monsterName: Monster_Meerkat
-    spawnPos: {x: 4, y: 0}
-  - monsterName: Monster_Meerkat
-    spawnPos: {x: 5, y: 2}
-  - monsterName: Monster_Meerkat
-    spawnPos: {x: 1, y: 4}
-  tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
+  - monsterName: Turtle
+    spawnPos: {x: 3, y: 3}
+  - monsterName: Seagull_Attack
+    spawnPos: {x: 4, y: 4}
+  tilePrefab: {fileID: 1868782838922341574, guid: ab30bcc8a89764044a8d67e8830ca7ea, type: 3}
   objectives:
   - type: 0
     maxTurns: 0
@@ -46,4 +42,4 @@ MonoBehaviour:
     maxTags: 0
     minHealthPercent: 30
     description: 
-  backgroundSprite: {fileID: -237502752621307925, guid: 436e642d30ced874598f9dca0e3b8a04, type: 3}
+  backgroundSprite: {fileID: 5068883827039367339, guid: e00c27ff5b1dffb4ea46dd2de335b4a1, type: 3}

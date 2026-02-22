@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: -7714140207625893169}
   - component: {fileID: -7333239041017574885}
   m_Layer: 0
-  m_Name: Monster_Meerkat
+  m_Name: Meerkat_Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,8 +161,8 @@ MonoBehaviour:
   HPText: {fileID: 9151571416642333200}
   DamagePopupPrefab: {fileID: 8848335735341659432, guid: 1b7635724c3813a4da491e597c9fe50b, type: 3}
   PopupSpawnPoint: {fileID: 0}
-  CurrentHP: 10
-  MaxHP: 10
+  CurrentHP: 5
+  MaxHP: 5
   PlanLength: 2
   ArrowPrefab: {fileID: 2599406223229457744, guid: 869276e5408303847a24a53808851ba9, type: 3}
   currentAttackEffects: []
