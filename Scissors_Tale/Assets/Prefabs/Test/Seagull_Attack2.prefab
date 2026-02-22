@@ -46,12 +46,12 @@ GameObject:
   - component: {fileID: 3309214057045153909}
   - component: {fileID: 8216725990191897273}
   - component: {fileID: 3010166492392374409}
-  - component: {fileID: 693431454143355870}
+  - component: {fileID: 2446322170132033329}
   - component: {fileID: -8844460287261754000}
   - component: {fileID: -7714140207625893169}
   - component: {fileID: -7333239041017574885}
   m_Layer: 0
-  m_Name: Monster_Bat
+  m_Name: Seagull_Attack2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5646883332849939079, guid: 12d265ccdf2f2d648b44dc5b4f65bfc5, type: 3}
+  m_Sprite: {fileID: 1305435391438009915, guid: e56ddeb3ce5729a40945a9b13bbc3731, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -145,7 +145,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5294844828858646776}
   m_CullTransparentMesh: 1
---- !u!114 &693431454143355870
+--- !u!114 &2446322170132033329
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,15 +154,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5294844828858646776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07300eb82665dfa4e82d4625a3a043c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e734b32cf789104e9f190ecfb5d51f0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BatMonster
+  m_EditorClassIdentifier: Assembly-CSharp::SeagullMonster
   hasMoved: 0
   HPText: {fileID: 9151571416642333200}
   DamagePopupPrefab: {fileID: 8848335735341659432, guid: 1b7635724c3813a4da491e597c9fe50b, type: 3}
-  PopupSpawnPoint: {fileID: 750940618129482775}
-  CurrentHP: 10
-  MaxHP: 10
+  PopupSpawnPoint: {fileID: 0}
+  CurrentHP: 5
+  MaxHP: 5
   PlanLength: 2
   ArrowPrefab: {fileID: 2599406223229457744, guid: 869276e5408303847a24a53808851ba9, type: 3}
   currentAttackEffects: []
@@ -176,7 +176,7 @@ MonoBehaviour:
   turnCounter: 0
   anim: {fileID: 0}
   arrowColor: {r: 0, g: 0, b: 0, a: 1}
-  NeedlePrefab: {fileID: 662426965688044955, guid: f979382a8077bd04c8633e10c4aad544, type: 3}
+  CutterPrefab: {fileID: 662426965688044955, guid: c80f5f360e9b6044f9814a07bd99da99, type: 3}
   EffectSpawner: {fileID: 750940618129482775}
 --- !u!95 &-8844460287261754000
 Animator:
@@ -188,7 +188,7 @@ Animator:
   m_GameObject: {fileID: 5294844828858646776}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c90a0f7b5904dad43b594d76746c8ccf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 279eec3478caead468b05d33ce81aada, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

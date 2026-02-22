@@ -144,14 +144,20 @@ public class MapManager : Singleton<MapManager>
 
     int GetMonsterTypeByName(string name)
     {
-        if (name == "monster") return 2;
+        if (name == "Monster") return 2;
         if (name == "TutorialMonster") return 3;
-        if (name == "Monster_Bat") return 4;
-        if (name == "TurtleMonster") return 5;
-        if (name == "Monster_Meerkat") return 6;
-        if (name == "TestThrowMonster") return 7;
-        if (name == "FullLineMonster_Mole") return 8;
-        if (name == "Monster_Seagull") return 9;
+        if (name == "Bat") return 4;
+        if (name == "Turtle") return 5;
+        if (name == "Meerkat") return 6;
+        if (name == "Bat_Attack") return 7;
+        if (name == "Meerkat_Attack") return 8;
+        if (name == "Mole_Attack") return 9;
+        if (name == "Seagull_Attack") return 10;
+        if (name == "Seagull_Attack2") return 11;
+        if (name == "Bat_Attack2") return 12;
+        if (name == "Meerkat_Attack2") return 13;
+        if (name == "Meerkat_Attack3") return 14;
+        if (name == "Mole_Attack2") return 15;
         return 2; // 기본값  나중에 dictionary로 대체
     }
 

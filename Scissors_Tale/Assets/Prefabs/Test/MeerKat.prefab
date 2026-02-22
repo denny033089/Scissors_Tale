@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2809289422557131614}
   - component: {fileID: 3010166492392374409}
   m_Layer: 0
-  m_Name: TurtleMonster
+  m_Name: MeerKat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2475158078323389044, guid: 1cc884490b5ba2c4f8ac14f575057016, type: 3}
+  m_Sprite: {fileID: -5586239726949178320, guid: d85e9d8c7f192404ab234718efaf7930, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,10 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
   hasMoved: 0
-  spriteUp: {fileID: 0}
-  spriteDown: {fileID: 0}
-  spriteLeft: {fileID: 0}
-  spriteRight: {fileID: 0}
   HPText: {fileID: 9151571416642333200}
   DamagePopupPrefab: {fileID: 8848335735341659432, guid: 1b7635724c3813a4da491e597c9fe50b, type: 3}
   PopupSpawnPoint: {fileID: 0}
@@ -122,6 +118,13 @@ MonoBehaviour:
   MaxHP: 10
   PlanLength: 2
   ArrowPrefab: {fileID: 2599406223229457744, guid: 869276e5408303847a24a53808851ba9, type: 3}
+  currentAttackEffects: []
+  Effectsr: {fileID: 0}
+  attackPatterns: []
+  iswillAttack: 0
+  turnCounter: 0
+  anim: {fileID: 0}
+  arrowColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!222 &3010166492392374409
 CanvasRenderer:
   m_ObjectHideFlags: 0

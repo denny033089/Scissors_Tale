@@ -32,7 +32,7 @@ public class SeagullMonster : Monster
         return new AttackInfo[]
         {
             // AttackType.Directional을 사용하여 플레이어 방향으로 이 범위를 출력합니다.
-            new AttackInfo(AttackType.Directional, 1, 5, areaH)
+            new AttackInfo(AttackType.Directional, 3, 5, areaH)
         };
 
         

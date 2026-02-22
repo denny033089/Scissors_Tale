@@ -28,7 +28,7 @@ public class BatMonster : Monster
 
         return new AttackInfo[]
         {
-            new AttackInfo(AttackType.Splash, 3, 5, cross)
+            new AttackInfo(AttackType.Splash, 1, 5, cross)
         };
     }
 
