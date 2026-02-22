@@ -198,7 +198,7 @@ public class UIManager : Singleton<UIManager>
                              (GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag) &&
                              SkillManager.Instance != null && 
                              SkillManager.Instance.IsExpandAOEAvailable();
-            skillButtonPlayer1.SetActive(shouldShow);
+            //skillButtonPlayer1.SetActive(shouldShow);  02.23 정수민 보험용!!!
         }
 
         // Player 2일때는 체력 회복 스킬 버튼 표시
@@ -208,7 +208,7 @@ public class UIManager : Singleton<UIManager>
                              (GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag) &&
                              SkillManager.Instance != null && 
                              SkillManager.Instance.IsHealAvailable();
-            skillButtonPlayer2.SetActive(shouldShow);
+            //skillButtonPlayer2.SetActive(shouldShow); 02.23 정수민 보험용!!!
         }
     }
 

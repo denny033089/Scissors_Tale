@@ -700,7 +700,7 @@ public class GameManager : Singleton<GameManager>
     {
         // 1. 플레이어 공격 페이즈
         ChangeTurnState(Enums.TurnState.PlayerAttack);
-        yield return new WaitForSeconds(0.5f); // 공격 모션 대기
+        yield return new WaitForSeconds(0.7f); // 공격 모션 대기
 
         // 몬스터 공격 페이즈  02.21 정수민
         ChangeTurnState(Enums.TurnState.MonsterAttack);

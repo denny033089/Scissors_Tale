@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player2 : Player //02.04 상속 추가
 {
+    public GameObject SkillEffect;
     public override MoveInfo[] GetMoves()
     {
         // --- TODO ---
@@ -28,5 +29,13 @@ public class Player2 : Player //02.04 상속 추가
             MySpriteRenderer.flipX = false;
         }
         base.MoveTo(targetPos);
+    }
+
+    public override IEnumerator SpawnEffect() {
+        yield return new WaitForSeconds(0.5f);
+        
+            // 일반 공격 이펙트 생성
+        Instantiate(AttackEffect, Utils.ToRealPos(MyPos), Quaternion.identity);
+
     }
 }

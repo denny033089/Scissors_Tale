@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 7687877762729493518}
   - component: {fileID: -5453188090312643461}
   - component: {fileID: -294955575523101538}
+  - component: {fileID: 8925931188153499315}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player
@@ -355,6 +356,9 @@ MonoBehaviour:
   MaxHP: 20
   Triangle: {fileID: 5105927437311084245}
   thickness: 0
+  anim: {fileID: 0}
+  AttackEffect: {fileID: 8295732212438203699, guid: 748c4ed2645c8f744a6f52732cc1b177, type: 3}
+  SkillEffect: {fileID: 3298449570466456993, guid: c198ac31a1dca0249a93dbfedf3e50a4, type: 3}
 --- !u!70 &-5453188090312643461
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -419,6 +423,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &8925931188153499315
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8357774654964675909}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0d5d3422505dc2b4d990c898501d99ff, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &5827886996702136085
 PrefabInstance:
   m_ObjectHideFlags: 0

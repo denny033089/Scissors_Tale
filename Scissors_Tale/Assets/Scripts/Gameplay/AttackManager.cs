@@ -35,23 +35,47 @@ public class AttackManager : Singleton<AttackManager>
     {
         // GameManager.cs에서 위치 받아옴
         GameManager gm = GameManager.Instance;
-        Vector2Int p1Pos = gm.GetPlayer1Pos();
-        Vector2Int p2Pos = gm.GetPlayer2Pos();
+        //Vector2Int p1Pos = gm.GetPlayer1Pos();
+        //Vector2Int p2Pos = gm.GetPlayer2Pos();
+
+        //02.23 정수민
+        Player1 p1Script = GameObject.FindAnyObjectByType<Player1>();
+        Player2 p2Script = GameObject.FindAnyObjectByType<Player2>();
+
+        bool isP1Alive = p1Script != null; 
+        bool isP2Alive = p2Script != null;
+
+        Vector2Int p1Pos = isP1Alive ? gm.GetPlayer1Pos() : new Vector2Int(-999, -999);
+        Vector2Int p2Pos = isP2Alive ? gm.GetPlayer2Pos() : new Vector2Int(-999, -999);
+
 
 
         HashSet<Vector2Int> allMonsterPos = gm.GetAllMonsterPositions();
         
-
+        // 02.23 정수민 살아있는 플레이어만 범위를 계산합니다.
+        HashSet<Vector2Int> area1 = isP1Alive ? GetAttackArea(p1Pos, SkillManager.Instance.GetAOE(0)) : new HashSet<Vector2Int>();
+        HashSet<Vector2Int> area2 = isP2Alive ? GetAttackArea(p2Pos, SkillManager.Instance.GetAOE(1)) : new HashSet<Vector2Int>();
         //2/20 구본환
         int radius1 = SkillManager.Instance != null ? SkillManager.Instance.GetAOE(0) : 1;
         int radius2 = SkillManager.Instance != null ? SkillManager.Instance.GetAOE(1) : 1;
-        HashSet<Vector2Int> area1 = GetAttackArea(p1Pos, radius1);
-        HashSet<Vector2Int> area2 = GetAttackArea(p2Pos, radius2);
+        //HashSet<Vector2Int> area1 = GetAttackArea(p1Pos, radius1);
+        //HashSet<Vector2Int> area2 = GetAttackArea(p2Pos, radius2);
+
+
+        // 3. 플레이어 공격 애니메이션 실행
+        // 적이 있을 때만 PerformAnimation을 호출하여 모션을 취합니다.
+        if (p1Script != null) p1Script.PerformAnimation();
+        if (p2Script != null) p2Script.PerformAnimation();
+        yield return new WaitForSeconds(0.4f);
+        CameraController.Instance.ShakeCamera();
+
+
 
         foreach (Vector2Int mPos in allMonsterPos)
         {
-            bool inArea1 = area1.Contains(mPos);
-            bool inArea2 = area2.Contains(mPos);
+            //02.23 정수민
+            bool inArea1 = isP1Alive && area1.Contains(mPos);
+            bool inArea2 = isP2Alive && area2.Contains(mPos);
 
             int activePlayerIndex = gm.CurrentPlayer;
 

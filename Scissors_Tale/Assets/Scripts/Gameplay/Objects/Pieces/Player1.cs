@@ -6,6 +6,7 @@ public class Player1 : Player // 02.04 상속 추가
 {
     
 
+    public GameObject SkillEffect;
     public override void Awake() {
         base.Awake();
         MySpriteRenderer.material.SetFloat("_Thickness",thickness);
@@ -35,6 +36,25 @@ public class Player1 : Player // 02.04 상속 추가
             MySpriteRenderer.flipX = true;
         }
         base.MoveTo(targetPos);
+    }
+
+    public override IEnumerator SpawnEffect() {
+        yield return new WaitForSeconds(0.5f);
+        int myIndex = (this is Player1) ? 0 : 1; 
+
+        // 현재 공격 범위가 확장된 상태(스킬 사용 중)인지 확인
+        if (SkillManager.Instance.GetAOE(myIndex) == 2) 
+        {
+            // 스킬 전용 이펙트 생성 (일반 공격 이펙트 대신 생성하거나 둘 다 생성 가능)
+            Instantiate(SkillEffect, Utils.ToRealPos(MyPos), Quaternion.identity);
+            Instantiate(AttackEffect, Utils.ToRealPos(MyPos), Quaternion.identity);
+            Debug.Log("강화 공격 이펙트 출력!");
+        }
+        else 
+        {
+            // 일반 공격 이펙트 생성
+            Instantiate(AttackEffect, Utils.ToRealPos(MyPos), Quaternion.identity);
+        }
     }
 }
 

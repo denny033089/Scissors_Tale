@@ -5196,6 +5196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillManager
   HealAmount: 5
+  ExpandedDamageAmount: 2
 --- !u!4 &1530748940
 Transform:
   m_ObjectHideFlags: 0
@@ -7826,3 +7827,4 @@ SceneRoots:
   - {fileID: 2047539145}
   - {fileID: 1942532970}
   - {fileID: 718468581}
+  - {fileID: 1530748940}

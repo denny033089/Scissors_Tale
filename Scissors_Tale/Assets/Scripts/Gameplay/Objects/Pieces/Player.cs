@@ -19,6 +19,9 @@ public class Player : Piece //02.04 정수민
     public GameObject Triangle;
     public SpriteRenderer MySpriteRenderer { get; private set; } //02.12 정수민
     public int thickness;
+
+    public Animator anim;
+    public GameObject AttackEffect;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,6 +39,7 @@ public class Player : Piece //02.04 정수민
     {
         MySpriteRenderer = GetComponent<SpriteRenderer>();
         thickness = 10;  //여기서 테두리 굵기 정하기
+        anim = GetComponent<Animator>(); //02.23 정수민
     }
 
     public virtual void InitializeStats() {
@@ -67,6 +71,7 @@ public class Player : Piece //02.04 정수민
     {
         if (amount <= 0) return;
         CurrentHP = Mathf.Min(CurrentHP + amount, MaxHP);
+
         UpdateHPText();
     }
 
@@ -76,6 +81,7 @@ public class Player : Piece //02.04 정수민
 
         transform.DOShakePosition(0.5f, 0.2f, 20, 90, false, true); //02.20 정수민 피격시 떨림
         CameraController.Instance.ShakeCamera();
+        SoundManager.Instance.PlaySFX("Attack"); //02.23 정수민 추가
 
         MonsterAttackManager.Instance.ShowDamageEffect(damage,this);
 
@@ -109,5 +115,16 @@ public class Player : Piece //02.04 정수민
         // 오브젝트 삭제
         Destroy(gameObject);
 
+    }
+
+    public virtual void PerformAnimation() {
+        anim.SetTrigger("isAttacking");
+        StartCoroutine(SpawnEffect());
+        
+    }
+
+    public virtual IEnumerator SpawnEffect() {
+        yield return new WaitForSeconds(0.5f);
+        Instantiate(AttackEffect, Utils.ToRealPos(MyPos), Quaternion.identity);
     }
 }
