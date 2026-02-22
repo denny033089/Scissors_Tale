@@ -154,6 +154,10 @@ public class MapManager : Singleton<MapManager>
         if (name == "Mole_Attack") return 9;
         if (name == "Seagull_Attack") return 10;
         if (name == "Seagull_Attack2") return 11;
+        if (name == "Bat_Attack2") return 12;
+        if (name == "Meerkat_Attack2") return 13;
+        if (name == "Meerkat_Attack3") return 14;
+        if (name == "Mole_Attack2") return 15;
         return 2; // 기본값  나중에 dictionary로 대체
     }
 

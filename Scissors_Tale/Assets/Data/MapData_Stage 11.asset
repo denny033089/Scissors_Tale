@@ -10,34 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ff8d821b415f6949a7c7272d0de3a71, type: 3}
-  m_Name: MapData_Stage10
+  m_Name: MapData_Stage 11
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   stageId: 1
   width: 7
   height: 7
-  stageName: Stage10
-  totalTurnLimit: 40
-  PlayerRemainMove: 3
+  stageName: Stage11
+  totalTurnLimit: 30
+  PlayerRemainMove: 2
   startpos1: {x: 0, y: 1}
   startpos2: {x: 0, y: 2}
   monsterSpawns:
-  - monsterName: Monster_Meerkat
-    spawnPos: {x: 6, y: 4}
-  - monsterName: Monster_Meerkat
-    spawnPos: {x: 4, y: 0}
-  - monsterName: Monster_Bat
-    spawnPos: {x: 6, y: 6}
-  - monsterName: Monster_Bat
-    spawnPos: {x: 6, y: 0}
-  - monsterName: FullLineMonster_Mole
-    spawnPos: {x: 3, y: 4}
-  - monsterName: FullLineMonster_Mole
-    spawnPos: {x: 5, y: 6}
-  - monsterName: FullLineMonster_Mole
-    spawnPos: {x: 2, y: 5}
-  - monsterName: Monster_Seagull
+  - monsterName: Turtle
+    spawnPos: {x: 5, y: 0}
+  - monsterName: Turtle
+    spawnPos: {x: 6, y: 2}
+  - monsterName: Turtle
     spawnPos: {x: 3, y: 5}
-  - monsterName: Monster_Seagull
+  - monsterName: Turtle
     spawnPos: {x: 4, y: 4}
   tilePrefab: {fileID: 1868782838922341574, guid: ab30bcc8a89764044a8d67e8830ca7ea, type: 3}
   objectives:
@@ -47,7 +37,7 @@ MonoBehaviour:
     minHealthPercent: 0
     description: 
   - type: 1
-    maxTurns: 30
+    maxTurns: 15
     maxTags: 0
     minHealthPercent: 0
     description: 

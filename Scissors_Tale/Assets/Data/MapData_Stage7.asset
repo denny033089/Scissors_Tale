@@ -14,21 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   stageId: 1
   width: 7
-  height: 7
+  height: 5
   stageName: Stage7
   totalTurnLimit: 25
   PlayerRemainMove: 2
   startpos1: {x: 1, y: 1}
   startpos2: {x: 1, y: 2}
   monsterSpawns:
-  - monsterName: Monster_Meerkat
-    spawnPos: {x: 6, y: 4}
-  - monsterName: Monster_Meerkat
+  - monsterName: Meerkat_Attack2
+    spawnPos: {x: 3, y: 1}
+  - monsterName: Meerkat_Attack2
+    spawnPos: {x: 3, y: 3}
+  - monsterName: Meerkat_Attack2
     spawnPos: {x: 4, y: 0}
-  - monsterName: FullLineMonster_Mole
+  - monsterName: Meerkat_Attack2
+    spawnPos: {x: 4, y: 2}
+  - monsterName: Meerkat_Attack2
+    spawnPos: {x: 4, y: 4}
+  - monsterName: Meerkat_Attack2
+    spawnPos: {x: 5, y: 1}
+  - monsterName: Meerkat_Attack2
     spawnPos: {x: 5, y: 3}
-  - monsterName: FullLineMonster_Mole
-    spawnPos: {x: 1, y: 6}
+  - monsterName: Meerkat_Attack2
+    spawnPos: {x: 6, y: 0}
+  - monsterName: Meerkat_Attack2
+    spawnPos: {x: 6, y: 2}
+  - monsterName: Meerkat_Attack2
+    spawnPos: {x: 6, y: 4}
   tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
   objectives:
   - type: 0

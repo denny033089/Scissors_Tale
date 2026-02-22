@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: MapData_Stage8
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   stageId: 1
-  width: 7
+  width: 5
   height: 5
   stageName: Stage8
-  totalTurnLimit: 20
+  totalTurnLimit: 25
   PlayerRemainMove: 2
-  startpos1: {x: 0, y: 1}
-  startpos2: {x: 0, y: 2}
+  startpos1: {x: 2, y: 1}
+  startpos2: {x: 2, y: 3}
   monsterSpawns:
-  - monsterName: Monster_Seagull
-    spawnPos: {x: 6, y: 4}
-  - monsterName: Monster_Seagull
+  - monsterName: Bat_Attack
+    spawnPos: {x: 0, y: 0}
+  - monsterName: Bat_Attack
+    spawnPos: {x: 4, y: 4}
+  - monsterName: Bat_Attack
+    spawnPos: {x: 0, y: 4}
+  - monsterName: Bat_Attack
     spawnPos: {x: 4, y: 0}
-  - monsterName: TurtleMonster
-    spawnPos: {x: 5, y: 2}
-  - monsterName: TurtleMonster
-    spawnPos: {x: 1, y: 4}
-  tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
+  tilePrefab: {fileID: 1868782838922341574, guid: f658b0c03b34f4141a1c9fb4d216f2dc, type: 3}
   objectives:
   - type: 0
     maxTurns: 0
@@ -46,4 +46,4 @@ MonoBehaviour:
     maxTags: 0
     minHealthPercent: 30
     description: 
-  backgroundSprite: {fileID: -237502752621307925, guid: 436e642d30ced874598f9dca0e3b8a04, type: 3}
+  backgroundSprite: {fileID: 7232038590303470556, guid: 5a7c9c702777b924e8a23e87104c1cec, type: 3}
