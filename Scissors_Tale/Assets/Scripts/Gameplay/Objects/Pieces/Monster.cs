@@ -90,19 +90,28 @@ public class Monster : Piece
         InitializePath();
     }
 
-    public virtual void SpawnDamageEffect(Sprite sprite)
+    public virtual void SpawnDamageEffect(Sprite sprite, int damageAmount = 1)
     {
         if (DamagePopupPrefab == null || sprite == null) return;
 
-        // 몬스터 위에서 스폰
-        Vector3 spawnPos = (PopupSpawnPoint != null) ? PopupSpawnPoint.position : transform.position + Vector3.up * 1.0f;
+        StartCoroutine(SpawnDamagePopups(sprite, damageAmount));
+    }
 
-        GameObject popupObj = Instantiate(DamagePopupPrefab, spawnPos, Quaternion.identity);
-        DamagePopup popupScript = popupObj.GetComponent<DamagePopup>();
+    private IEnumerator SpawnDamagePopups(Sprite sprite, int damageAmount)
+    {
+        Vector3 basePos = (PopupSpawnPoint != null) ? PopupSpawnPoint.position : transform.position + Vector3.up * 1.0f;
+        float delayBetween = 0.12f;
 
-        if (popupScript != null)
+        for (int i = 0; i < damageAmount; i++)
         {
-            popupScript.Setup(sprite);
+            Vector3 offset = Vector3.up * (i * 0.4f);
+            GameObject popupObj = Instantiate(DamagePopupPrefab, basePos + offset, Quaternion.identity);
+            DamagePopup popupScript = popupObj.GetComponent<DamagePopup>();
+            if (popupScript != null)
+                popupScript.Setup(sprite);
+
+            if (i < damageAmount - 1)
+                yield return new WaitForSeconds(delayBetween);
         }
     }
 

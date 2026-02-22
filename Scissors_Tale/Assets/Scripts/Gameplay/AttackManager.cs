@@ -59,22 +59,28 @@ public class AttackManager : Singleton<AttackManager>
             Sprite p1Sprite = Player1AttackSprite;
             Sprite p2Sprite = Player2AttackSprite;
 
-            
+            //2/22 구본환
+            int damageP1 = SkillManager.Instance != null ? SkillManager.Instance.GetDamageForPlayer(0) : 1;
+            int damageP2 = SkillManager.Instance != null ? SkillManager.Instance.GetDamageForPlayer(1) : 1;
+
             if (inArea1 && inArea2)  // 장판 중첩 영역에 존재하면 데미지 3
             {
 
                 Sprite firstSprite = (activePlayerIndex == 0) ? p2Sprite : p1Sprite; 
                 Sprite secondSprite = (activePlayerIndex == 0) ? p1Sprite : p2Sprite; 
                 Sprite bonusSprite = secondSprite; //일단 두번째 스프라이트로 설정
+                //2/22 구본환
+                int firstDamage = (activePlayerIndex == 0) ? damageP2 : damageP1;
+                int secondDamage = (activePlayerIndex == 0) ? damageP1 : damageP2;
 
                 // 태그받은 플레이어 히트
                 SoundManager.Instance.PlaySFX("Attack");
-                ApplyDamageWithVisual(1, firstSprite,mPos);
+                ApplyDamageWithVisual(firstDamage, firstSprite,mPos);
                 yield return new WaitForSeconds(0.1f);
 
                 // 태그하는 플레이어 히트
                 SoundManager.Instance.PlaySFX("Attack");
-                ApplyDamageWithVisual(1, secondSprite,mPos);
+                ApplyDamageWithVisual(secondDamage, secondSprite,mPos);
                 yield return new WaitForSeconds(0.1f);
 
                 // 태그 보너스 히트
@@ -83,19 +89,19 @@ public class AttackManager : Singleton<AttackManager>
 
                     yield return new WaitForSeconds(0.1f);
                     SoundManager.Instance.PlaySFX("Attack");
-                    ApplyDamageWithVisual(1, bonusSprite,mPos);
+                    ApplyDamageWithVisual(secondDamage, bonusSprite,mPos);
                 }
             }
             // 영역 안겹칠때
             else if (inArea1)
             {
                 SoundManager.Instance.PlaySFX("Attack");
-                ApplyDamageWithVisual(1, p1Sprite,mPos);
+                ApplyDamageWithVisual(damageP1, p1Sprite,mPos);
             }
             else if (inArea2)
             {
                 SoundManager.Instance.PlaySFX("Attack");
-                ApplyDamageWithVisual(1, p2Sprite,mPos);
+                ApplyDamageWithVisual(damageP2, p2Sprite,mPos);
             }
             
         }
@@ -123,7 +129,7 @@ public class AttackManager : Singleton<AttackManager>
 
         if (piece is Monster monster)
         {
-            monster.SpawnDamageEffect(sprite);
+            monster.SpawnDamageEffect(sprite, damage);
         }
         
         gm.ApplyMonsterDamage(damage,mPos);

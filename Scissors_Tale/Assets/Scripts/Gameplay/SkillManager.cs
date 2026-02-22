@@ -75,10 +75,19 @@ public class SkillManager : Singleton<SkillManager>
         return _expandAOE == playerIndex ? 2 : 1;
     }
 
-    //공격 후 범위 증가 초기화
+    //공격 후 범위 증가 초기화 (한 턴만 확장, 턴 끝나면 3x3으로 복귀)
     public void ClearAOEAfterAttack()
     {
         _expandAOE = -1;
+    }
+
+    /// <summary>P1이 범위 증가 스킬 사용 시 적용되는 데미지 (기본 1보다 큼).</summary>
+    public int ExpandedDamageAmount = 2;
+
+    /// <summary>해당 플레이어가 이번 공격에서 적용할 데미지 (범위 증가 시 더 큰 데미지).</summary>
+    public int GetDamageForPlayer(int playerIndex)
+    {
+        return GetAOE(playerIndex) == 2 ? ExpandedDamageAmount : 1;
     }
 
     public bool IsExpandAOEAvailable()
@@ -92,8 +101,8 @@ public class SkillManager : Singleton<SkillManager>
         GameManager gm = GameManager.Instance;
         return gm != null && gm.currentTurn - _lastTurnUsedHeal >= SkillCooldown;
     }
-
-    // P1프리뷰
+    //2/22 구본환
+    // P1 스킬 버튼위에 마우스 댈댈 때 보드에 증가한 영역 표시
     private bool _previewExpandAreaP1;
 
     public void SetExpandAreaPreview(bool active)
