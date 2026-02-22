@@ -838,7 +838,7 @@ public class GameManager : Singleton<GameManager>
     //01.25 정수민
     public void CheckRemainMove() {
         PlayerMoveCount --;
-        if(PlayerMoveCount != 0) {
+        if(PlayerMoveCount > 0) {
             ChangeTurnState(Enums.TurnState.PlayerMovable);
             GetCurrentPlayer().hasMoved = false;
             
