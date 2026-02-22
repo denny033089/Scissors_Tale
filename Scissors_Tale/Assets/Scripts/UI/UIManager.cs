@@ -118,39 +118,26 @@ public class UIManager : Singleton<UIManager>
 
 
 
-    //2/20 구본환
+    //2/22구본환
     public void OnSkillButtonPlayer1Clicked()
     {
         if(GameManager.Instance.CurrentStageState is Enums.StageState.Victory or Enums.StageState.Gameover) {
             return;
         }
 
-        //  PlayerMove 또는 PlayerMovable states에만만 P1 이동가능
-        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable)
+        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag)
         {
             if(GameManager.Instance.NextPlayer != 0) return;
 
-            // 플레이어가 이동했는지 확인
-            Piece currentPiece = GameManager.Instance.GetCurrentPlayer();
-            if(currentPiece == null || !currentPiece.hasMoved)
-            {
-                Debug.Log("이동하고 스킬을 사용하세요");
-                return;
-            }
-
-            // 스킬사용용
             if(SkillManager.Instance != null && SkillManager.Instance.UseExpandAOE())
             {
                 SoundManager.Instance.PlaySFX("Click");
                 Debug.Log("P1 스킬 사용");
                 
-                // 스킬 버튼 숨기기
                 if(skillButtonPlayer1 != null)
                     skillButtonPlayer1.SetActive(false);
                 
-                // 공격 시퀀스 트리거(HandleEnd랑 똑같이)
-                GameManager.Instance.ClearEffects();
-                GameManager.Instance.StartCoroutine(GameManager.Instance.ProcessTurnSequence());
+               
             }
             else
             {
@@ -166,17 +153,9 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
-        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable)
+        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag)
         {
             if(GameManager.Instance.NextPlayer != 1) return; 
-
-            // 플레이어가 이동했는지 확인
-            Piece currentPiece = GameManager.Instance.GetCurrentPlayer();
-            if(currentPiece == null || !currentPiece.hasMoved)
-            {
-                Debug.Log("이동하고 스킬을 사용하세요");
-                return;
-            }
 
             if(SkillManager.Instance != null && SkillManager.Instance.UseHeal())
             {
@@ -186,8 +165,7 @@ public class UIManager : Singleton<UIManager>
                 if(skillButtonPlayer2 != null)
                     skillButtonPlayer2.SetActive(false);
                 
-                GameManager.Instance.ClearEffects();
-                GameManager.Instance.StartCoroutine(GameManager.Instance.ProcessTurnSequence());
+                // 스킬만 적용; 공격은 턴 종료 버튼으로 진행
             }
             else
             {
@@ -217,7 +195,7 @@ public class UIManager : Singleton<UIManager>
         if (skillButtonPlayer1 != null)
         {
             bool shouldShow = currentPlayer == 0 && 
-                             GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable &&
+                             (GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag) &&
                              SkillManager.Instance != null && 
                              SkillManager.Instance.IsExpandAOEAvailable();
             skillButtonPlayer1.SetActive(shouldShow);
@@ -227,7 +205,7 @@ public class UIManager : Singleton<UIManager>
         if (skillButtonPlayer2 != null)
         {
             bool shouldShow = currentPlayer == 1 && 
-                             GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable &&
+                             (GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag) &&
                              SkillManager.Instance != null && 
                              SkillManager.Instance.IsHealAvailable();
             skillButtonPlayer2.SetActive(shouldShow);

@@ -110,7 +110,11 @@ public class GameManager : Singleton<GameManager>
         {
             //01.17 정수민, ready일 때 turn 계산
             case Enums.TurnState.Ready:
+            //2/22 구본환
+            if (SkillManager.Instance != null)
+                SkillManager.Instance.ClearAOEAfterAttack();
             UIManager.Instance.ShowMoveButton();
+            UpdateAttackAreaTiles();
             CalculateTurn();
             //01.19 정수민 초상화 업데이트
             GetActivatePlayer();
@@ -135,6 +139,7 @@ public class GameManager : Singleton<GameManager>
 
             case Enums.TurnState.PlayerTag:
             GetActivatePlayer();
+            UIManager.Instance.UpdateSkillButtonVisibility();
             break;
 
             case Enums.TurnState.PlayerAttack:
@@ -478,7 +483,8 @@ public class GameManager : Singleton<GameManager>
         return GetAttackAreaWithRadius(center, 1);
     }
 
-    // 반지름 설정(1 = 3*3, 2 = 5*5)
+    //2/22 구본환
+    // 공격 영역 반지름 1 = 3x3, 2 = 5x5
     HashSet<Vector2Int> GetAttackAreaWithRadius(Vector2Int center, int radius)
     {
         HashSet<Vector2Int> area = new HashSet<Vector2Int>();
@@ -509,7 +515,9 @@ public class GameManager : Singleton<GameManager>
         bool isP1Alive = p1Instance != null;
         bool isP2Alive = p2Instance != null;
 
-        // P1 프리뷰 확인
+        
+        //2/22 구본환
+        // 스킬 버튼위에 마우스 댈 때 보드에 증가한 영역 표시 또는 스킬 사용 시 5x5 영역 표시
         int radius1 = 1;
         if (isP1Alive && SkillManager.Instance != null)
         {

@@ -9,7 +9,6 @@ public class DamagePopup : MonoBehaviour
     private float lifeTime = 0.5f;
     private float fadeSpeed;
 
-
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -29,16 +28,10 @@ public class DamagePopup : MonoBehaviour
 
         while (timer < lifeTime)
         {
-            // 위로 떠오름
             transform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
-
-            // 페이드 아웃
             timer += Time.deltaTime;
-
-            
-            color.a = Mathf.Lerp(1, 0, timer / lifeTime); 
+            color.a = Mathf.Lerp(1, 0, timer / lifeTime);
             spriteRenderer.color = color;
-
             yield return null;
         }
 
