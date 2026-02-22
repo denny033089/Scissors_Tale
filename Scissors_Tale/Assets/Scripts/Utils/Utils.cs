@@ -20,6 +20,17 @@ public static class Utils
         ))+new Vector3(0,0.5f,0));
     }
 
+    public static (int, int) ToBoardPos(Vector3 WorldPosition) //맞는 지 검증 안해봄. 만약 쓸거면 확인할 것
+    {
+        float x = WorldPosition.x + (Utils.TileSize * Utils.FieldWidth) / 2f;
+        float y = WorldPosition.y + (Utils.TileSize * Utils.FieldHeight) / 2f - 0.5f;  //01.19정수민
+        
+        int boardX = Mathf.FloorToInt(x / Utils.TileSize);
+        int boardY = Mathf.FloorToInt(y / Utils.TileSize);
+        
+        return (boardX, boardY);
+    }
+
     // 좌표를 받아 Board 안에 있는지를 리턴
     public static bool IsInBoard((int, int) targetPos)
     {

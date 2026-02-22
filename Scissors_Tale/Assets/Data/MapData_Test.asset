@@ -21,13 +21,29 @@ MonoBehaviour:
   startpos1: {x: 1, y: 1}
   startpos2: {x: 1, y: 2}
   monsterSpawns:
-  - monsterName: TestMonster
+  - monsterName: Monster_Bat
     spawnPos: {x: 5, y: 3}
-  - monsterName: TestMonster
+  - monsterName: Monster_Meerkat
     spawnPos: {x: 6, y: 0}
-  - monsterName: TestFullLineMonster
+  - monsterName: FullLineMonster_Mole
     spawnPos: {x: 5, y: 1}
-  - monsterName: TestThrowMonster
+  - monsterName: Monster_Seagull
     spawnPos: {x: 6, y: 4}
   tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
+  objectives:
+  - type: 0
+    maxTurns: 0
+    maxTags: 0
+    minHealthPercent: 0
+    description: 
+  - type: 0
+    maxTurns: 0
+    maxTags: 0
+    minHealthPercent: 0
+    description: 
+  - type: 0
+    maxTurns: 0
+    maxTags: 0
+    minHealthPercent: 0
+    description: 
   backgroundSprite: {fileID: 5068883827039367339, guid: e00c27ff5b1dffb4ea46dd2de335b4a1, type: 3}

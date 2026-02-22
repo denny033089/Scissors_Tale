@@ -1167,6 +1167,7 @@ GameObject:
   - component: {fileID: 269502660}
   - component: {fileID: 269502659}
   - component: {fileID: 269502662}
+  - component: {fileID: 269502663}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1292,6 +1293,18 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &269502663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269502658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2d79fc36fed02a4db9c7b5cf7591fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
 --- !u!1 &280300916
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,11 +1654,12 @@ MonoBehaviour:
   - {fileID: 8357774654964675909, guid: 72188c12e1d97fc4ea574f80817d59e1, type: 3}
   - {fileID: 5294844828858646776, guid: eb7c0b442d497f94ab823aa79f1207f4, type: 3}
   - {fileID: 524731917048748400, guid: b651c38e42ae1f042bd0dd4c7d512412, type: 3}
-  - {fileID: 5294844828858646776, guid: e4ec59fc5aebbb4449b9fc50350897bd, type: 3}
+  - {fileID: 5294844828858646776, guid: 08fe2fb4fa941d34bbfffaab844ed0da, type: 3}
   - {fileID: 5294844828858646776, guid: 4977177537c860b439c12abd179fa42e, type: 3}
-  - {fileID: 5294844828858646776, guid: bec9d95126cf32a4da0db06f65b22e43, type: 3}
+  - {fileID: 5294844828858646776, guid: 7adc4dcfb2194df448c1c4e00d2f5cc1, type: 3}
   - {fileID: 5294844828858646776, guid: e74fd3f5443aa644b84f45f5ecee08a8, type: 3}
-  - {fileID: 5294844828858646776, guid: 157b1c57e85c78f4488bf2ef20ed0108, type: 3}
+  - {fileID: 5294844828858646776, guid: bfe2ef7633548444bbbbdf8b7824ec69, type: 3}
+  - {fileID: 5294844828858646776, guid: dab535c44af168f40a00e71ce95f1d18, type: 3}
   backgroundRenderer: {fileID: 1529059626}
 --- !u!4 &431215382
 Transform:
@@ -3716,6 +3730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1529059627}
   - component: {fileID: 1529059626}
+  - component: {fileID: 1529059628}
   m_Layer: 0
   m_Name: StageBackground
   m_TagString: Untagged
@@ -3797,6 +3812,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1529059628
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529059625}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 20c473e433ccbc24c84a12fa44a2205b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1619786716
 GameObject:
   m_ObjectHideFlags: 0

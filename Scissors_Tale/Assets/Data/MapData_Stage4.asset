@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   stageId: 1
   width: 7
-  height: 7
+  height: 4
   stageName: Stage4
   totalTurnLimit: 25
   PlayerRemainMove: 2
@@ -22,12 +22,28 @@ MonoBehaviour:
   startpos2: {x: 1, y: 2}
   monsterSpawns:
   - monsterName: TurtleMonster
-    spawnPos: {x: 5, y: 3}
+    spawnPos: {x: 5, y: 0}
   - monsterName: TurtleMonster
+    spawnPos: {x: 3, y: 2}
+  - monsterName: Monster_Bat
     spawnPos: {x: 6, y: 0}
-  - monsterName: TurtleMonster
-    spawnPos: {x: 5, y: 1}
-  - monsterName: TurtleMonster
-    spawnPos: {x: 6, y: 4}
-  tilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
+  - monsterName: Monster_Bat
+    spawnPos: {x: 6, y: 3}
+  tilePrefab: {fileID: 1868782838922341574, guid: f658b0c03b34f4141a1c9fb4d216f2dc, type: 3}
+  objectives:
+  - type: 0
+    maxTurns: 0
+    maxTags: 0
+    minHealthPercent: 0
+    description: 
+  - type: 1
+    maxTurns: 15
+    maxTags: 0
+    minHealthPercent: 0
+    description: 
+  - type: 3
+    maxTurns: 0
+    maxTags: 0
+    minHealthPercent: 30
+    description: 
   backgroundSprite: {fileID: 7232038590303470556, guid: 5a7c9c702777b924e8a23e87104c1cec, type: 3}

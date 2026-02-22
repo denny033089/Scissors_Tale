@@ -12,7 +12,7 @@ public class Piece : MonoBehaviour
         
     }
 
-    public void MoveTo((int, int) targetPos) {
+    public virtual void MoveTo((int, int) targetPos) {
 
         //UpdateDirectionSprite(targetPos);        
         // MyPos를 업데이트하고, targetPos로 이동(보드세계 이동 + 실제 이동)

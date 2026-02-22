@@ -501,7 +501,8 @@ public class GameManager : Singleton<GameManager>
         {
             for (int y = 0; y < Utils.FieldHeight; y++)
             {                
-                MapManager.Instance.Tiles[x, y].ResetColor();  //01.20 정수민: Tiles를 MapManager의 것으로 쓰도록
+                MapManager.Instance.RestoreColor(MapManager.Instance.Tiles[x,y]); //02.21 정수민
+                //MapManager.Instance.Tiles[x, y].ResetColor();  //01.20 정수민: Tiles를 MapManager의 것으로 쓰도록
             }
         } 
 
@@ -693,9 +694,16 @@ public class GameManager : Singleton<GameManager>
         ChangeTurnState(Enums.TurnState.PlayerAttack);
         yield return new WaitForSeconds(0.5f); // 공격 모션 대기
 
-        // 몬스터 공격 페이즈  02.24 정수민
+        // 몬스터 공격 페이즈  02.21 정수민
         ChangeTurnState(Enums.TurnState.MonsterAttack);
-        yield return new WaitForSeconds(1.0f);
+
+        GameObject effect = GameObject.FindWithTag("AttackEffect");
+
+        if (effect == null) {
+            yield return new WaitForSeconds(1.0f);
+        } else {
+            yield return new WaitForSeconds(4.1f);
+        }
 
         // 2. 몬스터 이동 페이즈
         ChangeTurnState(Enums.TurnState.MonsterMove);
@@ -844,7 +852,7 @@ public class GameManager : Singleton<GameManager>
     //01.25 정수민
     public void CheckRemainMove() {
         PlayerMoveCount --;
-        if(PlayerMoveCount != 0) {
+        if(PlayerMoveCount > 0) {
             ChangeTurnState(Enums.TurnState.PlayerMovable);
             GetCurrentPlayer().hasMoved = false;
             

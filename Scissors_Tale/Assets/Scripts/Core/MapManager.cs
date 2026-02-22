@@ -9,6 +9,7 @@ public class MapManager : Singleton<MapManager>
     public Tile[,] Tiles = new Tile[Utils.FieldWidth, Utils.FieldHeight];   // Tile.cs 담는 2차원 배열
     public Piece[,] Pieces = new Piece[Utils.FieldWidth, Utils.FieldHeight];    // Piece.cs들
     public GameObject TilePrefab;  //인스펙터 창에 tileprefab 삽입
+    public Color tilecolor;
     public GameObject[] PiecePrefabs;
     private Transform TileParent;
     private Transform PieceParent;
@@ -49,6 +50,8 @@ public class MapManager : Singleton<MapManager>
         Debug.Log("맵 생성중");
         //02.11 정수민
         ApplyStageBackground();
+        TilePrefab = currentMapData.tilePrefab;
+        tilecolor = TilePrefab.GetComponent<SpriteRenderer>().color;
         
         //01.20 정수민
         Utils.FieldWidth = currentMapData.width;
@@ -143,11 +146,12 @@ public class MapManager : Singleton<MapManager>
     {
         if (name == "monster") return 2;
         if (name == "TutorialMonster") return 3;
-        if (name == "BatMonster") return 4;
+        if (name == "Monster_Bat") return 4;
         if (name == "TurtleMonster") return 5;
-        if (name == "TestMonster") return 6;
+        if (name == "Monster_Meerkat") return 6;
         if (name == "TestThrowMonster") return 7;
-        if (name == "TestFullLineMonster") return 8;
+        if (name == "FullLineMonster_Mole") return 8;
+        if (name == "Monster_Seagull") return 9;
         return 2; // 기본값  나중에 dictionary로 대체
     }
 
@@ -174,5 +178,8 @@ public class MapManager : Singleton<MapManager>
             
             Debug.Log($"{currentMapData.name} 배경 이미지 적용 완료");
         }
+    }
+    public void RestoreColor(Tile tile) {
+        tile.GetComponentInChildren<SpriteRenderer>().color = tilecolor;
     }
 }

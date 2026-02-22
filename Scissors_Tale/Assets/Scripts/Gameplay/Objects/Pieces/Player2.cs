@@ -17,4 +17,16 @@ public class Player2 : Player //02.04 상속 추가
         };
         // ------
     }
+
+    public override void MoveTo((int, int) targetPos)
+    {
+
+        //플레이어2의 스프라이트가 왼쪽을 보고있으므로
+        if(MyPos.Item1<targetPos.Item1) { //오른쪽으로 이동   
+            MySpriteRenderer.flipX = true;
+        } else if(MyPos.Item1>targetPos.Item1) { //왼쪽으로 이동
+            MySpriteRenderer.flipX = false;
+        }
+        base.MoveTo(targetPos);
+    }
 }
