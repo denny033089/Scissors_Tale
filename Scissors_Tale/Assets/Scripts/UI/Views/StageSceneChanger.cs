@@ -12,6 +12,7 @@ public class StageSceneChanger : BaseSceneChanger
     {
         //정지 풀기가 ChangeScene 안에 있음
         ChangeScene(nextScenes[0], 0.5f);
+        SoundManager.Instance.PlayBGM("Menu_BGM");
         GameSystemManager.Instance.ChangeGameState(Enums.GameState.StageSelection);
     }
 
