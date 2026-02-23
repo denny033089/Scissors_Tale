@@ -16,6 +16,7 @@ public class ObjectiveManager : Singleton<ObjectiveManager>
     private readonly Enums.ObjectiveType[] _types = new Enums.ObjectiveType[ObjectiveCount];
     private readonly int[] _maxTurns = new int[ObjectiveCount];
     private readonly int[] _maxTags = new int[ObjectiveCount];
+    private readonly int[] _minTags = new int[ObjectiveCount];
     private readonly int[] _minHealthPercent = new int[ObjectiveCount];
 
     protected override void Awake()
@@ -32,6 +33,7 @@ public class ObjectiveManager : Singleton<ObjectiveManager>
             _types[i] = Enums.ObjectiveType.None;
             _maxTurns[i] = 0;
             _maxTags[i] = 0;
+            _minTags[i] = 0;
             _minHealthPercent[i] = 0;
         }
 
@@ -55,12 +57,13 @@ public class ObjectiveManager : Singleton<ObjectiveManager>
                 _types[i] = obj.type;
                 _maxTurns[i] = obj.maxTurns;
                 _maxTags[i] = obj.maxTags;
+                _minTags[i] = Mathf.Max(0, obj.minTags);
                 _minHealthPercent[i] = Mathf.Clamp(obj.minHealthPercent, 0, 100);
 
                 if (!string.IsNullOrWhiteSpace(obj.description))
                     _descriptions[i] = obj.description;
                 else
-                    _descriptions[i] = BuildDescription(_types[i], _maxTurns[i], _maxTags[i], _minHealthPercent[i]);
+                    _descriptions[i] = BuildDescription(_types[i], _maxTurns[i], _maxTags[i], _minTags[i], _minHealthPercent[i]);
             }
         }
         else
@@ -70,14 +73,16 @@ public class ObjectiveManager : Singleton<ObjectiveManager>
         }
     }
 
-    private static string BuildDescription(Enums.ObjectiveType type, int maxTurns, int maxTags, int minHealthPercent)
+    private static string BuildDescription(Enums.ObjectiveType type, int maxTurns, int maxTags, int minTags, int minHealthPercent)
     {
         switch (type)
         {
             case Enums.ObjectiveType.FinishWithinTurns:
                 return $"남은 턴 수 {maxTurns} 이상";
-            case Enums.ObjectiveType.FinishWithinTags:
+            case Enums.ObjectiveType.FinishWithMaxTags:
                 return $"태그 사용 {maxTags}회 이하";
+            case Enums.ObjectiveType.FinishWithMinTags:
+                return $"태그 버튼 {minTags}회 이상 사용";
             case Enums.ObjectiveType.FinishWithHealthPercent:
                 return $"체력 {minHealthPercent}% 이상 유지";
             default:
@@ -117,8 +122,11 @@ public class ObjectiveManager : Singleton<ObjectiveManager>
                 case Enums.ObjectiveType.FinishWithinTurns:
                     _completed[i] = currentTurn <= _maxTurns[i];
                     break;
-                case Enums.ObjectiveType.FinishWithinTags:
+                case Enums.ObjectiveType.FinishWithMaxTags:
                     _completed[i] = tagCount <= _maxTags[i];
+                    break;
+                case Enums.ObjectiveType.FinishWithMinTags:
+                    _completed[i] = tagCount >= _minTags[i];
                     break;
                 case Enums.ObjectiveType.FinishWithHealthPercent:
                     _completed[i] = healthPercentP1 >= _minHealthPercent[i] && healthPercentP2 >= _minHealthPercent[i];
