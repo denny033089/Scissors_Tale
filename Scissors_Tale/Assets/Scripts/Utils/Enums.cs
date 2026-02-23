@@ -41,7 +41,8 @@ public static class Enums
     {
         None,
         FinishWithinTurns,
-        FinishWithinTags,
+        FinishWithMaxTags,
+        FinishWithMinTags,
         FinishWithHealthPercent
     }
 }

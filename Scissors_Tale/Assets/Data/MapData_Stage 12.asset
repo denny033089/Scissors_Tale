@@ -16,38 +16,41 @@ MonoBehaviour:
   width: 7
   height: 7
   stageName: Stage12
-  totalTurnLimit: 30
+  totalTurnLimit: 25
   PlayerRemainMove: 2
-  startpos1: {x: 1, y: 1}
-  startpos2: {x: 1, y: 5}
+  player1MaxHP: 10
+  player2MaxHP: 10
+  startpos1: {x: 0, y: 1}
+  startpos2: {x: 0, y: 2}
   monsterSpawns:
-  - monsterName: Mole_Attack2
-    spawnPos: {x: 6, y: 3}
-  - monsterName: Bat_Attack
-    spawnPos: {x: 5, y: 3}
-  - monsterName: Bat_Attack
-    spawnPos: {x: 6, y: 2}
-  - monsterName: Bat_Attack
-    spawnPos: {x: 6, y: 4}
-  - monsterName: Seagull_Attack
-    spawnPos: {x: 2, y: 1}
-  - monsterName: Seagull_Attack
-    spawnPos: {x: 2, y: 5}
+  - monsterName: FullLineMonster_Mole
+    spawnPos: {x: 4, y: 3}
+  - monsterName: Monster_Meerkat
+    spawnPos: {x: 5, y: 0}
+  - monsterName: Monster_Meerkat
+    spawnPos: {x: 5, y: 2}
+  - monsterName: Monster_Seagull
+    spawnPos: {x: 1, y: 6}
+  - monsterName: Monster_Seagull
+    spawnPos: {x: 6, y: 6}
   tilePrefab: {fileID: 1868782838922341574, guid: ab30bcc8a89764044a8d67e8830ca7ea, type: 3}
   objectives:
   - type: 0
     maxTurns: 0
     maxTags: 0
+    minTags: 0
     minHealthPercent: 0
     description: 
   - type: 1
-    maxTurns: 20
+    maxTurns: 15
     maxTags: 0
+    minTags: 0
     minHealthPercent: 0
     description: 
-  - type: 3
+  - type: 4
     maxTurns: 0
     maxTags: 0
-    minHealthPercent: 10
+    minTags: 0
+    minHealthPercent: 30
     description: 
-  backgroundSprite: {fileID: -3444162441971260315, guid: 06eda7dc3544753499ca72b009e45c8b, type: 3}
+  backgroundSprite: {fileID: 5068883827039367339, guid: e00c27ff5b1dffb4ea46dd2de335b4a1, type: 3}
