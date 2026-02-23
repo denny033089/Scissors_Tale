@@ -155,7 +155,7 @@ public class UIManager : Singleton<UIManager>
 
         if(GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag)
         {
-            if(GameManager.Instance.NextPlayer != 1) return; 
+            if(GameManager.Instance.NextPlayer != 1) return;
 
             if(SkillManager.Instance != null && SkillManager.Instance.UseHeal())
             {
@@ -189,22 +189,27 @@ public class UIManager : Singleton<UIManager>
     {
         if (GameManager.Instance == null) return;
 
-        int currentPlayer = GameManager.Instance.NextPlayer;
+        //02.23 정수민 플레이어 사망시 로직 추가
+        int currentPlayerIndex = GameManager.Instance.NextPlayer;
+
+        // 현재 턴의 플레이어 객체가 살아있는지 확인
+        bool isP1Alive = GameManager.Instance.p1Instance != null;
+        bool isP2Alive = GameManager.Instance.p2Instance != null;
         
         // Player 1일때는 범위 증가 스킬 버튼 표시
         if (skillButtonPlayer1 != null)
         {
-            bool shouldShow = currentPlayer == 0 && 
+            bool shouldShow = isP1Alive && currentPlayerIndex == 0 && 
                              (GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag) &&
                              SkillManager.Instance != null && 
-                             SkillManager.Instance.IsExpandAOEAvailable();
-            //skillButtonPlayer1.SetActive(shouldShow);  02.23 정수민 보험용!!!
+                             SkillManager.Instance.IsExpandAOEAvailable(0);
+            skillButtonPlayer1.SetActive(shouldShow);  //02.23 정수민 보험용!!!
         }
 
         // Player 2일때는 체력 회복 스킬 버튼 표시
         if (skillButtonPlayer2 != null)
         {
-            bool shouldShow = currentPlayer == 1 && 
+            bool shouldShow = isP2Alive && currentPlayerIndex == 1 && 
                              (GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag) &&
                              SkillManager.Instance != null && 
                              SkillManager.Instance.IsHealAvailable();

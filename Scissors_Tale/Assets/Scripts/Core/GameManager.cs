@@ -406,11 +406,13 @@ public class GameManager : Singleton<GameManager>
         //02.08 정수민 추가
         if (p1Instance == null) {
             CurrentPlayer = 1;
+            NextPlayer = 1; //02.23 정수민
             return p2Instance;
         }
         
         if (p2Instance == null) {
             CurrentPlayer = 0;
+            NextPlayer = 0; //02.23 정수민
             return p1Instance;
         }
         
