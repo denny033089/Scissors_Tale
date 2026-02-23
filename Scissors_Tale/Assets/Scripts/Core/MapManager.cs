@@ -51,6 +51,9 @@ public class MapManager : Singleton<MapManager>
         if(currentMapData.stageName == "Stage2") {
             TipDialogue.Instance.OpenDialogue();
         }
+        if(currentMapData.stageName == "Stage1") {
+            SkillDialogue.Instance.OpenDialogue();
+        }
         
         Debug.Log("맵 생성중");
         //02.11 정수민

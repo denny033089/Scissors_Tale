@@ -39,11 +39,15 @@ public class Player1 : Player // 02.04 상속 추가
     }
 
     public override IEnumerator SpawnEffect() {
-        yield return new WaitForSeconds(0.5f);
-        int myIndex = (this is Player1) ? 0 : 1; 
 
+        int myIndex = (this == GameManager.Instance.p1Instance) ? 0 : 1; 
+        int currentAOE = (SkillManager.Instance != null) ? SkillManager.Instance.GetAOE(myIndex) : 1;
+
+        yield return new WaitForSeconds(0.5f);
+
+        Debug.Log($"GetAOE의 값: {SkillManager.Instance.GetAOE(myIndex)}");
         // 현재 공격 범위가 확장된 상태(스킬 사용 중)인지 확인
-        if (SkillManager.Instance.GetAOE(myIndex) == 2) 
+        if (currentAOE == 2) 
         {
             // 스킬 전용 이펙트 생성 (일반 공격 이펙트 대신 생성하거나 둘 다 생성 가능)
             Instantiate(SkillEffect, Utils.ToRealPos(MyPos), Quaternion.identity);
