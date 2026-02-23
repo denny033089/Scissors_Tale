@@ -60,7 +60,7 @@ public class ObjectiveManager : Singleton<ObjectiveManager>
                 if (!string.IsNullOrWhiteSpace(obj.description))
                     _descriptions[i] = obj.description;
                 else
-                    _descriptions[i] = BuildDescription(_types[i], _maxTurns[i], _maxTags[i], _minHealthPercent[i]);
+                    _descriptions[i] = BuildDescription(_types[i], _maxTurns[i], _maxTags[i], _minHealthPercent[i],mapData.totalTurnLimit);
             }
         }
         else
@@ -70,12 +70,13 @@ public class ObjectiveManager : Singleton<ObjectiveManager>
         }
     }
 
-    private static string BuildDescription(Enums.ObjectiveType type, int maxTurns, int maxTags, int minHealthPercent)
+    private static string BuildDescription(Enums.ObjectiveType type, int maxTurns, int maxTags, int minHealthPercent,int totalTurnLimit)
     {
         switch (type)
         {
             case Enums.ObjectiveType.FinishWithinTurns:
-                return $"남은 턴 수 {maxTurns} 이상";
+                int remainturn = totalTurnLimit - maxTurns; //02.23 정수민
+                return $"남은 턴 수 {remainturn} 이상";
             case Enums.ObjectiveType.FinishWithinTags:
                 return $"태그 사용 {maxTags}회 이하";
             case Enums.ObjectiveType.FinishWithHealthPercent:

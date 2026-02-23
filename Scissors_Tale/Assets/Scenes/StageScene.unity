@@ -223,7 +223,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 218.16254, y: 160}
+  m_AnchoredPosition: {x: 218.16254, y: 260}
   m_SizeDelta: {x: 326.2881, y: 141.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &50344197
@@ -2237,7 +2237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -220, y: 160}
+  m_AnchoredPosition: {x: -220, y: 260}
   m_SizeDelta: {x: 382.6569, y: 141.7248}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &583168760
@@ -2905,7 +2905,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 219.67346, y: 160}
+  m_AnchoredPosition: {x: 219.67346, y: 257}
   m_SizeDelta: {x: 382.6569, y: 141.7248}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &728229512
@@ -4515,7 +4515,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -219.6734, y: 160}
+  m_AnchoredPosition: {x: -219.6734, y: 257}
   m_SizeDelta: {x: 382.6569, y: 141.7248}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1429668559
@@ -5469,9 +5469,12 @@ MonoBehaviour:
   - {fileID: 8526210669770861178, guid: 14c9a035c6c93024d975302da7e63f4f, type: 3}
   - {fileID: 3916562870836490410, guid: b797b82b8fceef44285a9d2602841b40, type: 3}
   - {fileID: 2017219279448594060, guid: da59f700a377c7a44a89078cd3a46378, type: 3}
-  - {fileID: 2367342458693219300, guid: 8f033d92d9905f44d833d3848ba15f22, type: 3}
-  - {fileID: 2609788596182079511, guid: 2ca5f5e2cb196cf45a28e9ce4ede48b9, type: 3}
-  - {fileID: -6796551991232061646, guid: 743821f200015b341b1aba69bf04e066, type: 3}
+  - {fileID: 7141053574947999474, guid: 172c49e3b36377a4bbbdadf14ecd1f5d, type: 3}
+  - {fileID: -1878070671860920189, guid: 41c3bc5a06537ff4fb7898e8c4b44494, type: 3}
+  - {fileID: -8460762585756636597, guid: faecb4bdcd4d33542ab42ea83cd0815f, type: 3}
+  - {fileID: 7675526774445359016, guid: 481327d3c63880f4c876b3bd349b6e2e, type: 3}
+  - {fileID: -9083731021922493612, guid: 752dd207efcc4d34c8a3731944383da0, type: 3}
+  - {fileID: -7591957048693294498, guid: e04298565bb476340b3d55c586c1d3c5, type: 3}
   - {fileID: -6248741079362886434, guid: d8727efd9dcf2c9478925cbf9a951e5d, type: 3}
   moveButton: {fileID: 229508509}
   turnEndButton: {fileID: 1998880695}

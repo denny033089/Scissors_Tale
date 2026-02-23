@@ -44,6 +44,10 @@ public class Player : Piece //02.04 정수민
 
     public virtual void InitializeStats() {
         CurrentHP = MaxHP;
+        if(MapManager.Instance.currentMapData.stageName == "Stage13") {
+            MaxHP = 60;
+            CurrentHP = MaxHP;
+        }
         UpdateHPText();
     }
 

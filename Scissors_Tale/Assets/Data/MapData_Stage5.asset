@@ -33,13 +33,13 @@ MonoBehaviour:
     minHealthPercent: 0
     description: 
   - type: 1
-    maxTurns: 15
+    maxTurns: 12
     maxTags: 0
     minHealthPercent: 0
     description: 
-  - type: 3
+  - type: 2
     maxTurns: 0
-    maxTags: 0
-    minHealthPercent: 30
+    maxTags: 9
+    minHealthPercent: 0
     description: 
   backgroundSprite: {fileID: 5068883827039367339, guid: e00c27ff5b1dffb4ea46dd2de335b4a1, type: 3}

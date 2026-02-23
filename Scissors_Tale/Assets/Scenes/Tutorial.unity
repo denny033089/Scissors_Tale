@@ -520,6 +520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
   currentMapData: {fileID: 11400000, guid: 0c8047608f8d3fe43abc58b4f2fddb0f, type: 2}
   TilePrefab: {fileID: 1868782838922341574, guid: 6082c010e979b3d4fa0b4977ee352d7f, type: 3}
+  tilecolor: {r: 0, g: 0, b: 0, a: 0}
   PiecePrefabs:
   - {fileID: 5249102997458711911, guid: 8bb92b6498b99e04eb8865291520472d, type: 3}
   - {fileID: 8357774654964675909, guid: 72188c12e1d97fc4ea574f80817d59e1, type: 3}
@@ -2968,6 +2969,8 @@ MonoBehaviour:
   - {fileID: -3984245449681229936, guid: f4974c4afbd9c69419e0302f992659e1, type: 3}
   moveButton: {fileID: 994229639}
   turnEndButton: {fileID: 1662188639}
+  skillButtonPlayer1: {fileID: 0}
+  skillButtonPlayer2: {fileID: 0}
   ClearUI: {fileID: 713304498}
   PauseUI: {fileID: 1617320278}
   FailUI: {fileID: 223396493}
@@ -3033,7 +3036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 219.67346, y: 160}
+  m_AnchoredPosition: {x: 219.67346, y: 260}
   m_SizeDelta: {x: 382.6569, y: 141.7248}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1432909909
@@ -5295,7 +5298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -219.6734, y: 160}
+  m_AnchoredPosition: {x: -219.6734, y: 260}
   m_SizeDelta: {x: 382.6569, y: 141.7248}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2125446352

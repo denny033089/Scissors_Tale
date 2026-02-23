@@ -39,7 +39,7 @@ MonoBehaviour:
     description: 
   - type: 2
     maxTurns: 0
-    maxTags: 7
+    maxTags: 5
     minHealthPercent: 0
     description: 
   backgroundSprite: {fileID: -237502752621307925, guid: 436e642d30ced874598f9dca0e3b8a04, type: 3}

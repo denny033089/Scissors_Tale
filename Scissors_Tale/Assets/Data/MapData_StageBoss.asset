@@ -15,7 +15,7 @@ MonoBehaviour:
   stageId: 1
   width: 7
   height: 7
-  stageName: Stage10
+  stageName: Stage13
   totalTurnLimit: 40
   PlayerRemainMove: 3
   startpos1: {x: 0, y: 1}
@@ -27,8 +27,6 @@ MonoBehaviour:
     spawnPos: {x: 4, y: 0}
   - monsterName: Seagull_Attack
     spawnPos: {x: 6, y: 6}
-  - monsterName: MeerKat_Attack3
-    spawnPos: {x: 6, y: 0}
   - monsterName: Mole_Attack2
     spawnPos: {x: 3, y: 4}
   - monsterName: Mole_Attack2
@@ -39,7 +37,13 @@ MonoBehaviour:
     spawnPos: {x: 3, y: 5}
   - monsterName: Seagull_Attack
     spawnPos: {x: 4, y: 4}
-  tilePrefab: {fileID: 1868782838922341574, guid: ab30bcc8a89764044a8d67e8830ca7ea, type: 3}
+  - monsterName: Meerkat_Attack3
+    spawnPos: {x: 2, y: 3}
+  - monsterName: Meerkat_Attack3
+    spawnPos: {x: 6, y: 0}
+  - monsterName: Meerkat_Attack3
+    spawnPos: {x: 4, y: 2}
+  tilePrefab: {fileID: 1868782838922341574, guid: f658b0c03b34f4141a1c9fb4d216f2dc, type: 3}
   objectives:
   - type: 0
     maxTurns: 0
@@ -54,6 +58,6 @@ MonoBehaviour:
   - type: 3
     maxTurns: 0
     maxTags: 0
-    minHealthPercent: 30
+    minHealthPercent: 10
     description: 
-  backgroundSprite: {fileID: 5068883827039367339, guid: e00c27ff5b1dffb4ea46dd2de335b4a1, type: 3}
+  backgroundSprite: {fileID: 6102552373505358365, guid: 74a0187b57c5c964db7d907a85437d8e, type: 3}
