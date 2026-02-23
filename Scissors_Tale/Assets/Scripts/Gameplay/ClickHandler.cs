@@ -57,6 +57,15 @@ public class ClickHandler : MonoBehaviour
 
     public void OnClickPiece(InputAction.CallbackContext context) {
         if(context.performed) {
+
+            // 1. 인덱스 유효성 검사 추가 (방어 코드)
+            if (BoardPos.Item1 < 0 || BoardPos.Item1 >= Utils.FieldWidth || 
+                BoardPos.Item2 < 0 || BoardPos.Item2 >= Utils.FieldHeight) 
+            {
+                Debug.LogWarning($"유효하지 않은 보드 위치 클릭: {BoardPos}");
+                return; 
+            }
+
             GameManager.Instance.ClearShine();
             if(MapManager.Instance.Pieces[BoardPos.Item1, BoardPos.Item2] != null && MapManager.Instance.Pieces[BoardPos.Item1, BoardPos.Item2] is Monster monster) {
                 GameManager.Instance.ShineAttackEffect(monster);

@@ -51,6 +51,7 @@ public class MapManager : Singleton<MapManager>
         if(currentMapData.stageName == "Stage2") {
             TipDialogue.Instance.OpenDialogue();
         }
+        
         if(currentMapData.stageName == "Stage1") {
             SkillDialogue.Instance.OpenDialogue();
         }

@@ -487,20 +487,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 112843929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6fd57a7032f1bd4ba19525177db4dff, type: 3}
+  m_Script: {fileID: 11500000, guid: 1671229f2d5aa1a4fb676dd5398fc7da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillDialogue
   DialoguePanel: {fileID: 1291810398}
   ScriptText_dialogue: {fileID: 777801062}
   dialogue:
   - "\uC2A4\uD0AC\uBC84\uD2BC\uC5D0 \uB300\uD574\uC11C \uC124\uBA85\uD574\uB4DC\uB9B4\uAC8C\uC694"
-  - "\uD50C\uB808\uC774\uC5B4 \uD134\uC5D0 \uD574\uB2F9 \uD50C\uB808\uC774 \uC911\uC778
+  - "\uC790\uC2E0\uC758 \uD134\uC5D0 \uD574\uB2F9 \uD50C\uB808\uC774 \uC911\uC778
     \uCE90\uB9AD\uD130\uC758 \uC2A4\uD0AC\uC744 \uC4F8 \uC218 \uC788\uAC8C \uB429\uB2C8\uB2E4"
   - "\uC2A4\uD0AC\uC5D0 \uB9C8\uC6B0\uC2A4 \uCEE4\uC11C\uB97C \uC62C\uB824\uBCF4\uBA74
     \uC2A4\uD0AC\uC815\uBCF4\uB97C \uC54C \uC218 \uC788\uC5B4\uC694"
   - "\uC2A4\uD0AC\uBC84\uD2BC\uC744 \uB204\uB974\uBA74 \uCE90\uB9AD\uD130\uB294 \uC2A4\uD0AC\uC744
-    \uC0AC\uC6A9\uD569\uB2C8\uB2E4. \uACF5\uACA9\uC2A4\uD0AC\uC740 \uACF5\uACA9 \uBC84\uD2BC\uAE4C\uC9C0
-    \uB20C\uB7EC\uC57C \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
+    \uC0AC\uC6A9\uD569\uB2C8\uB2E4 \uACF5\uACA9\uC2A4\uD0AC\uC740 \uACF5\uACA9\uBC84\uD2BC\uAE4C\uC9C0
+    \uB20C\uB7EC\uC57C \uC0AC\uC6A9\uB429\uB2C8\uB2E4"
   - "\uD0DC\uADF8\uBC84\uD2BC\uC744 \uB204\uB974\uBA74 \uC0AC\uC6A9\uD560 \uC218
     \uC788\uB294 \uC2A4\uD0AC\uB3C4 \uB2E4\uB978 \uD50C\uB808\uC774\uC5B4\uC758 \uC2A4\uD0AC\uB85C
     \uBC14\uB01D\uB2C8\uB2E4"
@@ -5462,7 +5462,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkillTooltip
   tooltipPanel: {fileID: 1531243939}
   tooltipText: {fileID: 1902143170}
-  skillDescription: "\uACF5\uACA9\uBC94\uC704\uB97C 3x3\uC5D0\uC11C 5x5\uB85C \uB113\uD799\uB2C8\uB2E4."
+  skillDescription: "\uACF5\uACA9\uBC94\uC704\uB97C 3x3\uC5D0\uC11C 5x5\uB85C \uB113\uD788\uACE0
+    \uB300\uBBF8\uC9C0 2\uB97C \uC785\uD799\uB2C8\uB2E4"
   tooltipOffset: {x: 0, y: 200}
 --- !u!114 &1478359371
 MonoBehaviour:
