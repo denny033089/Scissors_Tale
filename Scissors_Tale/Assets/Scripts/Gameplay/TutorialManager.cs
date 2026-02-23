@@ -95,7 +95,7 @@ public class TutorialManager : Singleton<TutorialManager>
     public void IncrementStep()
     {
         stepcount++;
-        if (stepcount != 1 && stepcount != 4 && stepcount != 6 && stepcount != 8 && stepcount != 11 && stepcount != 13&& stepcount != 15 && stepcount != 17&& stepcount != 19) {
+        if (stepcount != 1 && stepcount != 4 && stepcount != 6 && stepcount != 8 && stepcount != 11 && stepcount != 13&& stepcount != 15 && stepcount != 17&& stepcount != 19 && stepcount != 21) {
             TutorialDialogue.Instance.OpenDialogue(stepcount);
         }
     }
