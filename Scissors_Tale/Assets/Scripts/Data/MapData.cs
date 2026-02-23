@@ -35,10 +35,7 @@ public class MapData : ScriptableObject
     public int totalTurnLimit; // 스테이지별 제한 턴
 
     public int PlayerRemainMove;
-    //2/23 구본환
-    
-    public int player1MaxHP = 10;
-    public int player2MaxHP = 10;
+
 
     public Vector2Int startpos1;
     public Vector2Int startpos2;
