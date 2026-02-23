@@ -40,7 +40,7 @@ MonoBehaviour:
     minHealthPercent: 0
     description: 
   - type: 1
-    maxTurns: 15
+    maxTurns: 10
     maxTags: 0
     minTags: 0
     minHealthPercent: 0

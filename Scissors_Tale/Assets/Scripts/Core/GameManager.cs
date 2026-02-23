@@ -822,10 +822,10 @@ public class GameManager : Singleton<GameManager>
 
     //02.08 정수민 사망 로직, nextplayer가 반대의 인물이됨
     public void OnPlayerDeath(Player deadplayer) {
-        if(deadplayer is Player player1) {
+        if(deadplayer ==p1Instance) {
             p1Instance = null;
             
-        } else if (deadplayer is Player player2) {
+        } else if (deadplayer ==p2Instance) {
             p2Instance = null;
         }
     }
