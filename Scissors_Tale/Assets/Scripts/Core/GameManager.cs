@@ -411,6 +411,7 @@ public class GameManager : Singleton<GameManager>
         }
         
         if (p2Instance == null) {
+            Debug.Log("플레이어2죽어서 로직 진행");
             CurrentPlayer = 0;
             NextPlayer = 0; //02.23 정수민
             return p1Instance;

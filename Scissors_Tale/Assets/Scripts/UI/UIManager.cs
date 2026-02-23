@@ -202,7 +202,7 @@ public class UIManager : Singleton<UIManager>
             bool shouldShow = isP1Alive && currentPlayerIndex == 0 && 
                              (GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag) &&
                              SkillManager.Instance != null && 
-                             SkillManager.Instance.IsExpandAOEAvailable(0);
+                             SkillManager.Instance.IsExpandAOEAvailable();
             skillButtonPlayer1.SetActive(shouldShow);  //02.23 정수민 보험용!!!
         }
 
@@ -213,7 +213,7 @@ public class UIManager : Singleton<UIManager>
                              (GameManager.Instance.CurrentTurnState is Enums.TurnState.Ready or Enums.TurnState.PlayerMove or Enums.TurnState.PlayerMovable or Enums.TurnState.PlayerTag) &&
                              SkillManager.Instance != null && 
                              SkillManager.Instance.IsHealAvailable();
-            //skillButtonPlayer2.SetActive(shouldShow); 02.23 정수민 보험용!!!
+            skillButtonPlayer2.SetActive(shouldShow); //02.23 정수민 보험용!!!
         }
     }
 
