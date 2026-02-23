@@ -161,6 +161,8 @@ MonoBehaviour:
   turnCounter: 0
   anim: {fileID: 0}
   arrowColor: {r: 0, g: 0, b: 0, a: 1}
+  NeedlePrefab: {fileID: 0}
+  EffectSpawner: {fileID: 0}
 --- !u!1 &5794920595780771826
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +197,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.09, y: 0.88}
+  m_AnchoredPosition: {x: -0.09, y: 0.562}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &997865640790121413

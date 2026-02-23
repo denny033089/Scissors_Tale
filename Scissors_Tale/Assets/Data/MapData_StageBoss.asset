@@ -27,8 +27,6 @@ MonoBehaviour:
     spawnPos: {x: 4, y: 0}
   - monsterName: Seagull_Attack
     spawnPos: {x: 6, y: 6}
-  - monsterName: MeerKat_Attack3
-    spawnPos: {x: 6, y: 0}
   - monsterName: Mole_Attack2
     spawnPos: {x: 3, y: 4}
   - monsterName: Mole_Attack2

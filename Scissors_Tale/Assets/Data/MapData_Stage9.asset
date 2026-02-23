@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MapData_Stage9
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   stageId: 1
-  width: 3
+  width: 5
   height: 7
   stageName: Stage9
   totalTurnLimit: 25
@@ -23,11 +23,11 @@ MonoBehaviour:
   monsterSpawns:
   - monsterName: Mole_Attack
     spawnPos: {x: 1, y: 2}
-  - monsterName: Mole_Attack
+  - monsterName: Monster
     spawnPos: {x: 1, y: 3}
   - monsterName: Mole_Attack
     spawnPos: {x: 1, y: 4}
-  - monsterName: Monster
+  - monsterName: Mole_Attack
     spawnPos: {x: 1, y: 5}
   - monsterName: Monster
     spawnPos: {x: 1, y: 6}

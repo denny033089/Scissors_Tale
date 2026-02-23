@@ -47,6 +47,11 @@ public class MapManager : Singleton<MapManager>
     
     public void InitializeBoard()
     {
+        //02.23 정수민
+        if(currentMapData.stageName == "Stage2") {
+            TipDialogue.Instance.OpenDialogue();
+        }
+        
         Debug.Log("맵 생성중");
         //02.11 정수민
         ApplyStageBackground();
@@ -158,6 +163,8 @@ public class MapManager : Singleton<MapManager>
         if (name == "Meerkat_Attack2") return 13;
         if (name == "Meerkat_Attack3") return 14;
         if (name == "Mole_Attack2") return 15;
+        if (name == "Bat_Attack3") return 16;
+        if (name == "Seagull_Attack3") return 17;
         return 2; // 기본값  나중에 dictionary로 대체
     }
 

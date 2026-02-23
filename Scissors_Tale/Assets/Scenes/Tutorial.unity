@@ -702,13 +702,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 614573270}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2014360782}
-  m_Father: {fileID: 1836137442}
+  m_Father: {fileID: 1087239547}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1973,7 +1973,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -201, y: -352}
-  m_SizeDelta: {x: 259, y: 123}
+  m_SizeDelta: {x: 233.07, y: 123}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &998501833
 GameObject:
@@ -2263,6 +2263,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043600388}
   m_CullTransparentMesh: 1
+--- !u!1 &1087239543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1087239547}
+  - component: {fileID: 1087239546}
+  - component: {fileID: 1087239545}
+  - component: {fileID: 1087239544}
+  m_Layer: 5
+  m_Name: DialogueUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1087239544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087239543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1087239545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087239543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &1087239546
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087239543}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 2
+  m_TargetDisplay: 0
+--- !u!224 &1087239547
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087239543}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 614573271}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1 &1108447564
 GameObject:
   m_ObjectHideFlags: 0
@@ -3569,7 +3671,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5306207079568211627, guid: 7fbabb27ed1b1c14fb0433cbe92e8949, type: 3}
+  m_Sprite: {fileID: -2376312813988659634, guid: 47243c5b68875dd4290d70bfb24b2f79, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3604,7 +3706,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -201, y: -352}
-  m_SizeDelta: {x: 300, y: 123}
+  m_SizeDelta: {x: 233.0656, y: 123}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1682651793
 GameObject:
@@ -3939,7 +4041,7 @@ RectTransform:
   m_GameObject: {fileID: 1766526426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2014360782}
@@ -4216,7 +4318,6 @@ RectTransform:
   - {fileID: 1721124689}
   - {fileID: 1634151920}
   - {fileID: 1108447565}
-  - {fileID: 614573271}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4854,7 +4955,7 @@ MonoBehaviour:
   - "\uC5D8\uB9AC : \uC798\uD588\uC5B4!"
   - "\uC18C\uD53C : ...\uD55C \uD134\uC5D0\uB294 \uD55C \uCE78\uC529\uB9CC \uC774\uB3D9\uD560
     \uC218 \uC788\uC73C\uB2C8\uAE4C."
-  - "\uC5D8\uB9AC : \uC774\uC81C \uD134 \uC885\uB8CC \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C,
+  - "\uC5D8\uB9AC : \uC774\uC81C \uACF5\uACA9 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C,
     \uD55C \uBC88\uC529 \uB9C8\uBC95 \uAC00\uC704\uB85C \uACF5\uACA9\uD574 \uBCF4\uC790!"
   - "\uC5D8\uB9AC : \uC544\uC9C1 \uB450\uB354\uB514\uC640 \uB108\uBB34 \uBA40\uC5B4.
     \uD134 \uC885\uB8CC \uC2DC\uC810\uC5D0 \uC6B0\uB9AC \uC8FC\uBCC0\uC758 \uC0C9\uCE60\uB41C
@@ -4867,8 +4968,8 @@ MonoBehaviour:
   - "\uC5D8\uB9AC : \uC77C\uB2E8\uC740, \uC774\uB3D9 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C
     \uC624\uB978\uCABD\uC73C\uB85C \uD55C \uCE78\uB9CC \uB354 \uC774\uB3D9\uD574
     \uBCFC\uAE4C?"
-  - "\uC5D8\uB9AC : \uC88B\uC544. \uC774\uC81C \uD134 \uC885\uB8CC \uBC84\uD2BC\uC744
-    \uB20C\uB7EC\uC11C \uACF5\uACA9\uC744..."
+  - "\uC5D8\uB9AC : \uC88B\uC544. \uC774\uC81C \uACF5\uACA9 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C
+    \uACF5\uACA9\uC744..."
   - "\uC18C\uD53C : ...\uC7A0\uAE50, \uC5D8\uB9AC, \uB450\uB354\uC9C0\uC758 \uC774\uB3D9
     \uACBD\uB85C\uB97C \uBCF4\uBA74 \uC55E\uC73C\uB85C \uB0B4 \uCABD\uC5D0 \uAC00\uAE4C\uC6CC\uC9C0\uB2C8\uAE4C,
     \uB2E4\uC74C \uD134\uC5D0\uB294 \uB0B4\uAC00 \uC774\uB3D9\uD558\uB294 \uAC8C
@@ -4880,8 +4981,7 @@ MonoBehaviour:
     \uC788\uC796\uC544."
   - "\uC5D8\uB9AC : \uC544\uD558, \uADF8\uB7AC\uC5C8\uC9C0!"
   - "\uC18C\uD53C : ...\uADF8\uB7FC \uC774\uC81C \uD0DC\uADF8 \uBC84\uD2BC\uC744
-    \uB204\uB974\uACE0, \uD134 \uC885\uB8CC \uBC84\uD2BC\uAE4C\uC9C0 \uB20C\uB7EC
-    \uBCF4\uC790."
+    \uB204\uB974\uACE0, \uACF5\uACA9 \uBC84\uD2BC\uAE4C\uC9C0 \uB20C\uB7EC \uBCF4\uC790."
   - "\uC5D8\uB9AC : \uD655\uC2E4\uD788 \uD0DC\uADF8 \uBC84\uD2BC\uC744 \uB204\uB974\uB294
     \uAC74, \uB2E4\uC74C \uD134\uC758 \uC774\uB3D9\uC744 \uACE0\uB824\uD574 \uC804\uB7B5\uC801\uC73C\uB85C
     \uC120\uD0DD\uD574\uC57C\uACA0\uB124."
@@ -4895,17 +4995,17 @@ MonoBehaviour:
     \uB20C\uB7EC\uC11C \uB2E4\uC74C \uD134\uC73C\uB85C \uB118\uC5B4\uAC00 \uBCF4\uC790."
   - "\uC18C\uD53C : ...\uC774\uBC88 \uD134\uC5D0\uB294 \uC774\uB3D9 \uBC84\uD2BC\uC744
     \uB204\uB974\uACE0, \uC544\uB798\uB85C \uD55C \uCE78 \uC774\uB3D9\uD574 \uBCF4\uC790."
-  - "\uC5D8\uB9AC : \uB9DE\uC544. \uADF8\uB7EC\uBA74 \uD134 \uC885\uB8CC \uC2DC\uC810\uC5D0
-    \uB450\uB354\uB514\uC758 \uAC80\uC740 \uC870\uAC01\uC744 \uD558\uB098 \uC798\uB77C\uB0BC
-    \uC218 \uC788\uC744 \uAC70\uC57C!"
-  - "\uC18C\uD53C : \uC774\uC81C \uD134 \uC885\uB8CC \uBC84\uD2BC\uC744 \uB204\uB974\uACE0
+  - "\uC5D8\uB9AC : \uB9DE\uC544. \uADF8\uB7EC\uBA74 \uC6B0\uB9AC\uC758 \uACF5\uACA9
+    \uC2DC\uC810\uC5D0 \uB450\uB354\uB514\uC758 \uAC80\uC740 \uC870\uAC01\uC744 \uD558\uB098
+    \uC798\uB77C\uB0BC \uC218 \uC788\uC744 \uAC70\uC57C!"
+  - "\uC18C\uD53C : \uC774\uC81C \uACF5\uACA9 \uBC84\uD2BC\uC744 \uB204\uB974\uACE0
     \uACF5\uACA9\uC744..."
   - "\uC5D8\uB9AC : \uC7A0\uAE50! \uBAAC\uC2A4\uD130\uC758 \uC774\uB3D9 \uACBD\uB85C\uB97C
     \uBCF4\uBA74, \uB2E4\uC74C \uD134\uC5D0\uB294 \uB0B4\uAC00 \uC774\uB3D9\uD558\uB294
     \uAC8C \uB098\uC744 \uAC83 \uAC19\uC544."
   - "\uC18C\uD53C : ...\uC88B\uC544, \uADF8\uB7EC\uBA74 \uC544\uAE4C \uD588\uB358
-    \uAC83\uCC98\uB7FC, \uD0DC\uADF8 \uBC84\uD2BC\uC744 \uB204\uB974\uACE0 \uD134
-    \uC885\uB8CC \uBC84\uD2BC\uC744 \uB204\uB974\uBA74 \uB418\uACA0\uC9C0?"
+    \uAC83\uCC98\uB7FC, \uD0DC\uADF8 \uBC84\uD2BC\uC744 \uB204\uB974\uACE0 \uACF5\uACA9
+    \uBC84\uD2BC\uC744 \uB204\uB974\uBA74 \uB418\uACA0\uC9C0?"
   - "\uC5D8\uB9AC : \uC57C\uD638! \uACF5\uACA9 \uC131\uACF5!"
   - "\uC18C\uD53C : ...\uC544\uC9C1 \uC798\uB77C\uB0B4\uC57C \uD560 \uAC80\uC740
     \uC870\uAC01\uC774 \uC5EC\uC12F \uAC1C\uB098 \uB0A8\uC558\uC73C\uB2C8\uAE4C.
@@ -4920,7 +5020,7 @@ MonoBehaviour:
     \uD55C \uCE78 \uC774\uB3D9\uD574 \uBCFC\uAE4C?"
   - "\uC5D8\uB9AC : \uC774\uB807\uAC8C \uB098\uC640 \uC18C\uD53C\uC758 \uB9C8\uBC95
     \uAC00\uC704\uC758 \uACF5\uACA9 \uBC94\uC704\uAC00 \uACB9\uCE58\uB294 \uACF3\uC5D0
-    \uBAAC\uC2A4\uD130\uAC00 \uB4E4\uC5B4\uC640 \uC788\uB294 \uACBD\uC6B0\uC5D0 \uD134\uC744
+    \uBAAC\uC2A4\uD130\uAC00 \uB4E4\uC5B4\uC640 \uC788\uB294 \uACBD\uC6B0\uC5D0 \uACF5\uACA9\uC744
     \uC885\uB8CC\uD558\uBA74, \uB0B4 \uACF5\uACA9 \uD55C \uBC88, \uC18C\uD53C\uC758
     \uACF5\uACA9 \uD55C \uBC88. \uAC80\uC740 \uC870\uAC01 \uB450 \uAC1C\uB97C \uC790\uB97C
     \uC218 \uC788\uB294 \uAC70 \uB9DE\uC9C0?"
@@ -4938,7 +5038,7 @@ MonoBehaviour:
     \uCD5C\uB300\uD55C \uAC80\uC740 \uC870\uAC01\uC744 \uB9CE\uC774 \uC798\uB77C\uB0B4\uB294
     \uAC8C \uC88B\uACA0\uC9C0."
   - "\uC5D8\uB9AC : \uC790, \uADF8\uB7EC\uBA74 \uD0DC\uADF8 \uBC84\uD2BC\uC744 \uB204\uB974\uACE0
-    \uD134 \uC885\uB8CC \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C, \uD0DC\uADF8 \uBCF4\uB108\uC2A4\uB97C
+    \uACF5\uACA9 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C, \uD0DC\uADF8 \uBCF4\uB108\uC2A4\uB97C
     \uBC1B\uC544 \uBCFC\uAE4C?"
   - "\uC5D8\uB9AC : \uC57C\uD638! \uD55C \uBC88\uC5D0 \uAC80\uC740 \uC870\uAC01\uC744
     \uC138 \uAC1C\uB098 \uC798\uB77C\uB0C8\uB2E4!"
@@ -4958,7 +5058,7 @@ MonoBehaviour:
     \uD65C\uC6A9\uD574 \uACF5\uACA9\uD558\uBA74 \uB0A8\uC740 \uAC80\uC740 \uC870\uAC01
     3\uAC1C\uB97C \uC644\uC804\uD788 \uC798\uB77C\uB0BC \uC218 \uC788\uC744 \uAC70\uC57C."
   - "\uC5D8\uB9AC : \uC624\uCF00\uC774! \uADF8\uB7EC\uBA74 \uD0DC\uADF8 \uBC84\uD2BC\uC744
-    \uB204\uB974\uACE0 \uD134 \uC885\uB8CC \uBC84\uD2BC\uC744 \uB20C\uB7EC \uBCF4\uC790."
+    \uB204\uB974\uACE0 \uACF5\uACA9 \uBC84\uD2BC\uC744 \uB20C\uB7EC \uBCF4\uC790."
   - "\uC5D8\uB9AC : \uC57C\uD638! \uC815\uD654 \uC644\uB8CC!"
   - "\uC18C\uD53C : ...\uD6CC\uB96D\uD55C \uC804\uB7B5\uC774\uC5C8\uC5B4."
   - "\uC5D8\uB9AC : \uC55E\uC73C\uB85C\uB3C4 \uC774\uB3D9\uACFC \uD0DC\uADF8\uB97C
@@ -5459,6 +5559,7 @@ SceneRoots:
   - {fileID: 2006044491}
   - {fileID: 1836137442}
   - {fileID: 881761491}
+  - {fileID: 1087239547}
   - {fileID: 1409192375}
   - {fileID: 672622170}
   - {fileID: 1217814658}

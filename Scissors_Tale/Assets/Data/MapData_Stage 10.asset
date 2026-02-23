@@ -47,6 +47,6 @@ MonoBehaviour:
     maxTurns: 0
     maxTags: 0
     minTags: 0
-    minHealthPercent: 75
+    minHealthPercent: 50
     description: 
   backgroundSprite: {fileID: 5068883827039367339, guid: e00c27ff5b1dffb4ea46dd2de335b4a1, type: 3}

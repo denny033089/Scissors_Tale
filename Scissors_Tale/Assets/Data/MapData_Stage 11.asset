@@ -17,7 +17,7 @@ MonoBehaviour:
   height: 7
   stageName: Stage11
   totalTurnLimit: 30
-  PlayerRemainMove: 2
+  PlayerRemainMove: 3
   startpos1: {x: 0, y: 1}
   startpos2: {x: 0, y: 2}
   monsterSpawns:
@@ -38,7 +38,7 @@ MonoBehaviour:
     minHealthPercent: 0
     description: 
   - type: 1
-    maxTurns: 20
+    maxTurns: 25
     maxTags: 0
     minTags: 0
     minHealthPercent: 0

@@ -18,21 +18,47 @@ MonoBehaviour:
   stageName: Stage12
   totalTurnLimit: 30
   PlayerRemainMove: 2
-  startpos1: {x: 1, y: 1}
-  startpos2: {x: 1, y: 5}
+  startpos1: {x: 0, y: 2}
+  startpos2: {x: 0, y: 4}
   monsterSpawns:
-  - monsterName: Mole_Attack2
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 1, y: 0}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 1, y: 6}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 3, y: 0}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 3, y: 6}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 5, y: 0}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 5, y: 6}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 6, y: 1}
+  - monsterName: Seagull_Attack3
     spawnPos: {x: 6, y: 3}
-  - monsterName: Bat_Attack
-    spawnPos: {x: 5, y: 3}
-  - monsterName: Bat_Attack
-    spawnPos: {x: 6, y: 2}
-  - monsterName: Bat_Attack
-    spawnPos: {x: 6, y: 4}
-  - monsterName: Seagull_Attack
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 6, y: 5}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 4, y: 1}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 4, y: 3}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 4, y: 5}
+  - monsterName: Seagull_Attack3
     spawnPos: {x: 2, y: 1}
-  - monsterName: Seagull_Attack
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 2, y: 3}
+  - monsterName: Seagull_Attack3
     spawnPos: {x: 2, y: 5}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 1, y: 2}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 1, y: 4}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 0, y: 1}
+  - monsterName: Seagull_Attack3
+    spawnPos: {x: 0, y: 5}
   tilePrefab: {fileID: 1868782838922341574, guid: ab30bcc8a89764044a8d67e8830ca7ea, type: 3}
   objectives:
   - type: 0
@@ -51,6 +77,6 @@ MonoBehaviour:
     maxTurns: 0
     maxTags: 0
     minTags: 0
-    minHealthPercent: 30
+    minHealthPercent: 15
     description: 
   backgroundSprite: {fileID: -3444162441971260315, guid: 06eda7dc3544753499ca72b009e45c8b, type: 3}
