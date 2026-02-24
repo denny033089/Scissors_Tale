@@ -22,6 +22,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject moveButton;
     public GameObject turnEndButton;
 
+    public GameObject tagButton;   //02.24 정수민
+
     //2/20 구본환
     public GameObject skillButtonPlayer1; 
     public GameObject skillButtonPlayer2; 
@@ -76,6 +78,10 @@ public class UIManager : Singleton<UIManager>
             turnEndButton.SetActive(true);
         }
 
+        if(GameManager.Instance.CurrentTurnState is Enums.TurnState.PlayerMove) {
+            tagButton.SetActive(true);   //02.24 정수민
+        }
+
         
     }
     public void OnTagButtonClicked()
@@ -113,6 +119,9 @@ public class UIManager : Singleton<UIManager>
             SoundManager.Instance.PlaySFX("Click");
             // GameManager에게 턴 종료 요청
             GameManager.Instance.HandleEnd();
+            tagButton.SetActive(false);  //02.24 정수민
+            skillButtonPlayer1.SetActive(false);
+            skillButtonPlayer2.SetActive(false);
         }
     }
 

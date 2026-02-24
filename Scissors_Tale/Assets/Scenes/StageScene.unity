@@ -2236,7 +2236,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &432414320
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6141,6 +6141,7 @@ MonoBehaviour:
   - {fileID: -6248741079362886434, guid: d8727efd9dcf2c9478925cbf9a951e5d, type: 3}
   moveButton: {fileID: 229508509}
   turnEndButton: {fileID: 1998880695}
+  tagButton: {fileID: 432414319}
   skillButtonPlayer1: {fileID: 1478359368}
   skillButtonPlayer2: {fileID: 1458310124}
   ClearUI: {fileID: 1868401930}
